@@ -29,24 +29,48 @@ ve ortam kurulumu ilk aşamada adım adım ele alınır.
 
 ## Hızlı başlangıç
 
-### 1. Müfredatı edinin
+### 1. Depoyu bilgisayarınıza alın
 
-Git kullanıyorsanız depoyu klonlayın:
+Terminali açın ve depoyu klonlayın:
 
 ```bash
 git clone https://github.com/ademiru/ai-engineering-from-scratch-tr.git
+```
+
+> **Git kullanmıyor musunuz?** En güncel `.tar.gz` arşivini indirin ve
+> `ai-engineering-from-scratch-tr` adlı bir klasöre çıkarın.
+
+### 2. Depo klasörüne girin
+
+Klonlama veya arşivi çıkarma işlemi bitince terminalde şu komutu çalıştırın:
+
+```bash
 cd ai-engineering-from-scratch-tr
 ```
 
-Git kullanmıyorsanız en güncel `.tar.gz` arşivini indirip bir klasöre
-çıkarmanız yeterlidir.
+### 3. Yerel siteyi başlatın
 
-### 2. İlk aşamayı açın
+Artık depo klasöründesiniz. Kurulum yapmadan yerel siteyi çalıştırın:
 
-[Aşama 0: Kurulum ve Araçlar](phases/00-setup-and-tooling/README.md) sayfasına
-gidin ve ilk dersi seçin.
+```bash
+python3 -m http.server 8000
+```
 
-### 3. İlk dersi tamamlayın
+> Sunucu çalışırken bu terminal penceresini açık bırakın. Windows'ta
+> `python3` bulunamazsa `python -m http.server 8000` komutunu deneyin.
+
+### 4. Tarayıcıda açın
+
+Tarayıcınızda **[http://localhost:8000](http://localhost:8000)** adresine
+gidin. Karşınıza aşamaları ve dersleri gezebileceğiniz Türkçe müfredat
+vitrini çıkar. Bitirdiğinizde terminale dönüp `Ctrl+C` ile siteyi kapatın.
+
+### 5. İlk aşamayı açın
+
+[Aşama 0: Kurulum ve Araçlar](phases/00-setup-and-tooling/README.md) sayfasına gidin ve ilk dersi
+seçin.
+
+### 6. İlk dersi tamamlayın
 
 Her dersin Türkçe anlatımı `docs/tr.md` dosyasındadır. Uygulamalar ve testler
 aynı dersin `code/` dizininde yer alır; çalıştırma komutları ders içinde
@@ -66,26 +90,26 @@ belirtilir. Önce anlatımı okuyun, sonra örneği çalıştırın ve quiz ile
 
 ## Öğrenme rotası
 
-- [Aşama 0: Kurulum ve Araçlar](phases/00-setup-and-tooling/README.md) — 12 ders
-- [Aşama 1: Matematiğin Temelleri](phases/01-math-foundations/README.md) — 22 ders
-- [Aşama 2: Makine Öğreniminin Temelleri](phases/02-ml-fundamentals/README.md) — 18 ders
-- [Aşama 3: Deep Learning Çekirdek](phases/03-deep-learning-core/README.md) — 13 ders
-- [Aşama 4: Bilgisayarla Görme](phases/04-computer-vision/README.md) — 28 ders
-- [Aşama 5: NLP — İleri Düzeyin Temelleri](phases/05-nlp-foundations-to-advanced/README.md) — 29 ders
-- [Aşama 6: Konuşma ve Ses](phases/06-speech-and-audio/README.md) — 17 ders
-- [Aşama 7: Transformer'ları Derinlemesine İnceleme](phases/07-transformers-deep-dive/README.md) — 16 ders
-- [Aşama 8: Üretken Yapay Zeka](phases/08-generative-ai/README.md) — 15 ders
-- [Aşama 9: Takviyeli Öğrenme](phases/09-reinforcement-learning/README.md) — 12 ders
-- [Aşama 10: Sıfırdan Yüksek Lisans](phases/10-llms-from-scratch/README.md) — 24 ders
-- [Aşama 11: Yüksek Lisans Mühendisliği](phases/11-llm-engineering/README.md) — 17 ders
-- [Aşama 12: Çok Modlu Yapay Zeka](phases/12-multimodal-ai/README.md) — 25 ders
-- [Aşama 13: Araçlar ve Protokoller](phases/13-tools-and-protocols/README.md) — 23 ders
-- [Aşama 14: Agent Mühendislik](phases/14-agent-engineering/README.md) — 42 ders
-- [Aşama 15: Otonom Sistemler](phases/15-autonomous-systems/README.md) — 22 ders
-- [Aşama 16: Çoklu Agent ve Sürüler](phases/16-multi-agent-and-swarms/README.md) — 25 ders
-- [Aşama 17: Altyapı ve Üretim](phases/17-infrastructure-and-production/README.md) — 28 ders
-- [Aşama 18: Etik, Güvenlik ve Uyum](phases/18-ethics-safety-alignment/README.md) — 30 ders
-- [Aşama 19: Bitirme Projeleri](phases/19-capstone-projects/README.md) — 85 ders
+- **[Aşama 0: Kurulum ve Araçlar](phases/00-setup-and-tooling/README.md)** — 12 ders
+- **[Aşama 1: Matematiğin Temelleri](phases/01-math-foundations/README.md)** — 22 ders
+- **[Aşama 2: Makine Öğreniminin Temelleri](phases/02-ml-fundamentals/README.md)** — 18 ders
+- **[Aşama 3: Deep Learning Çekirdek](phases/03-deep-learning-core/README.md)** — 13 ders
+- **[Aşama 4: Bilgisayarla Görme](phases/04-computer-vision/README.md)** — 28 ders
+- **[Aşama 5: NLP — İleri Düzeyin Temelleri](phases/05-nlp-foundations-to-advanced/README.md)** — 29 ders
+- **[Aşama 6: Konuşma ve Ses](phases/06-speech-and-audio/README.md)** — 17 ders
+- **[Aşama 7: Transformer'ları Derinlemesine İnceleme](phases/07-transformers-deep-dive/README.md)** — 16 ders
+- **[Aşama 8: Üretken Yapay Zeka](phases/08-generative-ai/README.md)** — 15 ders
+- **[Aşama 9: Takviyeli Öğrenme](phases/09-reinforcement-learning/README.md)** — 12 ders
+- **[Aşama 10: Sıfırdan Yüksek Lisans](phases/10-llms-from-scratch/README.md)** — 24 ders
+- **[Aşama 11: Yüksek Lisans Mühendisliği](phases/11-llm-engineering/README.md)** — 17 ders
+- **[Aşama 12: Çok Modlu Yapay Zeka](phases/12-multimodal-ai/README.md)** — 25 ders
+- **[Aşama 13: Araçlar ve Protokoller](phases/13-tools-and-protocols/README.md)** — 23 ders
+- **[Aşama 14: Agent Mühendislik](phases/14-agent-engineering/README.md)** — 42 ders
+- **[Aşama 15: Otonom Sistemler](phases/15-autonomous-systems/README.md)** — 22 ders
+- **[Aşama 16: Çoklu Agent ve Sürüler](phases/16-multi-agent-and-swarms/README.md)** — 25 ders
+- **[Aşama 17: Altyapı ve Üretim](phases/17-infrastructure-and-production/README.md)** — 28 ders
+- **[Aşama 18: Etik, Güvenlik ve Uyum](phases/18-ethics-safety-alignment/README.md)** — 30 ders
+- **[Aşama 19: Bitirme Projeleri](phases/19-capstone-projects/README.md)** — 85 ders
 
 Aşamaları sırayla izleyebilir veya ihtiyacınız olan konuya doğrudan
 geçebilirsiniz. Bir aşama sayfası, o aşamadaki tüm Türkçe derslere bağlantı
@@ -125,7 +149,7 @@ Bu depo ana eğitim programından türetilir. Güncelleme ve yeniden üretim sü
 Bu Türkçe dağıtım, Rohit Ghumare tarafından yayımlanan
 [AI Engineering from Scratch](https://github.com/rohitg00/ai-engineering-from-scratch)
 projesinden türetilmiştir. Türkçe çeviri ve dağıtım düzenlemeleri özgün çalışmayı
-temel alır; kullanılan kaynak revizyon yukarıda kayıtlıdır.
+temel alır; kaynak revizyon yukarıda ve `MANIFEST.json` içinde kayıtlıdır.
 
 ## Katkı ve geri bildirim
 
