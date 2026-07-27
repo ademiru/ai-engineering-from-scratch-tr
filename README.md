@@ -37,4 +37,16 @@ Her dersin Türkçe anlatımı `docs/tr.md`, çalıştırılabilir örnekleri is
 `code/` dizinindedir. Kaynak ve güncelleme süreci için
 [SENKRONIZASYON.md](SENKRONIZASYON.md) belgesine bakın.
 
-Bu dağıtım [MIT Lisansı](LICENSE) altındadır.
+## Kaynak ve atıf
+
+Bu Türkçe dağıtım, Rohit Ghumare tarafından yayımlanan
+[AI Engineering from Scratch](https://github.com/rohitg00/ai-engineering-from-scratch)
+projesinden türetilmiştir. Türkçe çeviri ve dağıtım düzenlemeleri özgün çalışmayı
+temel alır; kullanılan kaynak revizyon yukarıda kayıtlıdır.
+
+## Lisans
+
+Bu dağıtım [MIT Lisansı](LICENSE) altındadır. Dağıtıma özgün projenin eksiksiz
+lisans metni, `Copyright (c) 2026 Rohit Ghumare` telif bildirimiyle birlikte
+dahil edilmiştir. Kullanım ve yeniden dağıtımda bu bildirim ile izin metni
+korunmalıdır.
