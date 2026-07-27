@@ -1,284 +1,1083 @@
-<!doctype html>
-<html lang="tr">
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AI Engineering from Scratch — Türkçe</title>
-  <meta name="description" content="20 aşama ve 503 Türkçe ders ile yapay zekâ mühendisliğini temelden öğrenin.">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Engineering from Scratch</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23fafaf5'/><rect x='2' y='2' width='28' height='28' fill='none' stroke='%233553ff' stroke-width='1.2'/><text x='6' y='22' font-size='14' font-family='monospace' fill='%233553ff'>AI</text></svg>">
+  <meta name="description" content="AI Engineering from Scratch; temel AI algoritmalarını sıfırdan, elle kurarak öğreten ücretsiz ve açık kaynaklı bir müfredattır. 20 aşama, 503 ders ve dört programlama dili.">
+  <link rel="canonical" href="https://aiengineeringfromscratch.com/">
+  <meta property="og:title" content="AI Engineering from Scratch">
+  <meta property="og:description" content="503 ders, 20 aşama. Herhangi bir framework kullanmadan önce backpropagation, tokenizer, attention mechanism ve agent loop yapılarını elle geliştirin.">
+  <meta property="og:image" content="https://aiengineeringfromscratch.com/og-image.png?v=3">
+  <meta property="og:url" content="https://aiengineeringfromscratch.com">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Engineering from Scratch">
+  <meta name="twitter:description" content="503 ders, 20 aşama. Backpropagation, tokenizer, attention mechanism ve agent loop yapılarını elle geliştirin.">
+  <meta name="twitter:image" content="https://aiengineeringfromscratch.com/og-image.png?v=3">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20260525a">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://aiengineeringfromscratch.com/#org",
+        "name": "AI Engineering from Scratch",
+        "url": "https://aiengineeringfromscratch.com",
+        "logo": "https://aiengineeringfromscratch.com/og-image.png",
+        "sameAs": ["https://github.com/rohitg00/ai-engineering-from-scratch", "https://github.com/rohitg00"],
+        "founder": { "@type": "Person", "name": "Rohit Ghumare", "url": "https://github.com/rohitg00" }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://aiengineeringfromscratch.com/#website",
+        "url": "https://aiengineeringfromscratch.com",
+        "name": "AI Engineering from Scratch",
+        "description": "Temel AI algoritmalarını elle geliştirerek öğreten ücretsiz ve açık kaynaklı bir müfredat.",
+        "publisher": { "@id": "https://aiengineeringfromscratch.com/#org" },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": { "@type": "EntryPoint", "urlTemplate": "https://aiengineeringfromscratch.com/catalog.html?q={search_term_string}" },
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "Course",
+        "@id": "https://aiengineeringfromscratch.com/#course",
+        "name": "AI Engineering from Scratch",
+        "description": "20 aşamada 503 ders. Herhangi bir framework kullanmadan önce backpropagation, tokenizer, attention mechanism ve agent loop yapılarını elle geliştirin.",
+        "provider": { "@id": "https://aiengineeringfromscratch.com/#org" },
+        "url": "https://aiengineeringfromscratch.com",
+        "isAccessibleForFree": true,
+        "inLanguage": "tr",
+        "teaches": ["Neural networks", "Backpropagation", "Tokenization", "Attention mechanisms", "LLM training", "Inference optimization", "Agent loops", "Model context protocol"],
+        "hasCourseInstance": {
+          "@type": "CourseInstance",
+          "courseMode": "online",
+          "instructor": { "@type": "Person", "name": "Rohit Ghumare" }
+        }
+      }
+    ]
+  }
+  </script>
   <style>
-    :root { --paper:#f5f3eb; --ink:#151515; --muted:#6b6a65; --rule:#cbc8bd;
-      --soft:#e7e4da; --blue:#244bff; --mono:ui-monospace,SFMono-Regular,Menlo,monospace;
-      --serif:Georgia,"Times New Roman",serif }
-    :root[data-theme="dark"] { --paper:#17171c; --ink:#f4f1e8; --muted:#aaa89f;
-      --rule:#45454c; --soft:#303037; --blue:#8da2ff }
-    @media(prefers-color-scheme:dark) {
-      :root:not([data-theme="light"]) { --paper:#17171c; --ink:#f4f1e8; --muted:#aaa89f;
-        --rule:#45454c; --soft:#303037; --blue:#8da2ff }
+    .manual-masthead {
+      padding: 96px 0 24px;
+      border-bottom: 1px solid var(--rule-soft);
     }
-    * { box-sizing:border-box }
-    html { scroll-behavior:smooth }
-    body { margin:0; color:var(--ink); background:var(--paper); font:16px/1.55 var(--serif) }
-    a { color:inherit }
-    .shell { width:min(1180px,calc(100% - 40px)); margin:auto }
-    .topbar { border-bottom:1px solid var(--ink); font:700 .7rem/1 var(--mono);
-      letter-spacing:.12em; text-transform:uppercase }
-    .topbar .shell { min-height:48px; display:flex; align-items:center; justify-content:space-between; gap:20px }
-    .brand { color:var(--blue); text-decoration:none }
-    .topnav { display:flex; align-items:center; gap:24px }
-    .topnav a { text-decoration:none }
-    .topnav a:hover { color:var(--blue) }
-    .theme-toggle { width:36px; height:36px; padding:0; border:1px solid var(--ink);
-      border-radius:50%; color:var(--ink); background:transparent; cursor:pointer;
-      font:700 1rem/1 var(--mono) }
-    .theme-toggle:hover { color:var(--paper); background:var(--ink) }
-    .hero { padding:82px 0 48px; border-bottom:1px solid var(--ink) }
-    .eyebrow { margin:0 0 24px; color:var(--blue); font:700 .72rem/1 var(--mono);
-      letter-spacing:.16em; text-transform:uppercase }
-    h1 { margin:0; max-width:1050px; color:var(--blue); font:700 clamp(3.6rem,10vw,8.7rem)/.78 var(--mono);
-      letter-spacing:-.075em; text-transform:uppercase }
-    .hero-bottom { margin-top:44px; display:grid; grid-template-columns:1.4fr 1fr; gap:70px; align-items:end }
-    .lead { margin:0; max-width:680px; font-size:clamp(1.15rem,2vw,1.45rem); line-height:1.5 }
-    .hero-note { margin:0; padding-left:18px; border-left:3px solid var(--blue);
-      color:var(--muted); font:500 .78rem/1.7 var(--mono) }
-    .stats { display:grid; grid-template-columns:repeat(3,1fr); border-bottom:1px solid var(--ink) }
-    .stat { padding:28px 0; border-right:1px solid var(--rule) }
-    .stat + .stat { padding-left:32px }
-    .stat:last-child { border-right:0 }
-    .stat strong { display:block; color:var(--blue); font:700 clamp(2rem,5vw,3.7rem)/1 var(--mono) }
-    .stat span { display:block; margin-top:8px; color:var(--muted); font:700 .68rem/1 var(--mono);
-      letter-spacing:.13em; text-transform:uppercase }
-    .catalogue { padding:58px 0 80px }
-    .catalogue-head { display:grid; grid-template-columns:1fr minmax(280px,420px); gap:40px;
-      align-items:end; margin-bottom:24px }
-    h2 { margin:0; font:700 clamp(2rem,5vw,4rem)/1 var(--mono); letter-spacing:-.05em; text-transform:uppercase }
-    label { display:block; color:var(--muted); font:700 .66rem/1 var(--mono);
-      letter-spacing:.13em; text-transform:uppercase }
-    input { width:100%; margin-top:10px; padding:13px 14px; border:1px solid var(--ink);
-      border-radius:0; outline:0; background:transparent; color:var(--ink); font:500 .88rem var(--mono) }
-    input:focus { border-color:var(--blue); box-shadow:inset 0 0 0 1px var(--blue) }
-    .phase { border-top:1px solid var(--ink) }
-    .phase:last-of-type { border-bottom:1px solid var(--ink) }
-    summary { display:grid; grid-template-columns:64px 1fr auto 28px; align-items:center; gap:18px;
-      padding:22px 8px; cursor:pointer; list-style:none }
-    summary::-webkit-details-marker { display:none }
-    summary:hover .phase-title { color:var(--blue) }
-    .phase-no,.phase-count,.phase-toggle { font:700 .72rem/1 var(--mono) }
-    .phase-no { color:var(--blue) }
-    .phase-title { font:700 clamp(1.05rem,2.2vw,1.55rem)/1.2 var(--mono); text-transform:uppercase }
-    .phase-count { color:var(--muted); letter-spacing:.08em }
-    .phase-toggle { color:var(--blue); font-size:1.3rem; text-align:center; transition:transform .2s }
-    details[open] .phase-toggle { transform:rotate(45deg) }
-    ol { margin:0 0 26px 82px; padding:0; display:grid; grid-template-columns:1fr 1fr;
-      gap:0 34px; list-style:none; counter-reset:lesson }
-    li { counter-increment:lesson; border-top:1px solid var(--soft) }
-    li a { display:flex; justify-content:space-between; gap:15px; padding:11px 4px;
-      text-decoration:none; font-size:.94rem }
-    li a:before { content:counter(lesson,decimal-leading-zero); color:var(--muted);
-      font:500 .66rem/1.8 var(--mono); margin-right:8px }
-    li a span:first-child { flex:1 }
-    li a span:last-child { color:var(--blue); opacity:0 }
-    li a:hover { color:var(--blue) }
-    li a:hover span:last-child { opacity:1 }
-    .empty { display:none; padding:32px 0; color:var(--muted); font-style:italic }
-    .reader[hidden] { display:none }
-    .reader { position:fixed; inset:0; z-index:20; overflow:auto; background:var(--paper) }
-    .reader-bar { position:sticky; top:0; z-index:1; padding:12px 0; border-bottom:1px solid var(--rule);
-      background:var(--paper) }
-    .reader-bar .shell { display:flex; align-items:center; justify-content:space-between; gap:20px }
-    .reader-back { padding:9px 12px; border:1px solid var(--ink); color:var(--ink);
-      background:transparent; cursor:pointer; font:700 .72rem/1 var(--mono); text-transform:uppercase }
-    .reader-back:hover { color:var(--paper); background:var(--ink) }
-    .reader-path { overflow:hidden; color:var(--muted); font:500 .68rem/1 var(--mono);
-      text-overflow:ellipsis; white-space:nowrap }
-    .lesson { width:min(820px,calc(100% - 40px)); margin:64px auto 100px; font-size:1.05rem }
-    .lesson h1,.lesson h2,.lesson h3 { margin:2em 0 .7em; color:var(--ink); font-family:var(--mono);
-      line-height:1.15; letter-spacing:-.035em; text-transform:none }
-    .lesson h1 { margin-top:0; color:var(--blue); font-size:clamp(2.2rem,6vw,4.5rem) }
-    .lesson h2 { padding-bottom:.3em; border-bottom:1px solid var(--rule); font-size:1.8rem }
-    .lesson h3 { font-size:1.25rem }
-    .lesson p,.lesson ul,.lesson ol { margin:1em 0 }
-    .lesson ul,.lesson ol { display:block; margin-left:1.5em; padding:0; list-style:revert; counter-reset:none }
-    .lesson li { border:0; counter-increment:none }
-    .lesson blockquote { margin:1.5em 0; padding:.2em 1.2em; border-left:3px solid var(--blue); color:var(--muted) }
-    .lesson pre { overflow:auto; padding:18px; border:1px solid var(--rule); background:var(--soft);
-      font:500 .82rem/1.6 var(--mono) }
-    .lesson code { padding:.12em .3em; background:var(--soft); font:500 .85em var(--mono) }
-    .lesson pre code { padding:0; background:transparent }
-    .lesson a { color:var(--blue) }
-    .lesson .mermaid { margin:1.75em 0; overflow:auto; padding:20px;
-      border:1px solid var(--rule); background:var(--soft); text-align:center }
-    .lesson .mermaid svg { max-width:100%; height:auto }
-    .lesson .mermaid-error { text-align:left; white-space:pre-wrap }
-    .lesson-error { padding:28px; border:1px solid #c33 }
-    body.reader-open { overflow:hidden }
-    footer { padding:28px 0 44px; border-top:1px solid var(--ink); color:var(--muted);
-      font:500 .7rem/1.7 var(--mono); text-transform:uppercase; letter-spacing:.06em }
-    footer .shell { display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap }
-    footer a { color:var(--blue) }
-    @media(max-width:760px) {
-      .shell { width:min(100% - 24px,1180px) } .topnav a:first-child { display:none }
-      .hero { padding:54px 0 34px } h1 { font-size:clamp(3rem,16vw,5.4rem) }
-      .hero-bottom,.catalogue-head { grid-template-columns:1fr; gap:26px }
-      .stats { grid-template-columns:1fr } .stat,.stat + .stat { padding:18px 0; border-right:0;
-        border-bottom:1px solid var(--rule) } .stat:last-child { border-bottom:0 }
-      summary { grid-template-columns:38px 1fr 22px; gap:10px; padding:18px 2px }
-      .phase-count { display:none } ol { margin-left:48px; grid-template-columns:1fr }
+
+    .manual-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+    }
+
+    .manual-meta-row .right {
+      color: var(--blueprint);
+    }
+
+    .manual-title {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(3.2rem, 11vw, 8rem);
+      line-height: 0.86;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+    }
+
+    .manual-tagline {
+      max-width: 720px;
+      margin: 28px 0 8px;
+      font-family: var(--font-body);
+      font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    .manual-attribution {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    .masthead-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .masthead-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 14px;
+      border: 1px solid var(--ink);
+      background: var(--bg);
+      color: var(--ink);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+
+    .masthead-btn:hover,
+    .masthead-btn:focus-visible {
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    .masthead-btn--primary {
+      border-color: var(--blueprint);
+      color: var(--blueprint);
+    }
+
+    .masthead-btn--primary:hover,
+    .masthead-btn--primary:focus-visible {
+      background: var(--blueprint);
+      color: var(--bg);
+    }
+
+    .masthead-btn-count {
+      padding-left: 8px;
+      margin-left: 4px;
+      border-left: 1px solid currentColor;
+      opacity: 0.85;
+      font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 480px) {
+      .masthead-btn { font-size: 0.78rem; padding: 8px 12px; }
+    }
+
+
+    .preface {
+      padding: 48px 0 32px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+
+    .preface-grid {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 48px;
+    }
+
+    .preface-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+    }
+
+    .preface-body {
+      column-count: 2;
+      column-gap: 48px;
+      column-rule: 1px solid var(--rule-soft);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.7;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .preface-body p {
+      margin-bottom: 1em;
+      break-inside: avoid-column;
+    }
+
+    .preface-body p:first-of-type::first-letter {
+      font-family: var(--font-display);
+      float: left;
+      font-size: 4.4rem;
+      line-height: 0.85;
+      padding: 0.06em 0.14em 0 0;
+      color: var(--blueprint);
+    }
+
+    .figure-demo {
+      padding: 24px 0 0;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+
+    .figure-demo-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      margin-bottom: 6px;
+    }
+
+    .figure-demo-caption {
+      max-width: 640px;
+      font-family: var(--font-body);
+      font-size: 0.96rem;
+      line-height: 1.5;
+      color: var(--ink-soft);
+      margin-bottom: 0;
+    }
+
+    .figure-demo-svg {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .figure-demo-svg svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @media (max-width: 768px) {
+      .figure-demo { padding: 16px 0 0; }
+    }
+
+    .stat-block {
+      padding: 32px 0 40px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+
+    .stat-block-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      margin-bottom: 24px;
+    }
+
+    .stat-rows {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      max-width: 760px;
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: 200px minmax(0, 360px) 110px;
+      align-items: center;
+      gap: 16px;
+      padding: 4px 0;
+    }
+
+    .stat-row-label {
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .stat-row-bar {
+      position: relative;
+      height: 14px;
+      background: var(--rule-soft);
+      overflow: hidden;
+      font-size: 0;
+      line-height: 0;
+      text-indent: -9999px;
+    }
+
+    .stat-row-bar::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: var(--bar-pct, 0%);
+      background: var(--blueprint);
+      transition: width 0.6s ease;
+    }
+
+    .stat-row-value {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      color: var(--ink);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .toc {
+      padding: 56px 0 80px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+
+    .toc-title {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+      margin-bottom: 8px;
+    }
+
+    .toc-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      margin-bottom: 32px;
+    }
+
+    .toc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-top: 1px solid var(--rule-soft);
+    }
+
+    .toc-row {
+      display: grid;
+      grid-template-columns: 56px 1fr auto auto;
+      align-items: baseline;
+      padding: 14px 0;
+      gap: 16px;
+      border-bottom: 1px solid var(--rule-soft);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .toc-row:hover {
+      background: var(--blueprint-tint);
+    }
+
+    .toc-num {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--blueprint);
+    }
+
+    .toc-name {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      line-height: 1.05;
+    }
+
+    .toc-leader {
+      flex: 1;
+      border-bottom: 1px dotted var(--rule-soft);
+      margin: 0 12px;
+      transform: translateY(-4px);
+    }
+
+    .toc-meta {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      color: var(--ink-mute);
+      font-variant-numeric: tabular-nums;
+      min-width: 80px;
+      text-align: right;
+    }
+
+    .toc-status {
+      width: 12px;
+      height: 12px;
+      border: 1px solid var(--ink);
+      flex-shrink: 0;
+      margin-right: 6px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .toc-status.complete {
+      background: var(--blueprint);
+      border-color: var(--blueprint);
+    }
+
+    .toc-status.in-progress {
+      background: linear-gradient(135deg, var(--blueprint) 0%, var(--blueprint) 50%, transparent 50%, transparent 100%);
+      border-color: var(--blueprint);
+    }
+
+    .toc-status.planned {
+      background: transparent;
+      border-style: dashed;
+      border-color: var(--ink-mute);
+    }
+
+    .legend {
+      padding: 32px 0 72px;
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .colophon {
+      padding: 48px 0;
+      border-top: 1px solid var(--rule-soft);
+    }
+
+    .colophon-grid {
+      display: grid;
+      grid-template-columns: 200px minmax(0, 1fr);
+      gap: 48px;
+      font-family: var(--font-body);
+      font-size: 0.96rem;
+      color: var(--ink-soft);
+    }
+
+    .colophon-grid > div {
+      min-width: 0;
+    }
+
+    .colophon-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--blueprint);
+    }
+
+    .colophon-cmd {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      padding: 10px 16px;
+      background: var(--code-bg);
+      border: 1px solid var(--rule-soft);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--blueprint);
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .colophon-cmd code {
+      white-space: nowrap;
+    }
+
+    .colophon-cmd .copy-btn {
+      flex-shrink: 0;
+      position: sticky;
+      right: 0;
+      background: var(--code-bg);
+      padding-left: 8px;
+    }
+
+    .books {
+      padding: 40px 0 8px;
+      border-top: 1px solid var(--rule-soft);
+    }
+
+    .books-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .book-card {
+      border: 1px solid var(--rule-soft);
+      background: var(--code-bg);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .book-card .vol {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      color: var(--blueprint);
+    }
+
+    .book-card h3 {
+      font-family: var(--font-body);
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--ink);
+    }
+
+    .book-card p {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: var(--ink-soft);
+      flex: 1;
+    }
+
+    .book-card .dl {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .book-card .dl a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--blueprint);
+      border: 1px solid var(--blueprint);
+      padding: 4px 10px;
+      text-decoration: none;
+    }
+
+    .book-card .dl a:hover {
+      background: var(--blueprint);
+      color: var(--bg);
+    }
+
+    .books-note {
+      margin-top: 14px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      color: var(--ink-mute);
+    }
+
+    .books-note a { color: var(--blueprint); }
+
+    @media (max-width: 900px) {
+      .books-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .books-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      .manual-masthead { padding: 80px 0 16px; }
+      .preface { padding: 32px 0; }
+      .stat-block { padding: 32px 0; }
+      .toc { padding: 32px 0 40px; }
+      .colophon { padding: 32px 0; }
+
+      .manual-meta-row { margin-bottom: 20px; }
+      .manual-tagline { margin: 20px 0 6px; font-size: 1rem; }
+      .manual-attribution { font-size: 0.9rem; }
+
+      .preface-grid,
+      .colophon-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .preface-body {
+        column-count: 1;
+        font-size: 0.98rem;
+        line-height: 1.65;
+      }
+
+      .preface-body p:first-of-type::first-letter {
+        font-size: 3.2rem;
+      }
+
+      .stat-rows { gap: 8px; }
+      .stat-row {
+        grid-template-columns: 160px minmax(0, 1fr) 92px;
+        gap: 12px;
+        font-size: 0.82rem;
+      }
+      .stat-block-title,
+      .toc-title { margin-bottom: 16px; }
+      .toc-subtitle { margin-bottom: 20px; }
+
+      .toc-row {
+        grid-template-columns: 36px 1fr auto;
+        padding: 11px 0;
+      }
+
+      .toc-row .toc-meta + .toc-meta {
+        display: none;
+      }
+
+      .toc-leader {
+        display: none;
+      }
+
+      .toc-name {
+        font-size: 1.1rem;
+      }
+
+      .colophon-cmd {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    }
+
+    @media (max-width: 600px) {
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
+      .manual-masthead.container,
+      .preface.container,
+      .stat-block.container,
+      .toc.container,
+      .colophon.container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .manual-masthead {
+        padding-top: 76px;
+      }
+
+      .manual-meta-row {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-bottom: 20px;
+        gap: 6px;
+      }
+
+      .manual-title {
+        font-size: clamp(2.45rem, 12vw, 3.7rem);
+        line-height: 0.98;
+        letter-spacing: 0;
+      }
+
+      .manual-tagline {
+        max-width: 34ch;
+        line-height: 1.48;
+        hyphens: none;
+        -webkit-hyphens: none;
+      }
+
+      .manual-attribution {
+        line-height: 1.45;
+      }
+
+      .masthead-cta {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .masthead-btn {
+        width: 100%;
+        justify-content: center;
+        min-width: 0;
+      }
+
+      .masthead-btn svg {
+        flex-shrink: 0;
+      }
+
+      .masthead-btn span {
+        min-width: 0;
+      }
+
+      .masthead-btn-count {
+        flex-shrink: 0;
+      }
+
+      .preface-body {
+        font-size: 1rem;
+        line-height: 1.62;
+        text-align: left;
+        hyphens: none;
+        -webkit-hyphens: none;
+      }
+
+      .preface-body p:first-of-type::first-letter {
+        float: none !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        line-height: inherit !important;
+        padding: 0 !important;
+        color: inherit !important;
+      }
+
+      .stat-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+      }
+
+      .stat-row-bar {
+        grid-column: 1 / -1;
+      }
+
+      .toc-row {
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 8px 12px;
+        padding: 14px 12px;
+        margin-bottom: 8px;
+        border: 1px solid var(--rule-soft);
+        background: rgba(107, 142, 255, 0.04);
+      }
+
+      .toc-row .toc-meta {
+        grid-column: 2;
+        min-width: 0;
+        text-align: left;
+      }
+
+      .toc-list {
+        border-top: none;
+      }
+
+      .toc-name {
+        font-size: 1.12rem;
+        line-height: 1.1;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .manual-masthead { padding: 70px 0 12px; }
+      .preface { padding: 24px 0; }
+      .stat-block { padding: 24px 0; }
+      .toc { padding: 24px 0 32px; }
+      .colophon { padding: 24px 0; }
+
+      .manual-masthead.container,
+      .preface.container,
+      .stat-block.container,
+      .toc.container,
+      .colophon.container {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .manual-title {
+        font-size: clamp(2.05rem, 11vw, 2.75rem);
+        line-height: 1;
+      }
+
+      .manual-meta-row {
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        margin-bottom: 16px;
+        gap: 8px;
+      }
+
+      .manual-tagline {
+        font-size: 1rem;
+        line-height: 1.45;
+        margin: 16px 0 4px;
+      }
+
+      .manual-attribution {
+        font-size: 0.9rem;
+        line-height: 1.45;
+      }
+
+      .ascii-rule {
+        margin: 18px 0 !important;
+      }
+
+      .preface-eyebrow,
+      .stat-block-title,
+      .toc-title,
+      .colophon-eyebrow { font-size: 0.7rem; }
+
+      .preface-body {
+        font-size: 0.94rem;
+        line-height: 1.6;
+        text-align: left;
+      }
+
+      .preface-body p:first-of-type::first-letter {
+        float: none !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        line-height: inherit !important;
+        padding: 0 !important;
+        color: inherit !important;
+      }
+
+      .stat-row {
+        grid-template-columns: 1fr;
+        gap: 2px;
+        padding: 6px 0;
+      }
+
+      .stat-row-bar {
+        order: 3;
+      }
+
+      .stat-row-value {
+        order: 2;
+        text-align: left;
+      }
+
+      .toc-row {
+        grid-template-columns: auto minmax(0, 1fr);
+        gap: 8px;
+        padding: 13px 12px;
+      }
+
+      .toc-name {
+        font-size: 0.96rem;
+        white-space: normal;
+      }
+
+      .toc-num {
+        font-size: 0.7rem;
+      }
+    }
+
+
+    /* Figure card */
+    .figure-card {
+      border: 1px solid var(--rule-soft);
+      background: var(--bg);
+      padding: 0;
+      margin: 24px 0 36px;
+      background-image: radial-gradient(circle at 4px 4px, rgba(0,0,0,0.05) 1px, transparent 1.5px);
+      background-size: 16px 16px;
+    }
+    .figure-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--rule-soft);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .figure-head .left { color: var(--blueprint); }
+    .figure-head .right { color: var(--ink-mute); }
+    .figure-body {
+      padding: 32px 24px;
+      overflow-x: auto;
+    }
+    .figure-body svg { display: block; width: 100%; height: auto; max-width: 1100px; margin: 0 auto; color: var(--blueprint); }
+    .figure-foot {
+      padding: 14px 24px;
+      border-top: 1px solid var(--rule-soft);
+      font-family: var(--font-body);
+      font-size: 0.96rem;
+      color: var(--ink-soft);
+      line-height: 1.5;
     }
   </style>
 </head>
 <body>
-  <nav class="topbar"><div class="shell">
-    <a class="brand" href="#">AI ENGINEERING / TR</a>
-    <div class="topnav"><a href="#mufredat">Müfredat</a><a href="README.md">Kullanım rehberi ↗</a>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Koyu temaya geç" title="Temayı değiştir">◐</button></div>
-  </div></nav>
-  <header class="hero"><div class="shell">
-    <p class="eyebrow">Açık kaynak · Uygulamalı · Türkçe</p>
-    <h1>AI Engineering<br>From Scratch</h1>
-    <div class="hero-bottom">
-      <p class="lead">Yapay zekâ sistemlerini yalnızca kullanmayın. Matematik temellerinden
-      agent mimarilerine kadar her katmanı elle kurun, test edin ve gerçekten anlayın.</p>
-      <p class="hero-note">Framework'ten önce temel mekanizma.<br>Teoriden sonra çalışan kod.<br>
-      Her derste yeniden kullanılabilir çıktı.</p>
+
+  <a href="#main" class="skip-link">İçeriğe geç</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon" aria-hidden="true"></span> AI / FROM SCRATCH
+      </a>
+      <nav class="header-nav">
+        <a href="#contents">İçerik</a>
+        <a href="#books">Kitaplar</a>
+        <a href="catalog.html">Katalog</a>
+        <a href="prereqs.html">Yol Haritası</a>
+        <a href="glossary.html">Terimler</a>
+        <a href="about.html">Hakkında</a>
+        <a href="https://github.com/rohitg00/ai-engineering-from-scratch" target="_blank" rel="noopener" class="header-github">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          <span class="star-count" data-loading="true" aria-label="GitHub stars">…</span>
+        </a>
+      </nav>
+      <button class="search-toggle" type="button" data-cmd-palette
+        aria-label="Ara (⌘K)" title="Ara (⌘K)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Temayı değiştir" type="button">
+        <span class="theme-icon" id="themeIcon">N</span>
+      </button>
     </div>
-  </div></header>
-  <main>
-    <section class="stats shell" aria-label="Müfredat özeti">
-      <div class="stat"><strong>20</strong><span>Aşama</span></div>
-      <div class="stat"><strong>503</strong><span>Türkçe ders</span></div>
-      <div class="stat"><strong>%100</strong><span>Türkçe kapsam</span></div>
-    </section>
-    <section class="catalogue shell" id="mufredat">
-      <div class="catalogue-head">
-        <div><p class="eyebrow">İçindekiler</p><h2>Öğrenme Rotası</h2></div>
-        <label for="search">Ders veya aşama ara
-          <input id="search" type="search" placeholder="Örn. attention, agent, Python…" autocomplete="off">
-        </label>
+  </header>
+
+  <main id="main">
+
+    <section class="manual-masthead container">
+      <div class="manual-meta-row">
+        <span>FIG_000 &middot; müfredat v1.0 · 2026</span>
+        <span class="right">açık kaynak · MIT</span>
       </div>
-      <div id="phases" aria-live="polite"><details class="phase" data-phase="aşama 0: kurulum ve araçlar"><summary><span class="phase-no">01</span><span class="phase-title">Aşama 0: Kurulum ve Araçlar</span><span class="phase-count">12 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="geliştirici ortamı"><a href="phases/00-setup-and-tooling/01-dev-environment/docs/tr.md"><span>Geliştirici Ortamı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="git ve i̇şbirliği"><a href="phases/00-setup-and-tooling/02-git-and-collaboration/docs/tr.md"><span>Git ve İşbirliği</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gpu kurulumu ve bulut"><a href="phases/00-setup-and-tooling/03-gpu-setup-and-cloud/docs/tr.md"><span>GPU Kurulumu ve Bulut</span><span aria-hidden="true">↗</span></a></li><li data-lesson="api&#x27;ler ve anahtarlar"><a href="phases/00-setup-and-tooling/04-apis-and-keys/docs/tr.md"><span>API&#x27;ler ve Anahtarlar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="jüpyter defterleri"><a href="phases/00-setup-and-tooling/05-jupyter-notebooks/docs/tr.md"><span>Jüpyter Defterleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="python ortamları"><a href="phases/00-setup-and-tooling/06-python-environments/docs/tr.md"><span>Python Ortamları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yapay zeka için docker"><a href="phases/00-setup-and-tooling/07-docker-for-ai/docs/tr.md"><span>Yapay Zeka için Docker</span><span aria-hidden="true">↗</span></a></li><li data-lesson="editör kurulumu"><a href="phases/00-setup-and-tooling/08-editor-setup/docs/tr.md"><span>Editör Kurulumu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="veri yönetimi"><a href="phases/00-setup-and-tooling/09-data-management/docs/tr.md"><span>Veri Yönetimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="terminal ve kabuk"><a href="phases/00-setup-and-tooling/10-terminal-and-shell/docs/tr.md"><span>Terminal ve Kabuk</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yapay zeka için linux"><a href="phases/00-setup-and-tooling/11-linux-for-ai/docs/tr.md"><span>Yapay Zeka için Linux</span><span aria-hidden="true">↗</span></a></li><li data-lesson="hata ayıklama ve profil oluşturma"><a href="phases/00-setup-and-tooling/12-debugging-and-profiling/docs/tr.md"><span>Hata Ayıklama ve Profil Oluşturma</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 1: matematiğin temelleri"><summary><span class="phase-no">02</span><span class="phase-title">Aşama 1: Matematiğin Temelleri</span><span class="phase-count">22 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="doğrusal cebir sezgisi"><a href="phases/01-math-foundations/01-linear-algebra-intuition/docs/tr.md"><span>Doğrusal Cebir Sezgisi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="vektörler, matrisler ve i̇şlemler"><a href="phases/01-math-foundations/02-vectors-matrices-operations/docs/tr.md"><span>Vektörler, Matrisler ve İşlemler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="matris dönüşümleri"><a href="phases/01-math-foundations/03-matrix-transformations/docs/tr.md"><span>Matris Dönüşümleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="machine learning için hesaplama"><a href="phases/01-math-foundations/04-calculus-for-ml/docs/tr.md"><span>Machine Learning için Hesaplama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="zincir kuralı ve otomatik türev alma"><a href="phases/01-math-foundations/05-chain-rule-and-autodiff/docs/tr.md"><span>Zincir Kuralı ve Otomatik Türev Alma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="olasılık ve dağılımlar"><a href="phases/01-math-foundations/06-probability-and-distributions/docs/tr.md"><span>Olasılık ve Dağılımlar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bayes teoremi"><a href="phases/01-math-foundations/07-bayes-theorem/docs/tr.md"><span>Bayes Teoremi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="optimizasyon"><a href="phases/01-math-foundations/08-optimization/docs/tr.md"><span>Optimizasyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bilgi teorisi"><a href="phases/01-math-foundations/09-information-theory/docs/tr.md"><span>Bilgi Teorisi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="boyut azaltma"><a href="phases/01-math-foundations/10-dimensionality-reduction/docs/tr.md"><span>Boyut Azaltma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="tekil değer ayrışımı"><a href="phases/01-math-foundations/11-singular-value-decomposition/docs/tr.md"><span>Tekil Değer Ayrışımı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="tensör i̇şlemleri"><a href="phases/01-math-foundations/12-tensor-operations/docs/tr.md"><span>Tensör İşlemleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sayısal kararlılık"><a href="phases/01-math-foundations/13-numerical-stability/docs/tr.md"><span>Sayısal Kararlılık</span><span aria-hidden="true">↗</span></a></li><li data-lesson="normlar ve mesafeler"><a href="phases/01-math-foundations/14-norms-and-distances/docs/tr.md"><span>Normlar ve Mesafeler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="machine learning istatistikleri"><a href="phases/01-math-foundations/15-statistics-for-ml/docs/tr.md"><span>Machine Learning istatistikleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="örnekleme yöntemleri"><a href="phases/01-math-foundations/16-sampling-methods/docs/tr.md"><span>Örnekleme Yöntemleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="lineer sistemler"><a href="phases/01-math-foundations/17-linear-systems/docs/tr.md"><span>Lineer Sistemler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="dışbükey optimizasyon"><a href="phases/01-math-foundations/18-convex-optimization/docs/tr.md"><span>Dışbükey Optimizasyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yapay zeka için karmaşık sayılar"><a href="phases/01-math-foundations/19-complex-numbers/docs/tr.md"><span>Yapay Zeka için Karmaşık Sayılar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="fourier dönüşümü"><a href="phases/01-math-foundations/20-fourier-transform/docs/tr.md"><span>Fourier Dönüşümü</span><span aria-hidden="true">↗</span></a></li><li data-lesson="machine learning için grafik teorisi"><a href="phases/01-math-foundations/21-graph-theory/docs/tr.md"><span>Machine Learning için Grafik Teorisi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="stokastik süreçler"><a href="phases/01-math-foundations/22-stochastic-processes/docs/tr.md"><span>Stokastik Süreçler</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 2: makine öğreniminin temelleri"><summary><span class="phase-no">03</span><span class="phase-title">Aşama 2: Makine Öğreniminin Temelleri</span><span class="phase-count">18 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="machine learning nedir?"><a href="phases/02-ml-fundamentals/01-what-is-machine-learning/docs/tr.md"><span>Machine Learning Nedir?</span><span aria-hidden="true">↗</span></a></li><li data-lesson="doğrusal regresyon"><a href="phases/02-ml-fundamentals/02-linear-regression/docs/tr.md"><span>Doğrusal Regresyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="lojistik regresyon"><a href="phases/02-ml-fundamentals/03-logistic-regression/docs/tr.md"><span>Lojistik Regresyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="karar ağaçları ve rastgele ormanlar"><a href="phases/02-ml-fundamentals/04-decision-trees/docs/tr.md"><span>Karar Ağaçları ve Rastgele Ormanlar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="vektör makinelerini destekleyin"><a href="phases/02-ml-fundamentals/05-support-vector-machines/docs/tr.md"><span>Vektör Makinelerini Destekleyin</span><span aria-hidden="true">↗</span></a></li><li data-lesson="k-en yakın komşular ve uzaklıklar"><a href="phases/02-ml-fundamentals/06-knn-and-distances/docs/tr.md"><span>K-En Yakın Komşular ve Uzaklıklar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="denetimsiz öğrenme"><a href="phases/02-ml-fundamentals/07-unsupervised-learning/docs/tr.md"><span>Denetimsiz Öğrenme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="özellik mühendisliği ve seçimi"><a href="phases/02-ml-fundamentals/08-feature-engineering/docs/tr.md"><span>Özellik Mühendisliği ve Seçimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="model değerlendirmesi"><a href="phases/02-ml-fundamentals/09-model-evaluation/docs/tr.md"><span>Model Değerlendirmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="önyargı-varyans dengesi"><a href="phases/02-ml-fundamentals/10-bias-variance/docs/tr.md"><span>Önyargı-Varyans Dengesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="topluluk yöntemleri"><a href="phases/02-ml-fundamentals/11-ensemble-methods/docs/tr.md"><span>Topluluk Yöntemleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="hiperparametre ayarı"><a href="phases/02-ml-fundamentals/12-hyperparameter-tuning/docs/tr.md"><span>Hiperparametre Ayarı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ml i̇şlem hatları"><a href="phases/02-ml-fundamentals/13-ml-pipelines/docs/tr.md"><span>ML İşlem Hatları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="naif bayes"><a href="phases/02-ml-fundamentals/14-naive-bayes/docs/tr.md"><span>Naif Bayes</span><span aria-hidden="true">↗</span></a></li><li data-lesson="zaman serisinin temelleri"><a href="phases/02-ml-fundamentals/15-time-series/docs/tr.md"><span>Zaman Serisinin Temelleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="anormallik tespiti"><a href="phases/02-ml-fundamentals/16-anomaly-detection/docs/tr.md"><span>Anormallik Tespiti</span><span aria-hidden="true">↗</span></a></li><li data-lesson="dengesiz verileri i̇şleme"><a href="phases/02-ml-fundamentals/17-imbalanced-data/docs/tr.md"><span>Dengesiz Verileri İşleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="özellik seçimi"><a href="phases/02-ml-fundamentals/18-feature-selection/docs/tr.md"><span>Özellik Seçimi</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 3: deep learning çekirdek"><summary><span class="phase-no">04</span><span class="phase-title">Aşama 3: Deep Learning Çekirdek</span><span class="phase-count">13 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="perceptron"><a href="phases/03-deep-learning-core/01-the-perceptron/docs/tr.md"><span>Perceptron</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çok katmanlı ağlar ve i̇leri geçiş"><a href="phases/03-deep-learning-core/02-multi-layer-networks/docs/tr.md"><span>Çok Katmanlı Ağlar ve İleri Geçiş</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfırdan backpropagation"><a href="phases/03-deep-learning-core/03-backpropagation/docs/tr.md"><span>Sıfırdan Backpropagation</span><span aria-hidden="true">↗</span></a></li><li data-lesson="etkinleştirme i̇şlevleri"><a href="phases/03-deep-learning-core/04-activation-functions/docs/tr.md"><span>Etkinleştirme İşlevleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="loss function&#x27;ler"><a href="phases/03-deep-learning-core/05-loss-functions/docs/tr.md"><span>Loss Function&#x27;ler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="optimize ediciler"><a href="phases/03-deep-learning-core/06-optimizers/docs/tr.md"><span>Optimize Ediciler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="düzenleme"><a href="phases/03-deep-learning-core/07-regularization/docs/tr.md"><span>Düzenleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ağırlık başlatma ve eğitim kararlılığı"><a href="phases/03-deep-learning-core/08-weight-initialization/docs/tr.md"><span>Ağırlık Başlatma ve Eğitim Kararlılığı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="öğrenme hızı programları ve isınma"><a href="phases/03-deep-learning-core/09-learning-rate-schedules/docs/tr.md"><span>Öğrenme Hızı Programları ve Isınma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kendi mini&#x27;nizi oluşturun framework"><a href="phases/03-deep-learning-core/10-mini-framework/docs/tr.md"><span>Kendi Mini&#x27;nizi Oluşturun Framework</span><span aria-hidden="true">↗</span></a></li><li data-lesson="pytorch&#x27;a giriş"><a href="phases/03-deep-learning-core/11-intro-to-pytorch/docs/tr.md"><span>PyTorch&#x27;a Giriş</span><span aria-hidden="true">↗</span></a></li><li data-lesson="jax&#x27;a giriş"><a href="phases/03-deep-learning-core/12-intro-to-jax/docs/tr.md"><span>JAX&#x27;a Giriş</span><span aria-hidden="true">↗</span></a></li><li data-lesson="neural network&#x27;lerde hata ayıklama"><a href="phases/03-deep-learning-core/13-debugging-neural-networks/docs/tr.md"><span>Neural Network&#x27;lerde hata ayıklama</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 4: bilgisayarla görme"><summary><span class="phase-no">05</span><span class="phase-title">Aşama 4: Bilgisayarla Görme</span><span class="phase-count">28 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="görüntünün temelleri — pikseller, kanallar, renk uzayları"><a href="phases/04-computer-vision/01-image-fundamentals/docs/tr.md"><span>Görüntünün Temelleri — Pikseller, Kanallar, Renk Uzayları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfırdan evrişimler"><a href="phases/04-computer-vision/02-convolutions-from-scratch/docs/tr.md"><span>Sıfırdan Evrişimler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="cnn — lenet&#x27;ten resnet&#x27;e"><a href="phases/04-computer-vision/03-cnns-lenet-to-resnet/docs/tr.md"><span>CNN — LeNet&#x27;ten ResNet&#x27;e</span><span aria-hidden="true">↗</span></a></li><li data-lesson="görüntü sınıflandırması"><a href="phases/04-computer-vision/04-image-classification/docs/tr.md"><span>Görüntü Sınıflandırması</span><span aria-hidden="true">↗</span></a></li><li data-lesson="öğrenmeyi aktar ve fine-tuning"><a href="phases/04-computer-vision/05-transfer-learning/docs/tr.md"><span>Öğrenmeyi Aktar ve Fine-Tuning</span><span aria-hidden="true">↗</span></a></li><li data-lesson="nesne algılama — sıfırdan yolo"><a href="phases/04-computer-vision/06-object-detection-yolo/docs/tr.md"><span>Nesne Algılama — Sıfırdan YOLO</span><span aria-hidden="true">↗</span></a></li><li data-lesson="anlamsal segmentasyon — u-net"><a href="phases/04-computer-vision/07-semantic-segmentation-unet/docs/tr.md"><span>Anlamsal Segmentasyon — U-Net</span><span aria-hidden="true">↗</span></a></li><li data-lesson="örnek segmentasyonu — r-cnn maskesi"><a href="phases/04-computer-vision/08-instance-segmentation-mask-rcnn/docs/tr.md"><span>Örnek Segmentasyonu — R-CNN maskesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="görüntü oluşturma — gan&#x27;lar"><a href="phases/04-computer-vision/09-image-generation-gans/docs/tr.md"><span>Görüntü Oluşturma — GAN&#x27;lar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="görüntü oluşturma — yayılma modelleri"><a href="phases/04-computer-vision/10-image-generation-diffusion/docs/tr.md"><span>Görüntü Oluşturma — Yayılma Modelleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kararlı difüzyon — mimari ve fine-tuning"><a href="phases/04-computer-vision/11-stable-diffusion/docs/tr.md"><span>Kararlı Difüzyon — Mimari ve Fine-Tuning</span><span aria-hidden="true">↗</span></a></li><li data-lesson="videoyu anlama — geçici modelleme"><a href="phases/04-computer-vision/12-video-understanding/docs/tr.md"><span>Videoyu Anlama — Geçici Modelleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="3d görme — nokta bulutları ve nerf&#x27;ler"><a href="phases/04-computer-vision/13-3d-vision-nerf/docs/tr.md"><span>3D Görme — Nokta Bulutları ve NeRF&#x27;ler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="vizyon transformer&#x27;ler (vit)"><a href="phases/04-computer-vision/14-vision-transformers/docs/tr.md"><span>Vizyon Transformer&#x27;ler (ViT)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gerçek zamanlı görüş — edge deployment"><a href="phases/04-computer-vision/15-real-time-edge/docs/tr.md"><span>Gerçek Zamanlı Görüş — Edge Deployment</span><span aria-hidden="true">↗</span></a></li><li data-lesson="eksiksiz bir vizyon hattı oluşturun — bitirme taşı"><a href="phases/04-computer-vision/16-vision-pipeline-capstone/docs/tr.md"><span>Eksiksiz bir Vizyon Hattı Oluşturun — Bitirme Taşı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kendi kendini denetleyen vizyon — simclr, dino, mae"><a href="phases/04-computer-vision/17-self-supervised-vision/docs/tr.md"><span>Kendi Kendini Denetleyen Vizyon — SimCLR, DINO, MAE</span><span aria-hidden="true">↗</span></a></li><li data-lesson="açık kelime vizyonu — clip"><a href="phases/04-computer-vision/18-open-vocab-clip/docs/tr.md"><span>Açık Kelime Vizyonu — CLIP</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ocr ve belge anlama"><a href="phases/04-computer-vision/19-ocr-document-understanding/docs/tr.md"><span>OCR ve Belge Anlama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="görüntü alma ve metrik öğrenme"><a href="phases/04-computer-vision/20-image-retrieval-metric/docs/tr.md"><span>Görüntü Alma ve Metrik Öğrenme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="anahtar nokta tespiti ve poz tahmini"><a href="phases/04-computer-vision/21-keypoint-pose/docs/tr.md"><span>Anahtar Nokta Tespiti ve Poz Tahmini</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfırdan 3d gauss splatting"><a href="phases/04-computer-vision/22-3d-gaussian-splatting/docs/tr.md"><span>Sıfırdan 3D Gauss Splatting</span><span aria-hidden="true">↗</span></a></li><li data-lesson="difüzyon transformer&#x27;ler ve düzeltilmiş akış"><a href="phases/04-computer-vision/23-diffusion-transformers-rectified-flow/docs/tr.md"><span>Difüzyon Transformer&#x27;ler ve Düzeltilmiş Akış</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sam 3 ve açık kelime segmentasyonu"><a href="phases/04-computer-vision/24-sam3-open-vocab-segmentation/docs/tr.md"><span>SAM 3 ve Açık Kelime Segmentasyonu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="vizyon-dil modelleri — vit-mlp-llm modeli"><a href="phases/04-computer-vision/25-vision-language-models/docs/tr.md"><span>Vizyon-Dil Modelleri — ViT-MLP-LLM Modeli</span><span aria-hidden="true">↗</span></a></li><li data-lesson="monoküler derinlik ve geometri tahmini"><a href="phases/04-computer-vision/26-monocular-depth/docs/tr.md"><span>Monoküler Derinlik ve Geometri Tahmini</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çoklu nesne i̇zleme ve video belleği"><a href="phases/04-computer-vision/27-multi-object-tracking/docs/tr.md"><span>Çoklu Nesne İzleme ve Video Belleği</span><span aria-hidden="true">↗</span></a></li><li data-lesson="dünya modelleri ve video yayılımı"><a href="phases/04-computer-vision/28-world-models-video-diffusion/docs/tr.md"><span>Dünya Modelleri ve Video Yayılımı</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 5: nlp — i̇leri düzeyin temelleri"><summary><span class="phase-no">06</span><span class="phase-title">Aşama 5: NLP — İleri Düzeyin Temelleri</span><span class="phase-count">29 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="metin i̇şleme — tokenizasyon, köklendirme, lemmatizasyon"><a href="phases/05-nlp-foundations-to-advanced/01-text-processing/docs/tr.md"><span>Metin İşleme — Tokenizasyon, Köklendirme, Lemmatizasyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kelime torbası, tf-idf ve metin gösterimi"><a href="phases/05-nlp-foundations-to-advanced/02-bag-of-words-tfidf/docs/tr.md"><span>Kelime Torbası, TF-IDF ve Metin Gösterimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="word embeddings — sıfırdan word2vec"><a href="phases/05-nlp-foundations-to-advanced/03-word-embeddings-word2vec/docs/tr.md"><span>Word Embeddings — Sıfırdan Word2Vec</span><span aria-hidden="true">↗</span></a></li><li data-lesson="glove, fasttext ve alt kelime embedding&#x27;ler"><a href="phases/05-nlp-foundations-to-advanced/04-glove-fasttext-subword/docs/tr.md"><span>GloVe, FastText ve Alt Kelime Embedding&#x27;ler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="duygu analizi"><a href="phases/05-nlp-foundations-to-advanced/05-sentiment-analysis/docs/tr.md"><span>Duygu Analizi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="adlandırılmış varlık tanıma"><a href="phases/05-nlp-foundations-to-advanced/06-named-entity-recognition/docs/tr.md"><span>Adlandırılmış Varlık Tanıma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="pos etiketleme ve sözdizimsel ayrıştırma"><a href="phases/05-nlp-foundations-to-advanced/07-pos-tagging-parsing/docs/tr.md"><span>POS Etiketleme ve Sözdizimsel Ayrıştırma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="at weight=0.9 over 100 steps:"><a href="phases/05-nlp-foundations-to-advanced/08-cnns-rnns-for-text/docs/tr.md"><span>At weight=0.9 over 100 steps:</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıradan sıraya modeller"><a href="phases/05-nlp-foundations-to-advanced/09-sequence-to-sequence/docs/tr.md"><span>Sıradan Sıraya Modeller</span><span aria-hidden="true">↗</span></a></li><li data-lesson="attention mechanism — atılım"><a href="phases/05-nlp-foundations-to-advanced/10-attention-mechanism/docs/tr.md"><span>Attention Mechanism — Atılım</span><span aria-hidden="true">↗</span></a></li><li data-lesson="makine çevirisi"><a href="phases/05-nlp-foundations-to-advanced/11-machine-translation/docs/tr.md"><span>Makine Çevirisi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="metin özetleme"><a href="phases/05-nlp-foundations-to-advanced/12-text-summarization/docs/tr.md"><span>Metin Özetleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="soru cevap sistemleri"><a href="phases/05-nlp-foundations-to-advanced/13-question-answering/docs/tr.md"><span>Soru Cevap Sistemleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bilgi erişimi ve arama"><a href="phases/05-nlp-foundations-to-advanced/14-information-retrieval-search/docs/tr.md"><span>Bilgi Erişimi ve Arama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="konu modelleme — lda ve bertopic"><a href="phases/05-nlp-foundations-to-advanced/15-topic-modeling/docs/tr.md"><span>Konu Modelleme — LDA ve BERTopic</span><span aria-hidden="true">↗</span></a></li><li data-lesson="transformer&#x27;lerden önce metin oluşturma — n-gram dil modelleri"><a href="phases/05-nlp-foundations-to-advanced/16-text-generation-pre-transformer/docs/tr.md"><span>Transformer&#x27;lerden Önce Metin Oluşturma — N-gram Dil Modelleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="chatbot&#x27;lar — kural tabanlıdan nöral&#x27;e ve llm&#x27;ye agent&#x27;ler"><a href="phases/05-nlp-foundations-to-advanced/17-chatbots-rule-to-neural/docs/tr.md"><span>Chatbot&#x27;lar — Kural Tabanlıdan Nöral&#x27;e ve LLM&#x27;ye Agent&#x27;ler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çok dilli nlp"><a href="phases/05-nlp-foundations-to-advanced/18-multilingual-nlp/docs/tr.md"><span>Çok dilli NLP</span><span aria-hidden="true">↗</span></a></li><li data-lesson="alt kelime tokenization — bpe, wordpiece, unigram, sentencepiece"><a href="phases/05-nlp-foundations-to-advanced/19-subword-tokenization/docs/tr.md"><span>Alt Kelime Tokenization — BPE, WordPiece, Unigram, SentencePiece</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yapılandırılmış çıkışlar ve kısıtlı kod çözme"><a href="phases/05-nlp-foundations-to-advanced/20-structured-outputs-constrained-decoding/docs/tr.md"><span>Yapılandırılmış Çıkışlar ve Kısıtlı Kod Çözme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="doğal dil inference — metinsel gereklilik"><a href="phases/05-nlp-foundations-to-advanced/21-nli-textual-entailment/docs/tr.md"><span>Doğal Dil Inference — Metinsel Gereklilik</span><span aria-hidden="true">↗</span></a></li><li data-lesson="embedding modelleri — 2026 derinlemesine i̇nceleme"><a href="phases/05-nlp-foundations-to-advanced/22-embedding-models-deep-dive/docs/tr.md"><span>Embedding Modelleri — 2026 Derinlemesine İnceleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="rag için parçalama stratejileri"><a href="phases/05-nlp-foundations-to-advanced/23-chunking-strategies-rag/docs/tr.md"><span>RAG için Parçalama Stratejileri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çekirdek referans çözünürlüğü"><a href="phases/05-nlp-foundations-to-advanced/24-coreference-resolution/docs/tr.md"><span>Çekirdek Referans Çözünürlüğü</span><span aria-hidden="true">↗</span></a></li><li data-lesson="varlık bağlantısı ve belirsizliğin giderilmesi"><a href="phases/05-nlp-foundations-to-advanced/25-entity-linking/docs/tr.md"><span>Varlık Bağlantısı ve Belirsizliğin Giderilmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="i̇lişki çıkarma ve bilgi grafiği oluşturma"><a href="phases/05-nlp-foundations-to-advanced/26-relation-extraction-kg/docs/tr.md"><span>İlişki Çıkarma ve Bilgi Grafiği Oluşturma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llm değerlendirmesi — ragas, deepeval, g-eval"><a href="phases/05-nlp-foundations-to-advanced/27-llm-evaluation-frameworks/docs/tr.md"><span>LLM Değerlendirmesi — RAGAS, DeepEval, G-Eval</span><span aria-hidden="true">↗</span></a></li><li data-lesson="uzun bağlamlı değerlendirme — niah, ruler, longbench, mrcr"><a href="phases/05-nlp-foundations-to-advanced/28-long-context-evaluation/docs/tr.md"><span>Uzun Bağlamlı Değerlendirme — NIAH, RULER, LongBench, MRCR</span><span aria-hidden="true">↗</span></a></li><li data-lesson="diyalog durumu takibi"><a href="phases/05-nlp-foundations-to-advanced/29-dialogue-state-tracking/docs/tr.md"><span>Diyalog Durumu Takibi</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 6: konuşma ve ses"><summary><span class="phase-no">07</span><span class="phase-title">Aşama 6: Konuşma ve Ses</span><span class="phase-count">17 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="sesin temelleri — dalga formları, örnekleme, fourier dönüşümü"><a href="phases/06-speech-and-audio/01-audio-fundamentals/docs/tr.md"><span>Sesin Temelleri — Dalga Formları, Örnekleme, Fourier Dönüşümü</span><span aria-hidden="true">↗</span></a></li><li data-lesson="spektrogramlar, mel ölçeği ve ses özellikleri"><a href="phases/06-speech-and-audio/02-spectrograms-mel-features/docs/tr.md"><span>Spektrogramlar, Mel Ölçeği ve Ses Özellikleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses sınıflandırması — mfcc&#x27;lerdeki k-nn&#x27;den ast ve beat&#x27;lere kadar"><a href="phases/06-speech-and-audio/03-audio-classification/docs/tr.md"><span>Ses Sınıflandırması — MFCC&#x27;lerdeki k-NN&#x27;den AST ve BEAT&#x27;lere kadar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="konuşma tanıma (asr) — ctc, rnn-t, dikkat"><a href="phases/06-speech-and-audio/04-speech-recognition-asr/docs/tr.md"><span>Konuşma Tanıma (ASR) — CTC, RNN-T, Dikkat</span><span aria-hidden="true">↗</span></a></li><li data-lesson="fısıltı — mimari ve fine-tuning"><a href="phases/06-speech-and-audio/05-whisper-architecture-finetuning/docs/tr.md"><span>Fısıltı — Mimari ve Fine-Tuning</span><span aria-hidden="true">↗</span></a></li><li data-lesson="konuşmacı tanıma ve doğrulama"><a href="phases/06-speech-and-audio/06-speaker-recognition-verification/docs/tr.md"><span>Konuşmacı Tanıma ve Doğrulama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="metinden konuşmaya (tts) — tacotron&#x27;dan f5 ve kokoro&#x27;ya"><a href="phases/06-speech-and-audio/07-text-to-speech/docs/tr.md"><span>Metinden Konuşmaya (TTS) — Tacotron&#x27;dan F5 ve Kokoro&#x27;ya</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses klonlama ve ses dönüştürme"><a href="phases/06-speech-and-audio/08-voice-cloning-conversion/docs/tr.md"><span>Ses Klonlama ve Ses Dönüştürme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="müzik üretimi — musicgen, stable audio, suno ve lisanslama depremi"><a href="phases/06-speech-and-audio/09-music-generation/docs/tr.md"><span>Müzik Üretimi — MusicGen, Stable Audio, Suno ve Lisanslama Depremi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses-dil modelleri — qwen2.5-omni, audio flamingo, gpt-4o audio"><a href="phases/06-speech-and-audio/10-audio-language-models/docs/tr.md"><span>Ses-Dil Modelleri — Qwen2.5-Omni, Audio Flamingo, GPT-4o Audio</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gerçek zamanlı ses i̇şleme"><a href="phases/06-speech-and-audio/11-real-time-audio-processing/docs/tr.md"><span>Gerçek Zamanlı Ses İşleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sesli asistan boru hattı oluşturun — aşama 6 bitirme taşı"><a href="phases/06-speech-and-audio/12-voice-assistant-pipeline/docs/tr.md"><span>Sesli Asistan Boru Hattı Oluşturun — Aşama 6 Bitirme Taşı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="nöral ses codec bileşenleri — encodec, snac, mimi, dac ve anlamsal-akustik ayrım"><a href="phases/06-speech-and-audio/13-neural-audio-codecs/docs/tr.md"><span>Nöral Ses Codec Bileşenleri — EnCodec, SNAC, Mimi, DAC ve Anlamsal-Akustik Ayrım</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses etkinliği algılama ve sıra alma — silero, cobra ve flush trick"><a href="phases/06-speech-and-audio/14-voice-activity-detection-turn-taking/docs/tr.md"><span>Ses Etkinliği Algılama ve Sıra Alma — Silero, Cobra ve Flush Trick</span><span aria-hidden="true">↗</span></a></li><li data-lesson="konuşmadan konuşmaya akış — moshi, hibiki ve tam çift yönlü diyalog"><a href="phases/06-speech-and-audio/15-streaming-speech-to-speech-moshi-hibiki/docs/tr.md"><span>Konuşmadan Konuşmaya Akış — Moshi, Hibiki ve Tam Çift Yönlü Diyalog</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses sahtekarlığına karşı koruma ve ses filigranı — asvspoof 5, audioseal, waveverify"><a href="phases/06-speech-and-audio/16-anti-spoofing-audio-watermarking/docs/tr.md"><span>Ses Sahtekarlığına Karşı Koruma ve Ses Filigranı — ASVspoof 5, AudioSeal, WaveVerify</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses değerlendirmesi — wer, mos, utmos, mmau, fad ve açık skor tabloları"><a href="phases/06-speech-and-audio/17-audio-evaluation-metrics/docs/tr.md"><span>Ses Değerlendirmesi — WER, MOS, UTMOS, MMAU, FAD ve Açık Skor Tabloları</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 7: transformer&#x27;ları derinlemesine i̇nceleme"><summary><span class="phase-no">08</span><span class="phase-title">Aşama 7: Transformer&#x27;ları Derinlemesine İnceleme</span><span class="phase-count">16 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="neden transformer&#x27;ler — rnn&#x27;lerle i̇lgili sorunlar"><a href="phases/07-transformers-deep-dive/01-why-transformers/docs/tr.md"><span>Neden Transformer&#x27;ler — RNN&#x27;lerle İlgili Sorunlar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfırdan self-attention"><a href="phases/07-transformers-deep-dive/02-self-attention-from-scratch/docs/tr.md"><span>Sıfırdan Self-Attention</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çok kafalı dikkat"><a href="phases/07-transformers-deep-dive/03-multi-head-attention/docs/tr.md"><span>Çok Kafalı Dikkat</span><span aria-hidden="true">↗</span></a></li><li data-lesson="konumsal kodlama — sinüzoidal, rope, alibi"><a href="phases/07-transformers-deep-dive/04-positional-encoding/docs/tr.md"><span>Konumsal Kodlama — Sinüzoidal, RoPE, ALiBi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="tam transformer — kodlayıcı + kod çözücü"><a href="phases/07-transformers-deep-dive/05-full-transformer/docs/tr.md"><span>Tam Transformer — Kodlayıcı + Kod Çözücü</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bert — maskeli dil modellemesi"><a href="phases/07-transformers-deep-dive/06-bert-masked-language-modeling/docs/tr.md"><span>BERT — Maskeli Dil Modellemesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gpt — nedensel dil modellemesi"><a href="phases/07-transformers-deep-dive/07-gpt-causal-language-modeling/docs/tr.md"><span>GPT — Nedensel Dil Modellemesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="t5, bart — kodlayıcı-kod çözücü modelleri"><a href="phases/07-transformers-deep-dive/08-t5-bart-encoder-decoder/docs/tr.md"><span>T5, BART — Kodlayıcı-Kod Çözücü Modelleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="vizyon transformer&#x27;lar (vit)"><a href="phases/07-transformers-deep-dive/09-vision-transformers/docs/tr.md"><span>Vizyon Transformer&#x27;lar (ViT)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses transformer&#x27;ler — fısıltı mimarisi"><a href="phases/07-transformers-deep-dive/10-audio-transformers-whisper/docs/tr.md"><span>Ses Transformer&#x27;ler — Fısıltı Mimarisi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="uzmanlar karması (meb)"><a href="phases/07-transformers-deep-dive/11-mixture-of-experts/docs/tr.md"><span>Uzmanlar Karması (MEB)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kv önbellek, flash dikkati ve inference optimizasyonu"><a href="phases/07-transformers-deep-dive/12-kv-cache-flash-attention/docs/tr.md"><span>KV Önbellek, Flash Dikkati ve Inference Optimizasyonu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ölçekleme kanunları"><a href="phases/07-transformers-deep-dive/13-scaling-laws/docs/tr.md"><span>Ölçekleme Kanunları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfırdan bir transformer oluşturun — bitirme taşı"><a href="phases/07-transformers-deep-dive/14-build-a-transformer-capstone/docs/tr.md"><span>Sıfırdan bir Transformer oluşturun — Bitirme Taşı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="dikkat çeşitleri — kayar pencere, seyrek, diferansiyel"><a href="phases/07-transformers-deep-dive/15-attention-variants/docs/tr.md"><span>Dikkat Çeşitleri — Kayar Pencere, Seyrek, Diferansiyel</span><span aria-hidden="true">↗</span></a></li><li data-lesson="spekülatif kod çözme — taslak, doğrulama, tekrarlama"><a href="phases/07-transformers-deep-dive/16-speculative-decoding/docs/tr.md"><span>Spekülatif Kod Çözme — Taslak, Doğrulama, Tekrarlama</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 8: üretken yapay zeka"><summary><span class="phase-no">09</span><span class="phase-title">Aşama 8: Üretken Yapay Zeka</span><span class="phase-count">15 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="üretken modeller — taksonomi ve tarih"><a href="phases/08-generative-ai/01-generative-models-taxonomy-history/docs/tr.md"><span>Üretken Modeller — Taksonomi ve Tarih</span><span aria-hidden="true">↗</span></a></li><li data-lesson="otomatik kodlayıcılar ve değişken otomatik kodlayıcılar (vae)"><a href="phases/08-generative-ai/02-autoencoders-vae/docs/tr.md"><span>Otomatik Kodlayıcılar ve Değişken Otomatik Kodlayıcılar (VAE)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gan&#x27;lar — jeneratör ve ayırıcı"><a href="phases/08-generative-ai/03-gans-generator-discriminator/docs/tr.md"><span>GAN&#x27;lar — Jeneratör ve Ayırıcı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="koşullu gan&#x27;lar ve pix2pix"><a href="phases/08-generative-ai/04-conditional-gans-pix2pix/docs/tr.md"><span>Koşullu GAN&#x27;lar ve Pix2Pix</span><span aria-hidden="true">↗</span></a></li><li data-lesson="stylegan"><a href="phases/08-generative-ai/05-stylegan/docs/tr.md"><span>StyleGAN</span><span aria-hidden="true">↗</span></a></li><li data-lesson="difüzyon modelleri — sıfırdan ddpm"><a href="phases/08-generative-ai/06-diffusion-ddpm-from-scratch/docs/tr.md"><span>Difüzyon Modelleri — Sıfırdan DDPM</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gizli difüzyon ve kararlı difüzyon"><a href="phases/08-generative-ai/07-latent-diffusion-stable-diffusion/docs/tr.md"><span>Gizli Difüzyon ve Kararlı Difüzyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="controlnet, lora ve koşullandırma"><a href="phases/08-generative-ai/08-controlnet-lora-conditioning/docs/tr.md"><span>ControlNet, LoRA ve Koşullandırma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="i̇ç boyama, dış boyama ve görüntü düzenleme"><a href="phases/08-generative-ai/09-inpainting-outpainting-editing/docs/tr.md"><span>İç Boyama, Dış Boyama ve Görüntü Düzenleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="video oluşturma"><a href="phases/08-generative-ai/10-video-generation/docs/tr.md"><span>Video Oluşturma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses üretimi"><a href="phases/08-generative-ai/11-audio-generation/docs/tr.md"><span>Ses Üretimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="3d nesil"><a href="phases/08-generative-ai/12-3d-generation/docs/tr.md"><span>3D Nesil</span><span aria-hidden="true">↗</span></a></li><li data-lesson="akış eşleştirme ve düzeltilmiş akışlar"><a href="phases/08-generative-ai/13-flow-matching-rectified-flows/docs/tr.md"><span>Akış Eşleştirme ve Düzeltilmiş Akışlar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="değerlendirme — fid, clip puanı, i̇nsan tercihi"><a href="phases/08-generative-ai/14-evaluation-fid-clip-score/docs/tr.md"><span>Değerlendirme — FID, CLIP Puanı, İnsan Tercihi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="görsel otoregresif modelleme (var): sonraki ölçek tahmini"><a href="phases/08-generative-ai/19-visual-autoregressive-var/docs/tr.md"><span>Görsel Otoregresif Modelleme (VAR): Sonraki Ölçek Tahmini</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 9: takviyeli öğrenme"><summary><span class="phase-no">10</span><span class="phase-title">Aşama 9: Takviyeli Öğrenme</span><span class="phase-count">12 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="mdp&#x27;ler, eyaletler, eylemler ve ödüller"><a href="phases/09-reinforcement-learning/01-mdps-states-actions-rewards/docs/tr.md"><span>MDP&#x27;ler, Eyaletler, Eylemler ve Ödüller</span><span aria-hidden="true">↗</span></a></li><li data-lesson="dinamik programlama — politika yinelemesi ve değer yinelemesi"><a href="phases/09-reinforcement-learning/02-dynamic-programming/docs/tr.md"><span>Dinamik Programlama — Politika Yinelemesi ve Değer Yinelemesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="monte carlo yöntemleri — bütün bölümlerden öğrenmek"><a href="phases/09-reinforcement-learning/03-monte-carlo-methods/docs/tr.md"><span>Monte Carlo Yöntemleri — Bütün Bölümlerden Öğrenmek</span><span aria-hidden="true">↗</span></a></li><li data-lesson="zamansal fark — q-öğrenim ve sarsa"><a href="phases/09-reinforcement-learning/04-q-learning-sarsa/docs/tr.md"><span>Zamansal Fark — Q-Öğrenim ve SARSA</span><span aria-hidden="true">↗</span></a></li><li data-lesson="derin q-ağları (dqn)"><a href="phases/09-reinforcement-learning/05-dqn/docs/tr.md"><span>Derin Q-Ağları (DQN)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="politika gradient — sıfırdan güçlendi̇rme"><a href="phases/09-reinforcement-learning/06-policy-gradients-reinforce/docs/tr.md"><span>Politika Gradient — Sıfırdan GÜÇLENDİRME</span><span aria-hidden="true">↗</span></a></li><li data-lesson="aktör-eleştirmen — a2c ve a3c"><a href="phases/09-reinforcement-learning/07-actor-critic-a2c-a3c/docs/tr.md"><span>Aktör-Eleştirmen — A2C ve A3C</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yakınsal politika optimizasyonu (ppo)"><a href="phases/09-reinforcement-learning/08-ppo/docs/tr.md"><span>Yakınsal Politika Optimizasyonu (PPO)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ödül modelleme ve rlhf"><a href="phases/09-reinforcement-learning/09-reward-modeling-rlhf/docs/tr.md"><span>Ödül Modelleme ve RLHF</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çoklu agent rl"><a href="phases/09-reinforcement-learning/10-multi-agent-rl/docs/tr.md"><span>Çoklu Agent RL</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sim&#x27;den gerçeğe aktarım"><a href="phases/09-reinforcement-learning/11-sim-to-real-transfer/docs/tr.md"><span>Sim&#x27;den Gerçeğe Aktarım</span><span aria-hidden="true">↗</span></a></li><li data-lesson="oyunlar için rl — alphazero, muzero ve llm-akıl yürütme çağı"><a href="phases/09-reinforcement-learning/12-rl-for-games/docs/tr.md"><span>Oyunlar için RL — AlphaZero, MuZero ve LLM-Akıl Yürütme Çağı</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 10: sıfırdan yüksek lisans"><summary><span class="phase-no">11</span><span class="phase-title">Aşama 10: Sıfırdan Yüksek Lisans</span><span class="phase-count">24 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="tokenizer&#x27;ler: bpe, wordpiece, sentencepiece"><a href="phases/10-llms-from-scratch/01-tokenizers/docs/tr.md"><span>Tokenizer&#x27;ler: BPE, WordPiece, SentencePiece</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfırdan bir tokenizer oluşturmak"><a href="phases/10-llms-from-scratch/02-building-a-tokenizer/docs/tr.md"><span>Sıfırdan bir Tokenizer oluşturmak</span><span aria-hidden="true">↗</span></a></li><li data-lesson="eğitim öncesi için veri i̇şlem hatları"><a href="phases/10-llms-from-scratch/03-data-pipelines/docs/tr.md"><span>Eğitim Öncesi için Veri İşlem Hatları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mini gpt&#x27;nin ön eğitimi (124m parametreleri)"><a href="phases/10-llms-from-scratch/04-pre-training-mini-gpt/docs/tr.md"><span>Mini GPT&#x27;nin Ön Eğitimi (124M Parametreleri)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ölçeklendirme: dağıtılmış eğitim, fsdp, deepspeed"><a href="phases/10-llms-from-scratch/05-scaling-distributed/docs/tr.md"><span>Ölçeklendirme: Dağıtılmış Eğitim, FSDP, DeepSpeed</span><span aria-hidden="true">↗</span></a></li><li data-lesson="talimat ayarlama (sft)"><a href="phases/10-llms-from-scratch/06-instruction-tuning-sft/docs/tr.md"><span>Talimat Ayarlama (SFT)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="rlhf: ödül modeli + ppo"><a href="phases/10-llms-from-scratch/07-rlhf/docs/tr.md"><span>RLHF: Ödül Modeli + PPO</span><span aria-hidden="true">↗</span></a></li><li data-lesson="dpo: doğrudan tercih optimizasyonu"><a href="phases/10-llms-from-scratch/08-dpo/docs/tr.md"><span>DPO: Doğrudan Tercih Optimizasyonu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="anayasal yapay zeka ve kişisel gelişim"><a href="phases/10-llms-from-scratch/09-constitutional-ai-self-improvement/docs/tr.md"><span>Anayasal Yapay Zeka ve Kişisel Gelişim</span><span aria-hidden="true">↗</span></a></li><li data-lesson="değerlendirme: benchmark&#x27;ler, evals, lm harness"><a href="phases/10-llms-from-scratch/10-evaluation/docs/tr.md"><span>Değerlendirme: Benchmark&#x27;ler, Evals, LM Harness</span><span aria-hidden="true">↗</span></a></li><li data-lesson="niceleme: modelleri uygun hale getirme"><a href="phases/10-llms-from-scratch/11-quantization/docs/tr.md"><span>Niceleme: Modelleri Uygun Hale Getirme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="inference optimizasyon"><a href="phases/10-llms-from-scratch/12-inference-optimization/docs/tr.md"><span>Inference Optimizasyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="eksiksiz bir llm boru hattı oluşturmak"><a href="phases/10-llms-from-scratch/13-building-complete-llm-pipeline/docs/tr.md"><span>Eksiksiz bir LLM Boru Hattı Oluşturmak</span><span aria-hidden="true">↗</span></a></li><li data-lesson="açık modeller: mimari çözüm yolları"><a href="phases/10-llms-from-scratch/14-open-models-architecture-walkthroughs/docs/tr.md"><span>Açık Modeller: Mimari Çözüm Yolları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="spekülatif kod çözme ve eagle-3"><a href="phases/10-llms-from-scratch/15-speculative-decoding-eagle3/docs/tr.md"><span>Spekülatif Kod Çözme ve EAGLE-3</span><span aria-hidden="true">↗</span></a></li><li data-lesson="diferansiyel dikkat (v2)"><a href="phases/10-llms-from-scratch/16-differential-attention-v2/docs/tr.md"><span>Diferansiyel Dikkat (V2)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yerli seyrek dikkat (deepseek nsa)"><a href="phases/10-llms-from-scratch/17-native-sparse-attention/docs/tr.md"><span>Yerli Seyrek Dikkat (DeepSeek NSA)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çoklu token tahmini (mtp)"><a href="phases/10-llms-from-scratch/18-multi-token-prediction/docs/tr.md"><span>Çoklu Token Tahmini (MTP)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çift boru paralelliği"><a href="phases/10-llms-from-scratch/19-dualpipe-parallelism/docs/tr.md"><span>Çift Boru Paralelliği</span><span aria-hidden="true">↗</span></a></li><li data-lesson="deepseek-v3 mimarisi çözüm yolu"><a href="phases/10-llms-from-scratch/20-deepseek-v3-walkthrough/docs/tr.md"><span>DeepSeek-V3 Mimarisi Çözüm Yolu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="jamba — hibrit ssm-transformer"><a href="phases/10-llms-from-scratch/21-jamba-hybrid-ssm-transformer/docs/tr.md"><span>Jamba — Hibrit SSM-Transformer</span><span aria-hidden="true">↗</span></a></li><li data-lesson="asenkron ve hogwild! inference"><a href="phases/10-llms-from-scratch/22-async-hogwild-inference/docs/tr.md"><span>Asenkron ve Hogwild! Inference</span><span aria-hidden="true">↗</span></a></li><li data-lesson="spekülatif kod çözme ve kartal"><a href="phases/10-llms-from-scratch/25-speculative-decoding/docs/tr.md"><span>Spekülatif Kod Çözme ve KARTAL</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gradient kontrol noktalama ve aktivasyon yeniden hesaplaması"><a href="phases/10-llms-from-scratch/34-gradient-checkpointing/docs/tr.md"><span>Gradient Kontrol Noktalama ve Aktivasyon Yeniden Hesaplaması</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 11: yüksek lisans mühendisliği"><summary><span class="phase-no">12</span><span class="phase-title">Aşama 11: Yüksek Lisans Mühendisliği</span><span class="phase-count">17 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="prompt mühendislik: teknikler ve desenler"><a href="phases/11-llm-engineering/01-prompt-engineering/docs/tr.md"><span>Prompt Mühendislik: Teknikler ve Desenler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="birkaç atış, düşünce zinciri, düşünce ağacı"><a href="phases/11-llm-engineering/02-few-shot-cot/docs/tr.md"><span>Birkaç Atış, Düşünce Zinciri, Düşünce Ağacı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yapılandırılmış çıkışlar: json, şema doğrulaması, kısıtlı kod çözme"><a href="phases/11-llm-engineering/03-structured-outputs/docs/tr.md"><span>Yapılandırılmış Çıkışlar: JSON, Şema Doğrulaması, Kısıtlı Kod Çözme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="embedding&#x27;ler ve vektör gösterimleri"><a href="phases/11-llm-engineering/04-embeddings/docs/tr.md"><span>Embedding&#x27;ler ve Vektör Gösterimleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bağlam mühendisliği: windows, bütçeler, bellek ve erişim"><a href="phases/11-llm-engineering/05-context-engineering/docs/tr.md"><span>Bağlam Mühendisliği: Windows, Bütçeler, Bellek ve Erişim</span><span aria-hidden="true">↗</span></a></li><li data-lesson="rag (geri alma-artırılmış nesil)"><a href="phases/11-llm-engineering/06-rag/docs/tr.md"><span>RAG (Geri Alma-Artırılmış Nesil)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gelişmiş rag (parçalama, yeniden sıralama, hibrit arama)"><a href="phases/11-llm-engineering/07-advanced-rag/docs/tr.md"><span>Gelişmiş RAG (Parçalama, Yeniden Sıralama, Hibrit Arama)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="lora ve qlora ile fine-tuning"><a href="phases/11-llm-engineering/08-fine-tuning-lora/docs/tr.md"><span>LoRA ve QLoRA ile Fine-Tuning</span><span aria-hidden="true">↗</span></a></li><li data-lesson="i̇şlev çağırma ve araç kullanımı"><a href="phases/11-llm-engineering/09-function-calling/docs/tr.md"><span>İşlev Çağırma ve Araç Kullanımı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llm başvurularını değerlendirme ve test etme"><a href="phases/11-llm-engineering/10-evaluation/docs/tr.md"><span>LLM Başvurularını Değerlendirme ve Test Etme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="önbelleğe alma, hız sınırlama ve maliyet optimizasyonu"><a href="phases/11-llm-engineering/11-caching-cost/docs/tr.md"><span>Önbelleğe Alma, Hız Sınırlama ve Maliyet Optimizasyonu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="korkuluklar, güvenlik ve i̇çerik filtreleme"><a href="phases/11-llm-engineering/12-guardrails/docs/tr.md"><span>Korkuluklar, Güvenlik ve İçerik Filtreleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="üretim yüksek lisans başvurusu oluşturma"><a href="phases/11-llm-engineering/13-production-app/docs/tr.md"><span>Üretim Yüksek Lisans Başvurusu Oluşturma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="model bağlam protokolü (mcp)"><a href="phases/11-llm-engineering/14-model-context-protocol/docs/tr.md"><span>Model Bağlam Protokolü (MCP)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="prompt önbelleğe alma ve bağlam önbelleğe alma"><a href="phases/11-llm-engineering/15-prompt-caching/docs/tr.md"><span>Prompt Önbelleğe Alma ve Bağlam Önbelleğe Alma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent durum makineleri — grafikler, düğümler, kontrol noktaları"><a href="phases/11-llm-engineering/16-langgraph-state-machines/docs/tr.md"><span>Agent Durum Makineleri — Grafikler, Düğümler, Kontrol Noktaları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent framework takaslar — grafik, rol ve aktör düzenlemesi"><a href="phases/11-llm-engineering/17-agent-framework-tradeoffs/docs/tr.md"><span>Agent Framework Takaslar — Grafik, Rol ve Aktör Düzenlemesi</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 12: çok modlu yapay zeka"><summary><span class="phase-no">13</span><span class="phase-title">Aşama 12: Çok Modlu Yapay Zeka</span><span class="phase-count">25 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="vision transformer&#x27;ler ve patch-token primitive"><a href="phases/12-multimodal-ai/01-vision-transformer-patch-tokens/docs/tr.md"><span>Vision Transformer&#x27;ler ve Patch-Token Primitive</span><span aria-hidden="true">↗</span></a></li><li data-lesson="clip ve karşılaştırmalı görme-dil ön eğitimi"><a href="phases/12-multimodal-ai/02-clip-contrastive-pretraining/docs/tr.md"><span>CLIP ve Karşılaştırmalı Görme-Dil Ön Eğitimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="clip&#x27;ten blip-2&#x27;ye — modalite köprüsü olarak q-former"><a href="phases/12-multimodal-ai/03-blip2-qformer-bridge/docs/tr.md"><span>CLIP&#x27;ten BLIP-2&#x27;ye — Modalite Köprüsü olarak Q-Former</span><span aria-hidden="true">↗</span></a></li><li data-lesson="birkaç çekimli vlm&#x27;ler için flamingo ve kapılı çapraz dikkat"><a href="phases/12-multimodal-ai/04-flamingo-gated-cross-attention/docs/tr.md"><span>Birkaç Çekimli VLM&#x27;ler için Flamingo ve Kapılı Çapraz Dikkat</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llava ve görsel talimat ayarlama"><a href="phases/12-multimodal-ai/05-llava-visual-instruction-tuning/docs/tr.md"><span>LLaVA ve Görsel Talimat Ayarlama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="herhangi bir çözünürlük vizyonu: patch-n&#x27;-pack ve naflex"><a href="phases/12-multimodal-ai/06-any-resolution-patch-n-pack/docs/tr.md"><span>Herhangi Bir Çözünürlük Vizyonu: Patch-n&#x27;-Pack ve NaFlex</span><span aria-hidden="true">↗</span></a></li><li data-lesson="açık ağırlıklı vlm tarifleri: aslında önemli olan nedir?"><a href="phases/12-multimodal-ai/07-open-weight-vlm-recipes/docs/tr.md"><span>Açık Ağırlıklı VLM Tarifleri: Aslında Önemli Olan Nedir?</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llava-onevision: tek modelde tek görüntü, çoklu görüntü, video"><a href="phases/12-multimodal-ai/08-llava-onevision-single-multi-video/docs/tr.md"><span>LLaVA-OneVision: Tek Modelde Tek Görüntü, Çoklu Görüntü, Video</span><span aria-hidden="true">↗</span></a></li><li data-lesson="qwen-vl ailesi ve dinamik fps videosu"><a href="phases/12-multimodal-ai/09-qwen-vl-family-dynamic-fps/docs/tr.md"><span>Qwen-VL Ailesi ve Dinamik FPS Videosu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="internvl3: yerel multimodal ön eğitim"><a href="phases/12-multimodal-ai/10-internvl3-native-multimodal/docs/tr.md"><span>InternVL3: Yerel Multimodal Ön Eğitim</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bukalemun ve erken füzyon token-yalnızca multimodal modeller"><a href="phases/12-multimodal-ai/11-chameleon-early-fusion-tokens/docs/tr.md"><span>Bukalemun ve Erken Füzyon Token-Yalnızca Multimodal Modeller</span><span aria-hidden="true">↗</span></a></li><li data-lesson="emu3: görüntü ve video oluşturma için sonraki token tahmini"><a href="phases/12-multimodal-ai/12-emu3-next-token-for-generation/docs/tr.md"><span>Emu3: Görüntü ve Video Oluşturma için Sonraki Token Tahmini</span><span aria-hidden="true">↗</span></a></li><li data-lesson="transfüzyon: bir transformer&#x27;de otoregresif metin + difüzyon görüntüsü"><a href="phases/12-multimodal-ai/13-transfusion-autoregressive-diffusion/docs/tr.md"><span>Transfüzyon: Bir Transformer&#x27;de Otoregresif Metin + Difüzyon Görüntüsü</span><span aria-hidden="true">↗</span></a></li><li data-lesson="show-o ve ayrık difüzyon birleşik modelleri"><a href="phases/12-multimodal-ai/14-show-o-discrete-diffusion-unified/docs/tr.md"><span>Show-o ve Ayrık Difüzyon Birleşik Modelleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="janus-pro: birleşik multimodal modeller için ayrılmış kodlayıcılar"><a href="phases/12-multimodal-ai/15-janus-pro-decoupled-encoders/docs/tr.md"><span>Janus-Pro: Birleşik Multimodal Modeller için Ayrılmış Kodlayıcılar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mio ve herhangi birinden herhangi birine akış multimodal modelleri"><a href="phases/12-multimodal-ai/16-mio-any-to-any-streaming/docs/tr.md"><span>MIO ve Herhangi Birinden Herhangi Birine Akış Multimodal Modelleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="video dili modelleri: geçici token&#x27;ler ve topraklama"><a href="phases/12-multimodal-ai/17-video-language-temporal-grounding/docs/tr.md"><span>Video Dili Modelleri: Geçici Token&#x27;ler ve Topraklama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="milyon-token bağlamında uzun video anlaması"><a href="phases/12-multimodal-ai/18-long-video-million-token/docs/tr.md"><span>Milyon-Token Bağlamında Uzun Video Anlaması</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses-dil modelleri: ses flamingo 3 arc&#x27;a fısıltı"><a href="phases/12-multimodal-ai/19-audio-language-whisper-to-af3/docs/tr.md"><span>Ses-Dil Modelleri: Ses Flamingo 3 Arc&#x27;a Fısıltı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="omni modelleri: qwen2.5-omni ve düşünen-konuşan bölünmesi"><a href="phases/12-multimodal-ai/20-omni-models-thinker-talker/docs/tr.md"><span>Omni Modelleri: Qwen2.5-Omni ve Düşünen-Konuşan Bölünmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yerleşik vla&#x27;lar: rt-2, openvla, π0, gr00t"><a href="phases/12-multimodal-ai/21-embodied-vlas-openvla-pi0-groot/docs/tr.md"><span>Yerleşik VLA&#x27;lar: RT-2, OpenVLA, π0, GR00T</span><span aria-hidden="true">↗</span></a></li><li data-lesson="belge ve diyagram anlayışı"><a href="phases/12-multimodal-ai/22-document-diagram-understanding/docs/tr.md"><span>Belge ve Diyagram Anlayışı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="colpali ve vision-native belgesi rag"><a href="phases/12-multimodal-ai/23-colpali-vision-native-rag/docs/tr.md"><span>ColPali ve Vision-Native Belgesi RAG</span><span aria-hidden="true">↗</span></a></li><li data-lesson="multimodal rag ve çapraz mod alma"><a href="phases/12-multimodal-ai/24-multimodal-rag-cross-modal/docs/tr.md"><span>Multimodal RAG ve Çapraz Mod Alma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="multimodal agent&#x27;ler ve bilgisayar kullanımı (capstone)"><a href="phases/12-multimodal-ai/25-multimodal-agents-computer-use/docs/tr.md"><span>Multimodal Agent&#x27;ler ve Bilgisayar Kullanımı (Capstone)</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 13: araçlar ve protokoller"><summary><span class="phase-no">14</span><span class="phase-title">Aşama 13: Araçlar ve Protokoller</span><span class="phase-count">23 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="araç arayüzü — agent&#x27;ler neden yapılandırılmış g/ç&#x27;ye i̇htiyaç duyar?"><a href="phases/13-tools-and-protocols/01-the-tool-interface/docs/tr.md"><span>Araç Arayüzü — Agent&#x27;ler Neden Yapılandırılmış G/Ç&#x27;ye İhtiyaç Duyar?</span><span aria-hidden="true">↗</span></a></li><li data-lesson="i̇şlev çağrısı derinlemesine i̇nceleme — openai, antropik, gemini"><a href="phases/13-tools-and-protocols/02-function-calling-deep-dive/docs/tr.md"><span>İşlev Çağrısı Derinlemesine İnceleme — OpenAI, Antropik, Gemini</span><span aria-hidden="true">↗</span></a></li><li data-lesson="paralel araç çağrıları ve araçlarla akış"><a href="phases/13-tools-and-protocols/03-parallel-and-streaming-tool-calls/docs/tr.md"><span>Paralel Araç Çağrıları ve Araçlarla Akış</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yapılandırılmış çıktı — json şeması, pydantic, zod, kısıtlı kod çözme"><a href="phases/13-tools-and-protocols/04-structured-output/docs/tr.md"><span>Yapılandırılmış Çıktı — JSON Şeması, Pydantic, Zod, Kısıtlı Kod Çözme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="araç şeması tasarımı — adlandırma, açıklamalar, parametre kısıtlamaları"><a href="phases/13-tools-and-protocols/05-tool-schema-design/docs/tr.md"><span>Araç Şeması Tasarımı — Adlandırma, Açıklamalar, Parametre Kısıtlamaları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mcp temelleri — i̇lkeller, yaşam döngüsü, json-rpc tabanı"><a href="phases/13-tools-and-protocols/06-mcp-fundamentals/docs/tr.md"><span>MCP Temelleri — İlkeller, Yaşam Döngüsü, JSON-RPC Tabanı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bir mcp sunucusu oluşturma — python + typescript sdk&#x27;ları"><a href="phases/13-tools-and-protocols/07-building-an-mcp-server/docs/tr.md"><span>Bir MCP Sunucusu Oluşturma — Python + TypeScript SDK&#x27;ları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bir mcp i̇stemcisi oluşturma — keşif, çağırma, oturum yönetimi"><a href="phases/13-tools-and-protocols/08-building-an-mcp-client/docs/tr.md"><span>Bir MCP İstemcisi Oluşturma — Keşif, Çağırma, Oturum Yönetimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mcp aktarımları — stdio ve akışkan http ve sse geçişi"><a href="phases/13-tools-and-protocols/09-mcp-transports/docs/tr.md"><span>MCP Aktarımları — stdio ve Akışkan HTTP ve SSE Geçişi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mcp kaynakları ve prompt&#x27;ler — araçların ötesinde bağlamı açığa çıkarma"><a href="phases/13-tools-and-protocols/10-mcp-resources-and-prompts/docs/tr.md"><span>MCP Kaynakları ve Prompt&#x27;ler — Araçların Ötesinde Bağlamı Açığa Çıkarma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mcp örnekleme — sunucu tarafından talep edilen llm tamamlamaları ve agent loop&#x27;ler"><a href="phases/13-tools-and-protocols/11-mcp-sampling/docs/tr.md"><span>MCP Örnekleme — Sunucu Tarafından Talep Edilen LLM Tamamlamaları ve Agent Loop&#x27;ler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kökler ve ortaya çıkarma — kapsam belirleme ve geçiş ortası kullanıcı girişi"><a href="phases/13-tools-and-protocols/12-mcp-roots-and-elicitation/docs/tr.md"><span>Kökler ve Ortaya Çıkarma — Kapsam Belirleme ve Geçiş Ortası Kullanıcı Girişi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="eşzamansız görevler (sep-1686) — uzun süreli çalışmalar için şimdi ara, daha sonra getir"><a href="phases/13-tools-and-protocols/13-mcp-async-tasks/docs/tr.md"><span>Eşzamansız Görevler (SEP-1686) — Uzun Süreli Çalışmalar için Şimdi Ara, Daha Sonra Getir</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mcp uygulamaları — `ui://` aracılığıyla etkileşimli kullanıcı arayüzü kaynakları"><a href="phases/13-tools-and-protocols/14-mcp-apps/docs/tr.md"><span>MCP Uygulamaları — `ui://` aracılığıyla Etkileşimli Kullanıcı Arayüzü Kaynakları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mcp güvenliği i — araç zehirlenmesi, halı çekme, sunucular arası gölgeleme"><a href="phases/13-tools-and-protocols/15-mcp-security-tool-poisoning/docs/tr.md"><span>MCP Güvenliği I — Araç Zehirlenmesi, Halı Çekme, Sunucular Arası Gölgeleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mcp güvenliği ii — oauth 2.1, kaynak göstergeleri, artımlı kapsamlar"><a href="phases/13-tools-and-protocols/16-mcp-security-oauth-2-1/docs/tr.md"><span>MCP Güvenliği II — OAuth 2.1, Kaynak Göstergeleri, Artımlı Kapsamlar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mcp ağ geçitleri ve kayıtlar — kurumsal kontrol düzlemleri"><a href="phases/13-tools-and-protocols/17-mcp-gateways-and-registries/docs/tr.md"><span>MCP Ağ Geçitleri ve Kayıtlar — Kurumsal Kontrol Düzlemleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="üretimde mcp kimlik doğrulaması — kayıt, jwks yenileme, hedef kitleye sabitlenmiş token&#x27;ler"><a href="phases/13-tools-and-protocols/18-mcp-auth-production/docs/tr.md"><span>Üretimde MCP Kimlik Doğrulaması — Kayıt, JWKS Yenileme, Hedef Kitleye Sabitlenmiş Token&#x27;ler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="a2a — agent&#x27;den agent&#x27;ye protokol"><a href="phases/13-tools-and-protocols/19-a2a-protocol/docs/tr.md"><span>A2A — Agent&#x27;den Agent&#x27;ye Protokol</span><span aria-hidden="true">↗</span></a></li><li data-lesson="opentelemetry genai — uçtan uca aramaları i̇zleme aracı"><a href="phases/13-tools-and-protocols/20-opentelemetry-genai/docs/tr.md"><span>OpenTelemetry GenAI — Uçtan Uca Aramaları İzleme Aracı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llm yönlendirme katmanı — litellm, openrouter, portkey"><a href="phases/13-tools-and-protocols/21-llm-routing-layer/docs/tr.md"><span>LLM Yönlendirme Katmanı — LiteLLM, OpenRouter, Portkey</span><span aria-hidden="true">↗</span></a></li><li data-lesson="beceriler ve agent sdk&#x27;ları — antropik beceriler, agents.md, openai uygulama sdk&#x27;sı"><a href="phases/13-tools-and-protocols/22-skills-and-agent-sdks/docs/tr.md"><span>Beceriler ve Agent SDK&#x27;ları — Antropik Beceriler, AGENTS.md, OpenAI Uygulama SDK&#x27;sı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone — eksiksiz bir araç ekosistemi oluşturun"><a href="phases/13-tools-and-protocols/23-capstone-tool-ecosystem/docs/tr.md"><span>Capstone — Eksiksiz bir Araç Ekosistemi Oluşturun</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 14: agent mühendislik"><summary><span class="phase-no">15</span><span class="phase-title">Aşama 14: Agent Mühendislik</span><span class="phase-count">42 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="agent loop: gözlemle, düşün, harekete geç"><a href="phases/14-agent-engineering/01-the-agent-loop/docs/tr.md"><span>Agent Loop: Gözlemle, Düşün, Harekete Geç</span><span aria-hidden="true">↗</span></a></li><li data-lesson="rewoo ve planla ve yürüt: ayrılmış planlama"><a href="phases/14-agent-engineering/02-rewoo-plan-and-execute/docs/tr.md"><span>ReWOO ve Planla ve Yürüt: Ayrılmış Planlama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yansıma: sözel takviyeli öğrenme"><a href="phases/14-agent-engineering/03-reflexion-verbal-rl/docs/tr.md"><span>Yansıma: Sözel Takviyeli Öğrenme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="düşünce ağacı ve lats: kasıtlı arama"><a href="phases/14-agent-engineering/04-tree-of-thoughts-lats/docs/tr.md"><span>Düşünce Ağacı ve LATS: Kasıtlı Arama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kendini geliştirme ve eleşti̇rme: yinelemeli çıktı i̇yileştirmesi"><a href="phases/14-agent-engineering/05-self-refine-and-critic/docs/tr.md"><span>Kendini Geliştirme ve ELEŞTİRME: Yinelemeli Çıktı İyileştirmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="araç kullanımı ve i̇şlev çağırma"><a href="phases/14-agent-engineering/06-tool-use-and-function-calling/docs/tr.md"><span>Araç Kullanımı ve İşlev Çağırma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent bellek — sanal bağlam ve bellek sayfalama"><a href="phases/14-agent-engineering/07-memory-virtual-context-memgpt/docs/tr.md"><span>Agent Bellek — Sanal Bağlam ve Bellek Sayfalama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bellek blokları ve uyku süresi hesaplaması"><a href="phases/14-agent-engineering/08-memory-blocks-sleep-time-compute/docs/tr.md"><span>Bellek Blokları ve Uyku Süresi Hesaplaması</span><span aria-hidden="true">↗</span></a></li><li data-lesson="hibrit bellek: vektör + grafik + kv"><a href="phases/14-agent-engineering/09-hybrid-memory-mem0/docs/tr.md"><span>Hibrit Bellek: Vektör + Grafik + KV</span><span aria-hidden="true">↗</span></a></li><li data-lesson="beceri kütüphaneleri ve yaşam boyu öğrenme (voyager)"><a href="phases/14-agent-engineering/10-skill-libraries-voyager/docs/tr.md"><span>Beceri Kütüphaneleri ve Yaşam Boyu Öğrenme (Voyager)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="htn ve evrimsel arama ile planlama"><a href="phases/14-agent-engineering/11-planning-htn-and-evolutionary/docs/tr.md"><span>HTN ve Evrimsel Arama ile Planlama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="anthropic&#x27;in i̇ş akışı modelleri: karmaşık yerine basit"><a href="phases/14-agent-engineering/12-anthropic-workflow-patterns/docs/tr.md"><span>Anthropic&#x27;in İş Akışı Modelleri: Karmaşık Yerine Basit</span><span aria-hidden="true">↗</span></a></li><li data-lesson="durum bilgili grafik düzenleme — dayanıklı yürütme ve kontrol noktaları"><a href="phases/14-agent-engineering/13-langgraph-stateful-graphs/docs/tr.md"><span>Durum Bilgili Grafik Düzenleme — Dayanıklı Yürütme ve Kontrol Noktaları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent&#x27;ler için aktör modeli — zaman uyumsuz mesajlar ve yazılan çalışma zamanları"><a href="phases/14-agent-engineering/14-autogen-actor-model/docs/tr.md"><span>Agent&#x27;ler için Aktör Modeli — Zaman Uyumsuz Mesajlar ve Yazılan Çalışma Zamanları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="rol tabanlı agent takımları — roller, görevler, süreçler"><a href="phases/14-agent-engineering/15-crewai-role-based-crews/docs/tr.md"><span>Rol Tabanlı Agent Takımları — Roller, Görevler, Süreçler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="openai agent sdk&#x27;sı: aktarma, korkuluklar, i̇zleme"><a href="phases/14-agent-engineering/16-openai-agents-sdk/docs/tr.md"><span>OpenAI Agent SDK&#x27;sı: Aktarma, Korkuluklar, İzleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bir kütüphane olarak harness — subagents ve oturum mağazası"><a href="phases/14-agent-engineering/17-claude-agent-sdk/docs/tr.md"><span>Bir Kütüphane Olarak Harness — Subagents ve Oturum Mağazası</span><span aria-hidden="true">↗</span></a></li><li data-lesson="üretim agent çalışma zamanları — hızlı örnekleme ve yazılan i̇ş akışları"><a href="phases/14-agent-engineering/18-agno-and-mastra-runtimes/docs/tr.md"><span>Üretim Agent Çalışma Zamanları — Hızlı Örnekleme ve Yazılan İş Akışları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="benchmark&#x27;ler: swe tezgahı, gaia, agentbench"><a href="phases/14-agent-engineering/19-benchmarks-swebench-gaia/docs/tr.md"><span>Benchmark&#x27;ler: SWE tezgahı, GAIA, AgentBench</span><span aria-hidden="true">↗</span></a></li><li data-lesson="benchmark&#x27;ler: webarena ve osworld"><a href="phases/14-agent-engineering/20-benchmarks-webarena-osworld/docs/tr.md"><span>Benchmark&#x27;ler: WebArena ve OSWorld</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bilgisayar kullanımı: claude, openai cua, gemini"><a href="phases/14-agent-engineering/21-computer-use-agents/docs/tr.md"><span>Bilgisayar Kullanımı: Claude, OpenAI CUA, Gemini</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ses agent&#x27;ler: pipecat ve livekit"><a href="phases/14-agent-engineering/22-voice-agents-pipecat-livekit/docs/tr.md"><span>Ses Agent&#x27;ler: Pipecat ve LiveKit</span><span aria-hidden="true">↗</span></a></li><li data-lesson="opentelemetry genai anlamsal kuralları"><a href="phases/14-agent-engineering/23-otel-genai-conventions/docs/tr.md"><span>OpenTelemetry GenAI Anlamsal Kuralları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent observability: langfuse, phoenix, opik"><a href="phases/14-agent-engineering/24-agent-observability-platforms/docs/tr.md"><span>Agent Observability: Langfuse, Phoenix, Opik</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çoklu agent tartışma ve i̇şbirliği"><a href="phases/14-agent-engineering/25-multi-agent-debate/docs/tr.md"><span>Çoklu Agent Tartışma ve İşbirliği</span><span aria-hidden="true">↗</span></a></li><li data-lesson="arıza modları: neden agent&#x27;ler kırılıyor?"><a href="phases/14-agent-engineering/26-failure-modes-agentic/docs/tr.md"><span>Arıza Modları: Neden Agent&#x27;ler Kırılıyor?</span><span aria-hidden="true">↗</span></a></li><li data-lesson="prompt enjeksiyon ve pve savunması"><a href="phases/14-agent-engineering/27-prompt-injection-defense/docs/tr.md"><span>Prompt Enjeksiyon ve PVE Savunması</span><span aria-hidden="true">↗</span></a></li><li data-lesson="düzenleme kalıpları: denetleyici, swarm, hiyerarşik"><a href="phases/14-agent-engineering/28-orchestration-patterns/docs/tr.md"><span>Düzenleme Kalıpları: Denetleyici, Swarm, Hiyerarşik</span><span aria-hidden="true">↗</span></a></li><li data-lesson="üretim çalışma zamanları: kuyruk, etkinlik, cron"><a href="phases/14-agent-engineering/29-production-runtimes/docs/tr.md"><span>Üretim Çalışma Zamanları: Kuyruk, Etkinlik, Cron</span><span aria-hidden="true">↗</span></a></li><li data-lesson="değerlendirme odaklı agent geliştirme"><a href="phases/14-agent-engineering/30-eval-driven-agent-development/docs/tr.md"><span>Değerlendirme Odaklı Agent Geliştirme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent çalışma tezgahı mühendisliği: yetenekli modeller neden hala başarısız?"><a href="phases/14-agent-engineering/31-agent-workbench-why-models-fail/docs/tr.md"><span>Agent Çalışma Tezgahı Mühendisliği: Yetenekli Modeller Neden Hala Başarısız?</span><span aria-hidden="true">↗</span></a></li><li data-lesson="minimal agent çalışma tezgahı"><a href="phases/14-agent-engineering/32-minimal-agent-workbench/docs/tr.md"><span>Minimal Agent Çalışma Tezgahı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent yürütülebilir kısıtlamalar olarak talimatlar"><a href="phases/14-agent-engineering/33-instructions-as-executable-constraints/docs/tr.md"><span>Agent Yürütülebilir Kısıtlamalar Olarak Talimatlar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="repo bellek ve dayanıklı durum"><a href="phases/14-agent-engineering/34-repo-memory-and-state/docs/tr.md"><span>Repo Bellek ve Dayanıklı Durum</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent&#x27;ler için başlatma komut dosyaları"><a href="phases/14-agent-engineering/35-initialization-scripts/docs/tr.md"><span>Agent&#x27;ler için Başlatma Komut Dosyaları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kapsam sözleşmeleri ve görev sınırları"><a href="phases/14-agent-engineering/36-scope-contracts/docs/tr.md"><span>Kapsam Sözleşmeleri ve Görev Sınırları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çalışma zamanı geri bildirim döngüleri"><a href="phases/14-agent-engineering/37-runtime-feedback-loops/docs/tr.md"><span>Çalışma Zamanı Geri Bildirim Döngüleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="doğrulama kapıları"><a href="phases/14-agent-engineering/38-verification-gates/docs/tr.md"><span>Doğrulama Kapıları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="i̇nceleyen agent: oluşturucuyu i̇şaretleyiciden ayırın"><a href="phases/14-agent-engineering/39-reviewer-agent/docs/tr.md"><span>İnceleyen Agent: Oluşturucuyu İşaretleyiciden Ayırın</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çoklu oturum aktarımı"><a href="phases/14-agent-engineering/40-multi-session-handoff/docs/tr.md"><span>Çoklu Oturum Aktarımı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gerçek bir repo üzerindeki çalışma tezgahı"><a href="phases/14-agent-engineering/41-workbench-for-real-repos/docs/tr.md"><span>Gerçek Bir Repo Üzerindeki Çalışma Tezgahı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone: yeniden kullanılabilir bir agent workbench paketi gönderin"><a href="phases/14-agent-engineering/42-agent-workbench-capstone/docs/tr.md"><span>Capstone: Yeniden Kullanılabilir bir Agent Workbench Paketi Gönderin</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 15: otonom sistemler"><summary><span class="phase-no">16</span><span class="phase-title">Aşama 15: Otonom Sistemler</span><span class="phase-count">22 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="chatbotlardan uzun ufuk agent&#x27;lere geçiş"><a href="phases/15-autonomous-systems/01-long-horizon-agents/docs/tr.md"><span>Chatbotlardan Uzun Ufuk Agent&#x27;lere Geçiş</span><span aria-hidden="true">↗</span></a></li><li data-lesson="star, v-star, quiet-star — kendi kendine öğretilen akıl yürütme"><a href="phases/15-autonomous-systems/02-star-family-reasoning/docs/tr.md"><span>STAR, V-STAR, Quiet-STAR — Kendi Kendine Öğretilen Akıl Yürütme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="alphaevolve — evrimsel kodlama agents"><a href="phases/15-autonomous-systems/03-alphaevolve-evolutionary-coding/docs/tr.md"><span>AlphaEvolve — Evrimsel Kodlama Agents</span><span aria-hidden="true">↗</span></a></li><li data-lesson="darwin gödel makinesi — açık uçlu kendi kendini değiştiren agent&#x27;ler"><a href="phases/15-autonomous-systems/04-darwin-godel-machine/docs/tr.md"><span>Darwin Gödel Makinesi — Açık Uçlu Kendi Kendini Değiştiren Agent&#x27;ler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ai scientist v2 — atölye düzeyinde otonom araştırma"><a href="phases/15-autonomous-systems/05-ai-scientist-v2/docs/tr.md"><span>AI Scientist v2 — Atölye Düzeyinde Otonom Araştırma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="otomatik hizalama araştırması (antropik aar)"><a href="phases/15-autonomous-systems/06-automated-alignment-research/docs/tr.md"><span>Otomatik Hizalama Araştırması (Antropik AAR)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="özyinelemeli kişisel gelişim - yetenek ve hizalama"><a href="phases/15-autonomous-systems/07-recursive-self-improvement/docs/tr.md"><span>Özyinelemeli Kişisel Gelişim - Yetenek ve Hizalama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sınırlı kişisel gelişim tasarımları"><a href="phases/15-autonomous-systems/08-bounded-self-improvement/docs/tr.md"><span>Sınırlı Kişisel Gelişim Tasarımları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="otonom kodlama agent manzarası (2026)"><a href="phases/15-autonomous-systems/09-coding-agent-landscape/docs/tr.md"><span>Otonom Kodlama Agent Manzarası (2026)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="otonom agent&#x27;ler için i̇zin modları"><a href="phases/15-autonomous-systems/10-claude-code-permission-modes/docs/tr.md"><span>Otonom Agent&#x27;ler için İzin Modları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="tarayıcı agent&#x27;ler ve uzun ufuk web görevleri"><a href="phases/15-autonomous-systems/11-browser-agents/docs/tr.md"><span>Tarayıcı Agent&#x27;ler ve Uzun Ufuk Web Görevleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="uzun süreli arka plan agent&#x27;ler: dayanıklı yürütme"><a href="phases/15-autonomous-systems/12-durable-execution/docs/tr.md"><span>Uzun Süreli Arka Plan Agent&#x27;ler: Dayanıklı Yürütme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="eylem bütçeleri, yineleme sınırları ve maliyet düzenleyicileri"><a href="phases/15-autonomous-systems/13-cost-governors/docs/tr.md"><span>Eylem Bütçeleri, Yineleme Sınırları ve Maliyet Düzenleyicileri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="anahtarları, devre kesicileri ve kanarya token&#x27;leri kapatın"><a href="phases/15-autonomous-systems/14-kill-switches-canaries/docs/tr.md"><span>Anahtarları, Devre Kesicileri ve Kanarya Token&#x27;leri Kapatın</span><span aria-hidden="true">↗</span></a></li><li data-lesson="döngüdeki i̇nsan: öner-sonra-taahhüt et"><a href="phases/15-autonomous-systems/15-propose-then-commit/docs/tr.md"><span>Döngüdeki İnsan: Öner-Sonra-Taahhüt Et</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kontrol noktaları ve geri alma"><a href="phases/15-autonomous-systems/16-checkpoints-rollback/docs/tr.md"><span>Kontrol Noktaları ve Geri Alma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="anayasal yapay zeka ve kuralların geçersiz kılmaları"><a href="phases/15-autonomous-systems/17-constitutional-ai/docs/tr.md"><span>Anayasal Yapay Zeka ve Kuralların Geçersiz Kılmaları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llama guard ve giriş/çıkış sınıflandırması"><a href="phases/15-autonomous-systems/18-llama-guard/docs/tr.md"><span>Llama Guard ve Giriş/Çıkış Sınıflandırması</span><span aria-hidden="true">↗</span></a></li><li data-lesson="antropik sorumlu ölçeklendirme politikası v3.0"><a href="phases/15-autonomous-systems/19-anthropic-rsp/docs/tr.md"><span>Antropik Sorumlu Ölçeklendirme Politikası v3.0</span><span aria-hidden="true">↗</span></a></li><li data-lesson="openai hazırlık framework ve deepmind sınır güvenliği framework"><a href="phases/15-autonomous-systems/20-openai-preparedness-deepmind-fsf/docs/tr.md"><span>OpenAI Hazırlık Framework ve DeepMind Sınır Güvenliği Framework</span><span aria-hidden="true">↗</span></a></li><li data-lesson="metr zaman ufukları ve dış yetenek değerlendirmesi"><a href="phases/15-autonomous-systems/21-metr-external-evaluation/docs/tr.md"><span>METR Zaman Ufukları ve Dış Yetenek Değerlendirmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="cais, caisi ve toplumsal ölçekte risk"><a href="phases/15-autonomous-systems/22-cais-caisi-societal-risk/docs/tr.md"><span>CAIS, CAISI ve Toplumsal Ölçekte Risk</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 16: çoklu agent ve sürüler"><summary><span class="phase-no">17</span><span class="phase-title">Aşama 16: Çoklu Agent ve Sürüler</span><span class="phase-count">25 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="neden çoklu-agent?"><a href="phases/16-multi-agent-and-swarms/01-why-multi-agent/docs/tr.md"><span>Neden Çoklu-Agent?</span><span aria-hidden="true">↗</span></a></li><li data-lesson="fipa-acl mirası ve söz eylemleri"><a href="phases/16-multi-agent-and-swarms/02-fipa-acl-heritage/docs/tr.md"><span>FIPA-ACL Mirası ve Söz Eylemleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="i̇letişim protokolleri"><a href="phases/16-multi-agent-and-swarms/03-communication-protocols/docs/tr.md"><span>İletişim Protokolleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çoklu-agent i̇lkel model"><a href="phases/16-multi-agent-and-swarms/04-primitive-model/docs/tr.md"><span>Çoklu-Agent İlkel Model</span><span aria-hidden="true">↗</span></a></li><li data-lesson="süpervizör / orkestratör-çalışan kalıbı"><a href="phases/16-multi-agent-and-swarms/05-supervisor-orchestrator-pattern/docs/tr.md"><span>Süpervizör / Orkestratör-Çalışan Kalıbı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="hiyerarşik mimari ve başarısızlık modu"><a href="phases/16-multi-agent-and-swarms/06-hierarchical-architecture/docs/tr.md"><span>Hiyerarşik Mimari ve Başarısızlık Modu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="akıl derneği ve çoklu-agent tartışma"><a href="phases/16-multi-agent-and-swarms/07-society-of-mind-debate/docs/tr.md"><span>Akıl Derneği ve Çoklu-Agent Tartışma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="rol uzmanlığı — planlayıcı, eleştirmen, yürütücü, doğrulayıcı"><a href="phases/16-multi-agent-and-swarms/08-role-specialization/docs/tr.md"><span>Rol Uzmanlığı — Planlayıcı, Eleştirmen, Yürütücü, Doğrulayıcı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="paralel / sürü / ağ bağlantılı mimariler"><a href="phases/16-multi-agent-and-swarms/09-parallel-swarm-networks/docs/tr.md"><span>Paralel / Sürü / Ağ Bağlantılı Mimariler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="grup sohbeti ve konuşmacı seçimi"><a href="phases/16-multi-agent-and-swarms/10-group-chat-speaker-selection/docs/tr.md"><span>Grup Sohbeti ve Konuşmacı Seçimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="aktarmalar ve rutinler — durum bilgisiz düzenleme"><a href="phases/16-multi-agent-and-swarms/11-handoffs-and-routines/docs/tr.md"><span>Aktarmalar ve Rutinler — Durum Bilgisiz Düzenleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="a2a — agent-to-agent protokolü"><a href="phases/16-multi-agent-and-swarms/12-a2a-protocol/docs/tr.md"><span>A2A — Agent-to-Agent Protokolü</span><span aria-hidden="true">↗</span></a></li><li data-lesson="paylaşılan bellek ve kara tahta desenleri"><a href="phases/16-multi-agent-and-swarms/13-shared-memory-blackboard/docs/tr.md"><span>Paylaşılan Bellek ve Kara Tahta Desenleri</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent&#x27;lar için konsensüs ve bizans hata toleransı"><a href="phases/16-multi-agent-and-swarms/14-consensus-and-bft/docs/tr.md"><span>Agent&#x27;lar için Konsensüs ve Bizans Hata Toleransı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="oylama, öz tutarlılık ve tartışma topolojisi"><a href="phases/16-multi-agent-and-swarms/15-voting-debate-topology/docs/tr.md"><span>Oylama, Öz Tutarlılık ve Tartışma Topolojisi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="müzakere ve pazarlık"><a href="phases/16-multi-agent-and-swarms/16-negotiation-bargaining/docs/tr.md"><span>Müzakere ve pazarlık</span><span aria-hidden="true">↗</span></a></li><li data-lesson="üretken agent&#x27;lar ve ortaya çıkan simülasyon"><a href="phases/16-multi-agent-and-swarms/17-generative-agents-simulation/docs/tr.md"><span>Üretken Agent&#x27;lar ve Ortaya Çıkan Simülasyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="zihin teorisi ve acil koordinasyon"><a href="phases/16-multi-agent-and-swarms/18-theory-of-mind-coordination/docs/tr.md"><span>Zihin Teorisi ve Acil Koordinasyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llm&#x27;ler için swarm optimizasyonu (pso, aco)"><a href="phases/16-multi-agent-and-swarms/19-swarm-optimization-pso-aco/docs/tr.md"><span>LLM&#x27;ler için Swarm Optimizasyonu (PSO, ACO)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="marl — maddpg, qmix, mappo"><a href="phases/16-multi-agent-and-swarms/20-marl-maddpg-qmix-mappo/docs/tr.md"><span>MARL — MADDPG, QMIX, MAPPO</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent ekonomi, token teşvik, i̇tibar"><a href="phases/16-multi-agent-and-swarms/21-agent-economies/docs/tr.md"><span>Agent Ekonomi, Token Teşvik, İtibar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="üretim ölçeklendirmesi — kuyruklar, kontrol noktaları, dayanıklılık"><a href="phases/16-multi-agent-and-swarms/22-production-scaling-queues-checkpoints/docs/tr.md"><span>Üretim Ölçeklendirmesi — Kuyruklar, Kontrol Noktaları, Dayanıklılık</span><span aria-hidden="true">↗</span></a></li><li data-lesson="başarısızlık modları — mast, grup düşüncesi, monokültür, basamaklı hatalar"><a href="phases/16-multi-agent-and-swarms/23-failure-modes-mast-groupthink/docs/tr.md"><span>Başarısızlık Modları — MAST, Grup Düşüncesi, Monokültür, Basamaklı Hatalar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="değerlendirme ve koordinasyon benchmark&#x27;lar"><a href="phases/16-multi-agent-and-swarms/24-evaluation-coordination-benchmarks/docs/tr.md"><span>Değerlendirme ve Koordinasyon Benchmark&#x27;lar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="vaka çalışmaları ve 2026&#x27;nın son durumu"><a href="phases/16-multi-agent-and-swarms/25-case-studies-2026-sota/docs/tr.md"><span>Vaka Çalışmaları ve 2026&#x27;nın Son Durumu</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 17: altyapı ve üretim"><summary><span class="phase-no">18</span><span class="phase-title">Aşama 17: Altyapı ve Üretim</span><span class="phase-count">28 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="yönetilen yüksek lisans platformları — bedrock, vertex ai, azure openai"><a href="phases/17-infrastructure-and-production/01-managed-llm-platforms/docs/tr.md"><span>Yönetilen Yüksek Lisans Platformları — Bedrock, Vertex AI, Azure OpenAI</span><span aria-hidden="true">↗</span></a></li><li data-lesson="inference platform ekonomisi — havai fişek, birlikte, baseten, modal, replika, her ölçekte"><a href="phases/17-infrastructure-and-production/02-inference-platform-economics/docs/tr.md"><span>Inference Platform Ekonomisi — Havai Fişek, Birlikte, Baseten, Modal, Replika, Her Ölçekte</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kubernetes&#x27;te gpu otomatik ölçeklendirme — karpenter, kai scheduler, gang scheduling"><a href="phases/17-infrastructure-and-production/03-gpu-autoscaling-kubernetes/docs/tr.md"><span>Kubernetes&#x27;te GPU Otomatik Ölçeklendirme — Karpenter, KAI Scheduler, Gang Scheduling</span><span aria-hidden="true">↗</span></a></li><li data-lesson="motorun i̇ç parçalarına hizmet verme — pagedattention, sürekli gruplama, parçalı önceden doldurma"><a href="phases/17-infrastructure-and-production/04-vllm-serving-internals/docs/tr.md"><span>Motorun İç Parçalarına Hizmet Verme — PagedAttention, Sürekli Gruplama, Parçalı Önceden Doldurma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="eagle-3 üretimde spekülatif kod çözme"><a href="phases/17-infrastructure-and-production/05-eagle3-speculative-decoding/docs/tr.md"><span>EAGLE-3 Üretimde Spekülatif Kod Çözme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="önek-önbellek sunumu — radixattention ve kv&#x27;nin yeniden kullanımı"><a href="phases/17-infrastructure-and-production/06-sglang-radixattention/docs/tr.md"><span>Önek-Önbellek Sunumu — RadixAttention ve KV&#x27;nin Yeniden Kullanımı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="donanıma özel inference derlemesi — blackwell&#x27;de fp8 ve nvfp4"><a href="phases/17-infrastructure-and-production/07-tensorrt-llm-blackwell/docs/tr.md"><span>Donanıma Özel Inference Derlemesi — Blackwell&#x27;de FP8 ve NVFP4</span><span aria-hidden="true">↗</span></a></li><li data-lesson="inference metrikleri — ttft, tpot, itl, goodput, p99"><a href="phases/17-infrastructure-and-production/08-inference-metrics-goodput/docs/tr.md"><span>Inference Metrikleri — TTFT, TPOT, ITL, Goodput, P99</span><span aria-hidden="true">↗</span></a></li><li data-lesson="üretim niceleme — awq, gptq, gguf k-quant&#x27;ları, fp8, mxfp4/nvfp4"><a href="phases/17-infrastructure-and-production/09-production-quantization/docs/tr.md"><span>Üretim Niceleme — AWQ, GPTQ, GGUF K-quant&#x27;ları, FP8, MXFP4/NVFP4</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sunucusuz llm&#x27;ler için soğuk başlatmanın azaltılması"><a href="phases/17-infrastructure-and-production/10-cold-start-mitigation/docs/tr.md"><span>Sunucusuz LLM&#x27;ler için Soğuk Başlatmanın Azaltılması</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çok bölgeli yüksek lisans hizmeti ve kv önbellek yerelliği"><a href="phases/17-infrastructure-and-production/11-multi-region-kv-locality/docs/tr.md"><span>Çok Bölgeli Yüksek Lisans Hizmeti ve KV Önbellek Yerelliği</span><span aria-hidden="true">↗</span></a></li><li data-lesson="edge inference — apple neural engine, qualcomm hexagon, webgpu/webllm, jetson"><a href="phases/17-infrastructure-and-production/12-edge-inference/docs/tr.md"><span>Edge Inference — Apple Neural Engine, Qualcomm Hexagon, WebGPU/WebLLM, Jetson</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llm observability yığın seçimi"><a href="phases/17-infrastructure-and-production/13-llm-observability/docs/tr.md"><span>LLM Observability Yığın Seçimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="prompt önbelleğe alma ve anlamsal önbelleğe alma ekonomisi"><a href="phases/17-infrastructure-and-production/14-prompt-semantic-caching/docs/tr.md"><span>Prompt Önbelleğe Alma ve Anlamsal Önbelleğe Alma Ekonomisi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="toplu api&#x27;ler — endüstri standardı olarak %50 i̇ndirim"><a href="phases/17-infrastructure-and-production/15-batch-apis/docs/tr.md"><span>Toplu API&#x27;ler — Endüstri Standardı Olarak %50 İndirim</span><span aria-hidden="true">↗</span></a></li><li data-lesson="maliyet azaltma i̇lkeli olarak yönlendirme modeli"><a href="phases/17-infrastructure-and-production/16-model-routing/docs/tr.md"><span>Maliyet Azaltma İlkeli Olarak Yönlendirme Modeli</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ayrıştırılmış önceden doldurma/kod çözme — nvidia dynamo ve llm-d"><a href="phases/17-infrastructure-and-production/17-disaggregated-prefill-decode/docs/tr.md"><span>Ayrıştırılmış Önceden Doldurma/Kod Çözme — NVIDIA Dynamo ve llm-d</span><span aria-hidden="true">↗</span></a></li><li data-lesson="üretim hizmet yığını — kv boşaltma ve önbelleğe duyarlı yönlendirme"><a href="phases/17-infrastructure-and-production/18-vllm-production-stack-lmcache/docs/tr.md"><span>Üretim Hizmet Yığını — KV Boşaltma ve Önbelleğe Duyarlı Yönlendirme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ai ağ geçitleri — litellm, portkey, kong ai ağ geçidi, bifrost"><a href="phases/17-infrastructure-and-production/19-ai-gateways/docs/tr.md"><span>AI Ağ Geçitleri — LiteLLM, Portkey, Kong AI Ağ Geçidi, Bifrost</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llm&#x27;ler için gölge trafiği, canary sunumu ve aşamalı deployment"><a href="phases/17-infrastructure-and-production/20-shadow-canary-progressive/docs/tr.md"><span>LLM&#x27;ler için Gölge Trafiği, Canary Sunumu ve Aşamalı Deployment</span><span aria-hidden="true">↗</span></a></li><li data-lesson="a/b testi yüksek lisans özellikleri — growthbook, statsig ve vibes problemi"><a href="phases/17-infrastructure-and-production/21-ab-testing-llm-features/docs/tr.md"><span>A/B Testi Yüksek Lisans Özellikleri — GrowthBook, Statsig ve Vibes Problemi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yük testi yüksek lisans api&#x27;leri — neden k6 ve locust lie"><a href="phases/17-infrastructure-and-production/22-load-testing-llm-apis/docs/tr.md"><span>Yük Testi Yüksek Lisans API&#x27;leri — Neden k6 ve Locust Lie</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ai için sre — çoklu agent olay müdahalesi, runbook&#x27;lar, tahmine dayalı tespit"><a href="phases/17-infrastructure-and-production/23-sre-for-ai/docs/tr.md"><span>AI için SRE — Çoklu Agent Olay Müdahalesi, Runbook&#x27;lar, Tahmine Dayalı Tespit</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yüksek lisans üretimi için kaos mühendisliği"><a href="phases/17-infrastructure-and-production/24-chaos-engineering-llm/docs/tr.md"><span>Yüksek Lisans Üretimi için Kaos Mühendisliği</span><span aria-hidden="true">↗</span></a></li><li data-lesson="güvenlik — sırlar, api anahtar rotasyonu, denetim günlükleri, korkuluklar"><a href="phases/17-infrastructure-and-production/25-security-secrets-audit/docs/tr.md"><span>Güvenlik — Sırlar, API Anahtar Rotasyonu, Denetim Günlükleri, Korkuluklar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="uyumluluk — soc 2, hipaa, gdpr, pci-dss, ab ai yasası, iso 42001"><a href="phases/17-infrastructure-and-production/26-compliance-frameworks/docs/tr.md"><span>Uyumluluk — SOC 2, HIPAA, GDPR, PCI-DSS, AB AI Yasası, ISO 42001</span><span aria-hidden="true">↗</span></a></li><li data-lesson="llm&#x27;ler için finops — birim ekonomisi ve çok kiracılı i̇lişkilendirme"><a href="phases/17-infrastructure-and-production/27-finops-llms/docs/tr.md"><span>LLM&#x27;ler için FinOps — Birim Ekonomisi ve Çok Kiracılı İlişkilendirme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kendi kendine barındırılan sunum seçimi — motoru donanım ve ölçekle eşleştirme"><a href="phases/17-infrastructure-and-production/28-self-hosted-serving-selection/docs/tr.md"><span>Kendi Kendine Barındırılan Sunum Seçimi — Motoru Donanım ve Ölçekle Eşleştirme</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 18: etik, güvenlik ve uyum"><summary><span class="phase-no">19</span><span class="phase-title">Aşama 18: Etik, Güvenlik ve Uyum</span><span class="phase-count">30 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="hizalama sinyali olarak talimat takibi"><a href="phases/18-ethics-safety-alignment/01-instruction-following-alignment-signal/docs/tr.md"><span>Hizalama Sinyali Olarak Talimat Takibi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ödül hacking ve goodhart yasası"><a href="phases/18-ethics-safety-alignment/02-reward-hacking-goodhart/docs/tr.md"><span>Ödül Hacking ve Goodhart Yasası</span><span aria-hidden="true">↗</span></a></li><li data-lesson="doğrudan tercih optimizasyon ailesi"><a href="phases/18-ethics-safety-alignment/03-direct-preference-optimization-family/docs/tr.md"><span>Doğrudan Tercih Optimizasyon Ailesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="rlhf amplifikasyonu olarak dalkavukluk"><a href="phases/18-ethics-safety-alignment/04-sycophancy-rlhf-amplification/docs/tr.md"><span>RLHF Amplifikasyonu Olarak Dalkavukluk</span><span aria-hidden="true">↗</span></a></li><li data-lesson="anayasal ai ve rlaif"><a href="phases/18-ethics-safety-alignment/05-constitutional-ai-rlaif/docs/tr.md"><span>Anayasal AI ve RLAIF</span><span aria-hidden="true">↗</span></a></li><li data-lesson="mesa-optimizasyon ve yanıltıcı hizalama"><a href="phases/18-ethics-safety-alignment/06-mesa-optimization-deceptive-alignment/docs/tr.md"><span>Mesa-Optimizasyon ve Yanıltıcı Hizalama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="uyuyan agent&#x27;lar — sürekli aldatma"><a href="phases/18-ethics-safety-alignment/07-sleeper-agents-persistent-deception/docs/tr.md"><span>Uyuyan Agent&#x27;lar — Sürekli Aldatma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sınır modellerinde bağlam i̇çi planlama"><a href="phases/18-ethics-safety-alignment/08-in-context-scheming-frontier-models/docs/tr.md"><span>Sınır Modellerinde Bağlam İçi Planlama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="hizalama sahteciliği"><a href="phases/18-ethics-safety-alignment/09-alignment-faking/docs/tr.md"><span>Hizalama Sahteciliği</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yapay zeka kontrolü — yıkılmaya rağmen güvenlik"><a href="phases/18-ethics-safety-alignment/10-ai-control-subversion/docs/tr.md"><span>Yapay Zeka Kontrolü — Yıkılmaya Rağmen Güvenlik</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ölçeklenebilir gözetim ve zayıftan güçlüye genelleme"><a href="phases/18-ethics-safety-alignment/11-scalable-oversight-weak-to-strong/docs/tr.md"><span>Ölçeklenebilir Gözetim ve Zayıftan Güçlüye Genelleme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kırmızı takım oluşturma: eşleşti̇rme ve otomatik saldırılar"><a href="phases/18-ethics-safety-alignment/12-red-teaming-pair-automated-attacks/docs/tr.md"><span>Kırmızı Takım Oluşturma: EŞLEŞTİRME ve Otomatik Saldırılar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çok atışlı jailbreaking"><a href="phases/18-ethics-safety-alignment/13-many-shot-jailbreaking/docs/tr.md"><span>Çok Atışlı Jailbreaking</span><span aria-hidden="true">↗</span></a></li><li data-lesson="ascii sanat ve görsel jailbreak&#x27;ler"><a href="phases/18-ethics-safety-alignment/14-ascii-art-visual-jailbreaks/docs/tr.md"><span>ASCII Sanat ve Görsel Jailbreak&#x27;ler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="dolaylı prompt enjeksiyon — üretim saldırı yüzeyi"><a href="phases/18-ethics-safety-alignment/15-indirect-prompt-injection/docs/tr.md"><span>Dolaylı Prompt Enjeksiyon — Üretim Saldırı Yüzeyi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kırmızı takım takımlama — garak, llama guard, pyrrit"><a href="phases/18-ethics-safety-alignment/16-red-team-tooling-garak-llamaguard-pyrit/docs/tr.md"><span>Kırmızı Takım Takımlama — Garak, Llama Guard, PyrRIT</span><span aria-hidden="true">↗</span></a></li><li data-lesson="wmdp ve çift kullanım yeteneği değerlendirmesi"><a href="phases/18-ethics-safety-alignment/17-wmdp-dual-use-evaluation/docs/tr.md"><span>WMDP ve Çift Kullanım Yeteneği Değerlendirmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sınır güvenliği framework&#x27;ler — rsp, pf, fsf"><a href="phases/18-ethics-safety-alignment/18-frontier-safety-frameworks-rsp-pf-fsf/docs/tr.md"><span>Sınır Güvenliği Framework&#x27;ler — RSP, PF, FSF</span><span aria-hidden="true">↗</span></a></li><li data-lesson="anthropic&#x27;in model refah programı"><a href="phases/18-ethics-safety-alignment/19-model-welfare-research/docs/tr.md"><span>Anthropic&#x27;in Model Refah Programı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yüksek lisans&#x27;ta önyargı ve temsili zarar"><a href="phases/18-ethics-safety-alignment/20-bias-representational-harm/docs/tr.md"><span>Yüksek Lisans&#x27;ta Önyargı ve Temsili Zarar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="adillik kriterleri — grup, bireysel, karşı olgusal"><a href="phases/18-ethics-safety-alignment/21-fairness-criteria-group-individual-counterfactual/docs/tr.md"><span>Adillik Kriterleri — Grup, Bireysel, Karşı Olgusal</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yüksek lisans&#x27;lar için farklı gizlilik"><a href="phases/18-ethics-safety-alignment/22-differential-privacy-for-llms/docs/tr.md"><span>Yüksek Lisans&#x27;lar için Farklı Gizlilik</span><span aria-hidden="true">↗</span></a></li><li data-lesson="filigran ekleme — synthid, kararlı i̇mza, c2pa"><a href="phases/18-ethics-safety-alignment/23-watermarking-synthid-stable-signature-c2pa/docs/tr.md"><span>Filigran Ekleme — SynthID, Kararlı İmza, C2PA</span><span aria-hidden="true">↗</span></a></li><li data-lesson="düzenleyici framework&#x27;lar — ab, abd, birleşik krallık, kore"><a href="phases/18-ethics-safety-alignment/24-regulatory-frameworks-eu-us-uk-korea/docs/tr.md"><span>Düzenleyici Framework&#x27;lar — AB, ABD, Birleşik Krallık, Kore</span><span aria-hidden="true">↗</span></a></li><li data-lesson="echoleak ve yapay zeka için cve&#x27;lerin ortaya çıkışı"><a href="phases/18-ethics-safety-alignment/25-echoleak-cves-for-ai/docs/tr.md"><span>EchoLeak ve Yapay Zeka için CVE&#x27;lerin Ortaya Çıkışı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="model, sistem ve dataset kart"><a href="phases/18-ethics-safety-alignment/26-model-system-dataset-cards/docs/tr.md"><span>Model, Sistem ve Dataset Kart</span><span aria-hidden="true">↗</span></a></li><li data-lesson="veri kaynağı ve eğitim-veri yönetişimi"><a href="phases/18-ethics-safety-alignment/27-data-provenance-training-governance/docs/tr.md"><span>Veri Kaynağı ve Eğitim-Veri Yönetişimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="hizalama araştırma ekosistemi — mats, redwood, apollo, metr"><a href="phases/18-ethics-safety-alignment/28-alignment-research-ecosystem/docs/tr.md"><span>Hizalama Araştırma Ekosistemi — MATS, Redwood, Apollo, METR</span><span aria-hidden="true">↗</span></a></li><li data-lesson="moderasyon sistemleri — openai, perspective, llama guard"><a href="phases/18-ethics-safety-alignment/29-moderation-systems-openai-perspective-llamaguard/docs/tr.md"><span>Moderasyon Sistemleri — OpenAI, Perspective, Llama Guard</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çift kullanımlı risk — siber, biyo, kimya, nükleer yükseltme"><a href="phases/18-ethics-safety-alignment/30-dual-use-risk-cyber-bio-chem-nuclear/docs/tr.md"><span>Çift Kullanımlı Risk — Siber, Biyo, Kimya, Nükleer Yükseltme</span><span aria-hidden="true">↗</span></a></li></ol></details><details class="phase" data-phase="aşama 19: bitirme projeleri"><summary><span class="phase-no">20</span><span class="phase-title">Aşama 19: Bitirme Projeleri</span><span class="phase-count">85 DERS</span><span class="phase-toggle" aria-hidden="true">+</span></summary><ol><li data-lesson="bitirme taşı 01 — terminal-yerel kodlama agent"><a href="phases/19-capstone-projects/01-terminal-native-coding-agent/docs/tr.md"><span>Bitirme Taşı 01 — Terminal-Yerel Kodlama Agent</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone 02 — kod tabanı üzerinden rag (çapraz repo semantik arama)"><a href="phases/19-capstone-projects/02-rag-over-codebase/docs/tr.md"><span>Capstone 02 — Kod Tabanı Üzerinden RAG (Çapraz Repo Semantik Arama)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone 03 — gerçek zamanlı sesli asistan (asr&#x27;den llm&#x27;ye tts&#x27;ye)"><a href="phases/19-capstone-projects/03-realtime-voice-assistant/docs/tr.md"><span>Capstone 03 — Gerçek Zamanlı Sesli Asistan (ASR&#x27;den LLM&#x27;ye TTS&#x27;ye)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 04 — çok modlu belge kalite güvencesi (i̇lk vizyon pdf, tablolar, grafikler)"><a href="phases/19-capstone-projects/04-multimodal-document-qa/docs/tr.md"><span>Bitirme Taşı 04 — Çok Modlu Belge Kalite Güvencesi (İlk Vizyon PDF, Tablolar, Grafikler)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 05 — otonom araştırma agent (yapay zeka bilim adamı sınıfı)"><a href="phases/19-capstone-projects/05-autonomous-research-agent/docs/tr.md"><span>Bitirme Taşı 05 — Otonom Araştırma Agent (Yapay Zeka Bilim Adamı Sınıfı)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 06 — kubernetes için devops sorun giderme agent"><a href="phases/19-capstone-projects/06-devops-troubleshooting-agent/docs/tr.md"><span>Bitirme Taşı 06 — Kubernetes için DevOps Sorun Giderme Agent</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 07 — uçtan uca fine-tuning boru hattı (sunmak üzere sft&#x27;den dpo&#x27;ya veriler)"><a href="phases/19-capstone-projects/07-end-to-end-fine-tuning-pipeline/docs/tr.md"><span>Bitirme Taşı 07 — Uçtan Uca Fine-Tuning Boru Hattı (Sunmak üzere SFT&#x27;den DPO&#x27;ya Veriler)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone 08 — düzenlenmiş dikey sektör için üretim rag chatbot&#x27;u"><a href="phases/19-capstone-projects/08-production-rag-chatbot/docs/tr.md"><span>Capstone 08 — Düzenlenmiş Dikey Sektör için Üretim RAG Chatbot&#x27;u</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone 09 — kod taşıma agent (repo düzeyinde dil / çalışma zamanı yükseltmesi)"><a href="phases/19-capstone-projects/09-code-migration-agent/docs/tr.md"><span>Capstone 09 — Kod Taşıma Agent (Repo Düzeyinde Dil / Çalışma Zamanı Yükseltmesi)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 10 — multi-agent yazılım mühendisliği ekibi"><a href="phases/19-capstone-projects/10-multi-agent-software-team/docs/tr.md"><span>Bitirme Taşı 10 — Multi-Agent Yazılım Mühendisliği Ekibi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 11 — yüksek lisans observability ve değerlendirme kontrol paneli"><a href="phases/19-capstone-projects/11-llm-observability-dashboard/docs/tr.md"><span>Bitirme Taşı 11 — Yüksek Lisans Observability ve Değerlendirme Kontrol Paneli</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 12 — ardışık düzeni anlama videosu (sahne, kalite güvencesi, arama)"><a href="phases/19-capstone-projects/12-video-understanding-pipeline/docs/tr.md"><span>Bitirme Taşı 12 — Ardışık Düzeni Anlama Videosu (Sahne, Kalite Güvencesi, Arama)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone 13 — kayıt defteri ve yönetim özellikli mcp sunucusu"><a href="phases/19-capstone-projects/13-mcp-server-with-registry/docs/tr.md"><span>Capstone 13 — Kayıt Defteri ve Yönetim Özellikli MCP Sunucusu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 14 — spekülatif kod çözme inference sunucusu"><a href="phases/19-capstone-projects/14-speculative-decoding-server/docs/tr.md"><span>Bitirme Taşı 14 — Spekülatif Kod Çözme Inference Sunucusu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone 15 — anayasal emniyet kemeri + kırmızı takım menzili"><a href="phases/19-capstone-projects/15-constitutional-safety-harness/docs/tr.md"><span>Capstone 15 — Anayasal Emniyet Kemeri + Kırmızı Takım Menzili</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 16 — github sorundan halkla i̇lişkilere otonom agent"><a href="phases/19-capstone-projects/16-github-issue-to-pr-agent/docs/tr.md"><span>Bitirme Taşı 16 — GitHub Sorundan Halkla İlişkilere Otonom Agent</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone 17 — kişisel yapay zeka öğretmeni (uyarlanabilir, çok modlu, bellekli)"><a href="phases/19-capstone-projects/17-personal-ai-tutor/docs/tr.md"><span>Capstone 17 — Kişisel Yapay Zeka Öğretmeni (Uyarlanabilir, Çok Modlu, Bellekli)</span><span aria-hidden="true">↗</span></a></li><li data-lesson="agent kemer döngüsü sözleşmesi"><a href="phases/19-capstone-projects/20-agent-harness-loop-contract/docs/tr.md"><span>Agent Kemer Döngüsü Sözleşmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="şema doğrulamalı araç kaydı"><a href="phases/19-capstone-projects/21-tool-registry-schema-validation/docs/tr.md"><span>Şema Doğrulamalı Araç Kaydı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="json-rpc 2.0 yeni satırla sınırlandırılmış stdio üzerinden"><a href="phases/19-capstone-projects/22-jsonrpc-stdio-transport/docs/tr.md"><span>JSON-RPC 2.0 Yeni Satırla Sınırlandırılmış Stdio Üzerinden</span><span aria-hidden="true">↗</span></a></li><li data-lesson="i̇şlev çağrı göndericisi"><a href="phases/19-capstone-projects/23-function-call-dispatcher/docs/tr.md"><span>İşlev Çağrı Göndericisi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="planla-uygula kontrol akışı"><a href="phases/19-capstone-projects/24-plan-execute-control-flow/docs/tr.md"><span>Planla-Uygula Kontrol Akışı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme noktası ders 25: doğrulama kapıları ve gözlem bütçesi"><a href="phases/19-capstone-projects/25-verification-gates-observation-budget/docs/tr.md"><span>Bitirme Noktası Ders 25: Doğrulama Kapıları ve Gözlem Bütçesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme dersi 26: reddedenler ve yol hapishanesi ile sandbox runner"><a href="phases/19-capstone-projects/26-sandbox-runner-denylist/docs/tr.md"><span>Bitirme Dersi 26: Reddedenler ve Yol Hapishanesi ile Sandbox Runner</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme dersi 27: demirbaş görevleriyle değerlendirilmesi"><a href="phases/19-capstone-projects/27-eval-harness-fixture-tasks/docs/tr.md"><span>Bitirme Dersi 27: Demirbaş Görevleriyle Değerlendirilmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme dersi 28: otel genai spans ve prometheus metrikleri ile observability"><a href="phases/19-capstone-projects/28-observability-otel-traces/docs/tr.md"><span>Bitirme Dersi 28: OTel GenAI Spans ve Prometheus Metrikleri ile Observability</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme dersi 29: kablo demeti üzerinde uçtan uca kodlama agent"><a href="phases/19-capstone-projects/29-end-to-end-coding-task-demo/docs/tr.md"><span>Bitirme Dersi 29: Kablo Demeti Üzerinde Uçtan Uca Kodlama Agent</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bpe tokenizer sıfırdan"><a href="phases/19-capstone-projects/30-bpe-tokenizer-from-scratch/docs/tr.md"><span>BPE Tokenizer Sıfırdan</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sürgülü pencere ile tokenözelleştirilmiş dataset"><a href="phases/19-capstone-projects/31-tokenized-dataset-sliding-window/docs/tr.md"><span>Sürgülü Pencere ile Tokenözelleştirilmiş Dataset</span><span aria-hidden="true">↗</span></a></li><li data-lesson="token ve konumsal embedding&#x27;lar"><a href="phases/19-capstone-projects/32-token-positional-embeddings/docs/tr.md"><span>Token ve Konumsal Embedding&#x27;lar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çok kafalı kişisel dikkat"><a href="phases/19-capstone-projects/33-multihead-self-attention/docs/tr.md"><span>Çok Kafalı Kişisel Dikkat</span><span aria-hidden="true">↗</span></a></li><li data-lesson="transformer sıfırdan blok"><a href="phases/19-capstone-projects/34-transformer-block/docs/tr.md"><span>Transformer Sıfırdan Blok</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gpt model montajı"><a href="phases/19-capstone-projects/35-gpt-model-assembly/docs/tr.md"><span>GPT Model Montajı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="eğitim döngüsü ve değerlendirme"><a href="phases/19-capstone-projects/36-training-loop-eval/docs/tr.md"><span>Eğitim Döngüsü ve Değerlendirme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="önceden eğitimli ağırlıkların yüklenmesi"><a href="phases/19-capstone-projects/37-loading-pretrained-weights/docs/tr.md"><span>Önceden Eğitimli Ağırlıkların Yüklenmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme dersi 38: head swap&#x27;tan sınıflandırıcı fine-tuning"><a href="phases/19-capstone-projects/38-classifier-finetuning/docs/tr.md"><span>Bitirme Dersi 38: Head Swap&#x27;tan Sınıflandırıcı Fine-Tuning</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme dersi 39: denetlenen fine-tuning tarafından talimat ayarlaması"><a href="phases/19-capstone-projects/39-instruction-tuning-sft/docs/tr.md"><span>Bitirme Dersi 39: Denetlenen Fine-Tuning Tarafından Talimat Ayarlaması</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme dersi 40: sıfırdan doğrudan tercih optimizasyonu"><a href="phases/19-capstone-projects/40-dpo-from-scratch/docs/tr.md"><span>Bitirme Dersi 40: Sıfırdan Doğrudan Tercih Optimizasyonu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme dersi 41: tam değerlendirme süreci"><a href="phases/19-capstone-projects/41-eval-pipeline/docs/tr.md"><span>Bitirme Dersi 41: Tam Değerlendirme Süreci</span><span aria-hidden="true">↗</span></a></li><li data-lesson="büyük corpus i̇ndirici"><a href="phases/19-capstone-projects/42-large-corpus-downloader/docs/tr.md"><span>Büyük Corpus İndirici</span><span aria-hidden="true">↗</span></a></li><li data-lesson="hdf5 tokenized corpus"><a href="phases/19-capstone-projects/43-hdf5-tokenized-corpus/docs/tr.md"><span>HDF5 Tokenized Corpus</span><span aria-hidden="true">↗</span></a></li><li data-lesson="doğrusal isınma özellikli kosinüs lr"><a href="phases/19-capstone-projects/44-cosine-lr-warmup/docs/tr.md"><span>Doğrusal Isınma özellikli Kosinüs LR</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gradient kırpma ve karışık hassasiyet"><a href="phases/19-capstone-projects/45-gradient-clipping-amp/docs/tr.md"><span>Gradient Kırpma ve Karışık Hassasiyet</span><span aria-hidden="true">↗</span></a></li><li data-lesson="gradient birikim"><a href="phases/19-capstone-projects/46-gradient-accumulation/docs/tr.md"><span>Gradient Birikim</span><span aria-hidden="true">↗</span></a></li><li data-lesson="denetim noktası kaydetme ve devam ettirme"><a href="phases/19-capstone-projects/47-checkpoint-save-resume/docs/tr.md"><span>Denetim Noktası Kaydetme ve Devam Ettirme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfırdan dağıtılmış veri paralel ve fsdp"><a href="phases/19-capstone-projects/48-distributed-fsdp-ddp/docs/tr.md"><span>Sıfırdan Dağıtılmış Veri Paralel ve FSDP</span><span aria-hidden="true">↗</span></a></li><li data-lesson="dil modeli değerlendirme takımı"><a href="phases/19-capstone-projects/49-lm-eval-harness/docs/tr.md"><span>Dil Modeli Değerlendirme Takımı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="hipotez oluşturucu"><a href="phases/19-capstone-projects/50-hypothesis-generator/docs/tr.md"><span>Hipotez Oluşturucu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="literatür erişimi"><a href="phases/19-capstone-projects/51-literature-retrieval/docs/tr.md"><span>Literatür Erişimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="deney çalıştırıcısı"><a href="phases/19-capstone-projects/52-experiment-runner/docs/tr.md"><span>Deney Çalıştırıcısı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sonuç değerlendirici"><a href="phases/19-capstone-projects/53-result-evaluator/docs/tr.md"><span>Sonuç Değerlendirici</span><span aria-hidden="true">↗</span></a></li><li data-lesson="makale yazarı"><a href="phases/19-capstone-projects/54-paper-writer/docs/tr.md"><span>Makale Yazarı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="eleştirmen döngüsü"><a href="phases/19-capstone-projects/55-critic-loop/docs/tr.md"><span>Eleştirmen Döngüsü</span><span aria-hidden="true">↗</span></a></li><li data-lesson="yineleme zamanlayıcı"><a href="phases/19-capstone-projects/56-iteration-scheduler/docs/tr.md"><span>Yineleme Zamanlayıcı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="uçtan uca araştırma demosu"><a href="phases/19-capstone-projects/57-end-to-end-research-demo/docs/tr.md"><span>Uçtan Uca Araştırma Demosu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="vision encoder yamaları"><a href="phases/19-capstone-projects/58-vision-encoder-patches/docs/tr.md"><span>Vision Encoder Yamaları</span><span aria-hidden="true">↗</span></a></li><li data-lesson="vizyon transformer kodlayıcı"><a href="phases/19-capstone-projects/59-vit-transformer/docs/tr.md"><span>Vizyon Transformer Kodlayıcı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="modalite hizalaması için projeksiyon katmanı"><a href="phases/19-capstone-projects/60-projection-layer-modality-align/docs/tr.md"><span>Modalite Hizalaması için Projeksiyon Katmanı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çapraz dikkat füzyonu"><a href="phases/19-capstone-projects/61-cross-attention-fusion/docs/tr.md"><span>Çapraz Dikkat Füzyonu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="vizyon-dil ön eğitimi"><a href="phases/19-capstone-projects/62-vision-language-pretraining/docs/tr.md"><span>Vizyon-Dil Ön Eğitimi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çok modlu değerlendirme"><a href="phases/19-capstone-projects/63-multimodal-eval/docs/tr.md"><span>Çok Modlu Değerlendirme</span><span aria-hidden="true">↗</span></a></li><li data-lesson="parçalama stratejileri karşılaştırıldığında"><a href="phases/19-capstone-projects/64-chunking-strategies-advanced/docs/tr.md"><span>Parçalama Stratejileri Karşılaştırıldığında</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bm25 ve yoğun embedding&#x27;larla hibrit erişim"><a href="phases/19-capstone-projects/65-hybrid-retrieval-bm25-dense/docs/tr.md"><span>BM25 ve Yoğun Embedding&#x27;larla Hibrit Erişim</span><span aria-hidden="true">↗</span></a></li><li data-lesson="çapraz kodlayıcı yeniden sıralayıcısı"><a href="phases/19-capstone-projects/66-reranker-cross-encoder/docs/tr.md"><span>Çapraz Kodlayıcı Yeniden Sıralayıcısı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sorgu yeniden yazma: hyde, çoklu sorgu ve ayrıştırma"><a href="phases/19-capstone-projects/67-query-rewriting-hyde/docs/tr.md"><span>Sorgu Yeniden Yazma: HyDE, Çoklu Sorgu ve Ayrıştırma</span><span aria-hidden="true">↗</span></a></li><li data-lesson="rag değerlendirmesi: kesinlik, geri çağırma, mrr, ndcg, doğruluk, yanıt uygunluğu"><a href="phases/19-capstone-projects/68-rag-eval-precision-recall/docs/tr.md"><span>RAG Değerlendirmesi: Kesinlik, Geri Çağırma, MRR, nDCG, Doğruluk, Yanıt Uygunluğu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="uçtan uca rag sistemi"><a href="phases/19-capstone-projects/69-end-to-end-rag-system/docs/tr.md"><span>Uçtan Uca RAG Sistemi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="görev spesifikasyon formatı"><a href="phases/19-capstone-projects/70-task-spec-format/docs/tr.md"><span>Görev Spesifikasyon Formatı</span><span aria-hidden="true">↗</span></a></li><li data-lesson="klasik metrikler"><a href="phases/19-capstone-projects/71-classical-metrics/docs/tr.md"><span>Klasik Metrikler</span><span aria-hidden="true">↗</span></a></li><li data-lesson="kod yürütme metriği"><a href="phases/19-capstone-projects/72-code-exec-metric/docs/tr.md"><span>Kod Yürütme Metriği</span><span aria-hidden="true">↗</span></a></li><li data-lesson="şaşkınlık ve kalibrasyon"><a href="phases/19-capstone-projects/73-perplexity-calibration/docs/tr.md"><span>Şaşkınlık ve Kalibrasyon</span><span aria-hidden="true">↗</span></a></li><li data-lesson="skor tablosu toplama"><a href="phases/19-capstone-projects/74-leaderboard-aggregation/docs/tr.md"><span>Skor Tablosu Toplama</span><span aria-hidden="true">↗</span></a></li><li data-lesson="uçtan uca değerlendirme koşucusu"><a href="phases/19-capstone-projects/75-end-to-end-eval-runner/docs/tr.md"><span>Uçtan Uca Değerlendirme Koşucusu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfırdan toplu operasyonlar"><a href="phases/19-capstone-projects/76-collective-ops-from-scratch/docs/tr.md"><span>Sıfırdan Toplu Operasyonlar</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfırdan veri paralel ddp"><a href="phases/19-capstone-projects/77-data-parallel-ddp/docs/tr.md"><span>Sıfırdan Veri Paralel DDP</span><span aria-hidden="true">↗</span></a></li><li data-lesson="sıfır optimize edici durum parçalaması"><a href="phases/19-capstone-projects/78-zero-parameter-sharding/docs/tr.md"><span>Sıfır Optimize Edici Durum Parçalaması</span><span aria-hidden="true">↗</span></a></li><li data-lesson="boru hattı paralel ve kabarcık analizi"><a href="phases/19-capstone-projects/79-pipeline-parallel/docs/tr.md"><span>Boru Hattı Paralel ve Kabarcık Analizi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="parçalanmış kontrol noktası ve atomik devam"><a href="phases/19-capstone-projects/80-checkpoint-sharded-resume/docs/tr.md"><span>Parçalanmış Kontrol Noktası ve Atomik Devam</span><span aria-hidden="true">↗</span></a></li><li data-lesson="uçtan uca dağıtılmış eğitim"><a href="phases/19-capstone-projects/81-end-to-end-distributed-train/docs/tr.md"><span>Uçtan Uca Dağıtılmış Eğitim</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 82 — jailbreak taksonomisi"><a href="phases/19-capstone-projects/82-jailbreak-taxonomy/docs/tr.md"><span>Bitirme Taşı 82 — Jailbreak Taksonomisi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 83 — prompt enjeksiyon dedektörü"><a href="phases/19-capstone-projects/83-prompt-injection-detector/docs/tr.md"><span>Bitirme Taşı 83 — Prompt Enjeksiyon Dedektörü</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 84 — reddetme değerlendirmesi"><a href="phases/19-capstone-projects/84-refusal-evaluation/docs/tr.md"><span>Bitirme Taşı 84 — Reddetme Değerlendirmesi</span><span aria-hidden="true">↗</span></a></li><li data-lesson="capstone 85 — i̇çerik sınıflandırıcı entegrasyonu"><a href="phases/19-capstone-projects/85-content-classifier-integration/docs/tr.md"><span>Capstone 85 — İçerik Sınıflandırıcı Entegrasyonu</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 86 — anayasal kurallar motoru"><a href="phases/19-capstone-projects/86-constitutional-rules-engine/docs/tr.md"><span>Bitirme Taşı 86 — Anayasal Kurallar Motoru</span><span aria-hidden="true">↗</span></a></li><li data-lesson="bitirme taşı 87 — uçtan uca güvenlik kapısı"><a href="phases/19-capstone-projects/87-end-to-end-safety-gate/docs/tr.md"><span>Bitirme Taşı 87 — Uçtan Uca Güvenlik Kapısı</span><span aria-hidden="true">↗</span></a></li></ol></details></div>
-      <p class="empty" id="empty">Aramanızla eşleşen bir ders bulunamadı.</p>
+      <h1 class="manual-title">AI Engineering<br>from Scratch</h1>
+      <p class="manual-tagline reveal">503 ders. 20 aşama. Her algoritma, tek bir framework bile eklenmeden önce temel matematikten başlayarak kurulur.</p>
+      <p class="manual-attribution reveal" style="--stagger-delay: 80ms;">Rohit Ghumare ve katkıda bulunanlar tarafından sürdürülür. Kendi bilgisayarınızda çalıştırın.</p>
+      <div class="masthead-cta reveal" style="--stagger-delay: 140ms;">
+        <a class="masthead-btn masthead-btn--primary" href="https://github.com/rohitg00/ai-engineering-from-scratch" target="_blank" rel="noopener" aria-label="Star ai-engineering-from-scratch on GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279L12 19.896l-7.416 3.517 1.48-8.279L0 9.306l8.332-1.151z"/></svg>
+          <span>GitHub'da yıldızla</span>
+          <span class="masthead-btn-count" data-gh-stars="rohitg00/ai-engineering-from-scratch" data-loading="true">…</span>
+        </a>
+        <a class="masthead-btn" href="https://github.com/rohitg00" target="_blank" rel="noopener" aria-label="Follow Rohit Ghumare on GitHub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.4 3-.405 1.02.005 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          <span>@rohitg00'ı takip et</span>
+        </a>
+      </div>
+      <div class="ascii-rule" style="margin-top:48px;"></div>
     </section>
+
+    <section class="preface container">
+      <div class="preface-grid">
+        <div class="preface-eyebrow reveal reveal--left">Nasıl çalışır?</div>
+        <div class="preface-body reveal" style="--stagger-delay: 120ms;">
+          <p>Çoğu AI kaynağı konuları dağınık parçalar hâlinde öğretir: burada bir makale, orada bir fine-tuning yazısı, başka bir yerde gösterişli bir agent demosu. Bu parçalar nadiren bir bütün oluşturur. Bir chatbot yayınlarsınız ama loss curve'ünü açıklayamazsınız; bir agent'a function bağlarsınız ama o işlevi çağıran modelin içindeki attention mekanizmasının ne yaptığını söyleyemezsiniz.</p>
+          <p>Bu müfredat, bütün parçaları bir arada tutan omurgadır. 20 aşama, 503 ders ve dört dil: Python, TypeScript, Rust ve Julia. Bir uçta linear algebra, diğer uçta autonomous swarm sistemleri vardır. Her algoritma önce temel matematikten kurulur: backpropagation, tokenizer, attention ve agent loop. PyTorch'a geldiğinizde, framework'ün perde arkasında ne yaptığını zaten bilirsiniz.</p>
+          <p>Her ders aynı döngüyü izler: problemi okuyun, matematiği türetin, kodu yazın, testi çalıştırın ve ortaya çıkan artifact'i saklayın. Beş dakikalık videolar, kopyala-yapıştır deployment'lar veya ezbere yönlendirmeler yoktur. Ücretsizdir, açık kaynaklıdır ve kendi bilgisayarınızda çalışmak üzere tasarlanmıştır.</p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="stat-block container">
+      <div class="stat-block-title reveal reveal--left">Güncel İlerleme</div>
+      <div class="stat-rows reveal" style="--stagger-delay: 100ms;" id="statRows">
+        <div class="stat-row">
+          <span class="stat-row-label">Tamamlanan Dersler</span>
+          <span class="stat-row-bar" data-bar="complete" style="--bar-pct:0%;" aria-hidden="true">bar</span>
+          <span class="stat-row-value" data-stat="complete-frac">0 / 0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-row-label">Aşamalar</span>
+          <span class="stat-row-bar" data-bar="phases" style="--bar-pct:0%;" aria-hidden="true">bar</span>
+          <span class="stat-row-value" data-stat="phases-frac">0 / 0</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-row-label">Diller</span>
+          <span class="stat-row-bar" data-bar="languages" style="--bar-pct:100%;" aria-hidden="true">bar</span>
+          <span class="stat-row-value">4</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-row-label">Teknik Terimler</span>
+          <span class="stat-row-bar" data-bar="glossary" style="--bar-pct:100%;" aria-hidden="true">bar</span>
+          <span class="stat-row-value" data-stat="glossary-count">···</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="toc container" id="contents">
+      <div class="toc-title reveal reveal--left">Müfredat · 20 aşama · 503 ders</div>
+      <div class="toc-subtitle reveal" style="--stagger-delay: 80ms;">Dersleri görmek için bir aşamayı seçin. Her ders; matematiği, kodu ve testi tamamlandığında yayınlanır.</div>
+      <div class="toc-list" id="phasesGrid"></div>
+      <div class="legend">
+        <span class="legend-item"><span class="toc-status complete"></span> Tamamlandı</span>
+        <span class="legend-item"><span class="toc-status in-progress"></span> Devam ediyor</span>
+        <span class="legend-item"><span class="toc-status planned"></span> Planlandı</span>
+      </div>
+    </section>
+
+    <div class="modal-overlay" id="modalOverlay">
+      <div class="modal" id="modal">
+        <button class="modal-close" id="modalClose" type="button">×</button>
+        <div class="modal-header">
+          <span class="modal-phase-num" id="modalPhaseNum"></span>
+          <h2 class="modal-title" id="modalTitle"></h2>
+          <p class="modal-desc" id="modalDesc"></p>
+          <div class="modal-progress" id="modalProgress" style="display:none;"></div>
+          <div class="modal-progress-bar" id="modalProgressBar" style="display:none;"><div class="modal-progress-bar-fill" id="modalProgressBarFill"></div></div>
+        </div>
+        <div class="modal-lessons" id="modalLessons"></div>
+        <div class="modal-footer">
+          <span class="modal-footer-note">İlerleme yalnızca bu tarayıcıda saklanır</span>
+          <button class="modal-reset" id="modalReset" type="button">İlerlemeyi sıfırla</button>
+        </div>
+      </div>
+    </div>
+
+
+    <section class="books container" id="books">
+      <div class="toc-title reveal reveal--left">Kitap sürümü · altı cilt</div>
+      <div class="toc-subtitle reveal" style="--stagger-delay: 80ms;">Derslerin kitaplaştırılmış hâli. EPUB ve PDF dosyaları aynı derslerden oluşturulur ve her GitHub release'ine eklenir. Site yaşayan sürüm olarak kalır; her bölüm animated figure'lar, quiz'ler ve kod için buraya bağlantı verir.</div>
+      <div class="books-grid" id="booksGrid"></div>
+      <div class="books-note">Bağlantılar en yeni <a href="https://github.com/rohitg00/ai-engineering-from-scratch/releases" target="_blank" rel="noopener">GitHub release</a> sürümüne gider · her release'te CI tarafından derslerden yeniden oluşturulur · <a href="https://github.com/rohitg00/ai-engineering-from-scratch/blob/main/book/README.md" target="_blank" rel="noopener">nasıl hazırlanır?</a></div>
+    </section>
+
+    <script>
+      (function () {
+        var grid = document.getElementById('booksGrid');
+        if (!grid) return;
+        var DL_BASE = 'https://github.com/rohitg00/ai-engineering-from-scratch/releases/latest/download/aiefs-vol';
+        var volumes = [
+          { n: 1, slug: 'foundations', title: 'Foundations', subtitle: 'Matematik, Tooling ve Classical Machine Learning', phases: '00–02' },
+          { n: 2, slug: 'deep-learning', title: 'Deep Learning', subtitle: 'Network yapıları, Computer Vision ve Speech', phases: '03, 04, 06' },
+          { n: 3, slug: 'language', title: 'Language', subtitle: 'NLP Foundations ve Transformer', phases: '05, 07' },
+          { n: 4, slug: 'llms', title: 'Large Language Models', subtitle: 'Generation, Reinforcement, Pretraining ve Engineering', phases: '08–11' },
+          { n: 5, slug: 'agents', title: 'Agents', subtitle: 'Multimodality, Protocols, Autonomy ve Swarm sistemleri', phases: '12–16' },
+          { n: 6, slug: 'production', title: 'Production', subtitle: 'Infrastructure, Safety ve Capstone projeleri', phases: '17–19' }
+        ];
+        var html = '';
+        volumes.forEach(function (v, i) {
+          var base = DL_BASE + v.n + '-' + v.slug;
+          html += '<div class="book-card reveal"' + (i > 0 ? ' style="--stagger-delay: ' + (i * 60) + 'ms;"' : '') + '>';
+          html += '<span class="vol">VOL_00' + v.n + '</span>';
+          html += '<h3>' + v.title + '</h3>';
+          html += '<p>' + v.subtitle + ' · aşamalar ' + v.phases + '</p>';
+          html += '<div class="dl">';
+          html += '<a href="' + base + '.epub">EPUB</a>';
+          html += '<a href="' + base + '.pdf">PDF</a>';
+          html += '</div>';
+          html += '</div>';
+        });
+        grid.innerHTML = html;
+      })();
+    </script>
+
+    <section class="colophon container">
+      <div class="colophon-grid">
+        <div class="colophon-eyebrow reveal reveal--left">Yayın Bilgisi</div>
+        <div class="reveal" style="--stagger-delay: 80ms;">
+          <p>Müfredatın tamamı GitHub'dadır. Clone veya fork edin; kendi hızınızda öğrenin. Ücret duvarı ve kayıt zorunluluğu yoktur. Her derste, kavrama en uygun olan Python, TypeScript, Rust veya Julia diliyle hazırlanmış çalıştırılabilir kod bulunur.</p>
+          <div class="colophon-cmd">
+            <code id="cloneCmd">git clone https://github.com/ademiru/ai-engineering-from-scratch-tr.git</code>
+            <button class="copy-btn" id="copyBtn" aria-label="Komutu kopyala" type="button">cp</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
-  <footer><div class="shell"><span>Kaynak revizyon · 3cf0ca4889727784196f99dd329ac6e31a719d84</span>
-    <span>AI Engineering from Scratch · <a href="README.md">Başlangıç rehberi</a></span></div></footer>
-  <section class="reader" id="reader" hidden aria-label="Ders okuyucu">
-    <div class="reader-bar"><div class="shell">
-      <button class="reader-back" id="reader-back" type="button">← Müfredata dön</button>
-      <span class="reader-path" id="reader-path"></span>
-    </div></div>
-    <article class="lesson" id="lesson" tabindex="-1"></article>
-  </section>
-  <script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({startOnLoad:false,securityLevel:'strict',theme:'base'});
-    window.renderLessonDiagrams=async container=>{
-      const diagrams=container.querySelectorAll('.mermaid:not([data-processed])');
-      if(!diagrams.length) return;
-      try { await mermaid.run({nodes:diagrams}); }
-      catch(error) {
-        diagrams.forEach(node=>{
-          if(!node.dataset.processed) node.classList.add('mermaid-error');
-        });
-        console.error('Mermaid diyagramı oluşturulamadı',error);
-      }
-    };
-    window.renderLessonDiagrams(document.querySelector('#lesson'));
-  </script>
-  <script>
-    const input=document.querySelector('#search'), phases=[...document.querySelectorAll('.phase')];
-    const root=document.documentElement, themeButton=document.querySelector('#theme-toggle');
-    const savedTheme=localStorage.getItem('curriculum-theme');
-    if(savedTheme) root.dataset.theme=savedTheme;
-    const currentTheme=()=>root.dataset.theme||
-      (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-    const updateThemeLabel=()=>{
-      const next=currentTheme()==='dark'?'açık':'koyu';
-      themeButton.setAttribute('aria-label',`${next[0].toLocaleUpperCase('tr-TR')+next.slice(1)} temaya geç`);
-    };
-    updateThemeLabel();
-    themeButton.addEventListener('click',()=>{
-      const theme=currentTheme()==='dark'?'light':'dark';
-      root.dataset.theme=theme; localStorage.setItem('curriculum-theme',theme); updateThemeLabel();
-    });
-    const normalize=s=>s.toLocaleLowerCase('tr-TR').normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-    input.addEventListener('input',()=>{
-      const query=normalize(input.value.trim()); let visible=0;
-      phases.forEach(phase=>{
-        const phaseMatch=normalize(phase.dataset.phase).includes(query);
-        let matches=0;
-        phase.querySelectorAll('li').forEach(lesson=>{
-          const match=!query||phaseMatch||normalize(lesson.dataset.lesson).includes(query);
-          lesson.hidden=!match; if(match) matches++;
-        });
-        phase.hidden=matches===0; phase.open=Boolean(query&&matches); if(matches) visible++;
-      });
-      document.querySelector('#empty').style.display=visible?'none':'block';
-    });
-    const reader=document.querySelector('#reader'), lesson=document.querySelector('#lesson');
-    const escapeHtml=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-    const inline=s=>escapeHtml(s)
-      .replace(/`([^`]+)`/g,'<code>$1</code>')
-      .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
-      .replace(/\*([^*]+)\*/g,'<em>$1</em>')
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2">$1</a>');
-    const renderMarkdown=source=>{
-      const code=[]; source=source.replace(/```([^\n]*)\n([\s\S]*?)```/g,(_,lang,body)=>{
-        const language=lang.trim().toLocaleLowerCase('en-US');
-        code.push(language==='mermaid'
-          ? `<div class="mermaid">${escapeHtml(body)}</div>`
-          : `<pre><code class="language-${escapeHtml(lang.trim())}">${escapeHtml(body)}</code></pre>`);
-        return `\n@@CODE${code.length-1}@@\n`;
-      });
-      const lines=source.replace(/\r/g,'').split('\n'), out=[]; let list=null, paragraph=[];
-      const flush=()=>{ if(paragraph.length) out.push(`<p>${inline(paragraph.join(' '))}</p>`); paragraph=[]; };
-      const closeList=()=>{ if(list) out.push(`</${list}>`); list=null; };
-      lines.forEach(line=>{
-        const heading=line.match(/^(#{1,6})\s+(.+)$/), bullet=line.match(/^\s*[-*]\s+(.+)$/);
-        const numbered=line.match(/^\s*\d+[.)]\s+(.+)$/), quote=line.match(/^>\s?(.*)$/);
-        const token=line.match(/^@@CODE(\d+)@@$/);
-        if(token) { flush(); closeList(); out.push(code[Number(token[1])]); }
-        else if(heading) { flush(); closeList(); const level=heading[1].length;
-          out.push(`<h${level}>${inline(heading[2])}</h${level}>`); }
-        else if(bullet||numbered) { flush(); const type=bullet?'ul':'ol';
-          if(list!==type) { closeList(); out.push(`<${type}>`); list=type; }
-          out.push(`<li>${inline((bullet||numbered)[1])}</li>`); }
-        else if(quote) { flush(); closeList(); out.push(`<blockquote>${inline(quote[1])}</blockquote>`); }
-        else if(!line.trim()) { flush(); closeList(); }
-        else paragraph.push(line.trim());
-      });
-      flush(); closeList(); return out.join('\n');
-    };
-    const closeReader=()=>{ reader.hidden=true; document.body.classList.remove('reader-open');
-      if(location.hash.startsWith('#ders=')) history.pushState(null,'',location.pathname+location.search+'#mufredat'); };
-    const openLesson=async(path,push=true)=>{
-      reader.hidden=false; document.body.classList.add('reader-open');
-      document.querySelector('#reader-path').textContent=path; lesson.innerHTML='<p>Ders yükleniyor…</p>';
-      try {
-        const response=await fetch(path); if(!response.ok) throw new Error(`HTTP ${response.status}`);
-        const markdown=new TextDecoder('utf-8').decode(await response.arrayBuffer());
-        lesson.innerHTML=renderMarkdown(markdown);
-        if(window.renderLessonDiagrams) await window.renderLessonDiagrams(lesson);
-        lesson.querySelectorAll('a').forEach(a=>{
-          if(!/^(?:https?:|#|mailto:)/.test(a.getAttribute('href')||''))
-            a.href=new URL(a.getAttribute('href'),new URL(path,location.href)).href;
-        });
-        lesson.focus(); window.scrollTo(0,0);
-        if(push) history.pushState({lesson:path},'',`#ders=${encodeURIComponent(path)}`);
-      } catch(error) {
-        lesson.innerHTML=`<div class="lesson-error"><h1>Ders açılamadı</h1><p>${escapeHtml(error.message)}</p>
-          <p>Bu sayfayı bir yerel web sunucusu üzerinden açtığınızdan emin olun.</p></div>`;
-      }
-    };
-    document.querySelector('#phases').addEventListener('click',event=>{
-      const link=event.target.closest('a[href$="/docs/tr.md"]'); if(!link) return;
-      event.preventDefault(); openLesson(link.getAttribute('href'));
-    });
-    document.querySelector('#reader-back').addEventListener('click',closeReader);
-    addEventListener('popstate',event=>{
-      const path=location.hash.startsWith('#ders=')?decodeURIComponent(location.hash.slice(6)):null;
-      if(path) openLesson(path,false); else { reader.hidden=true; document.body.classList.remove('reader-open'); }
-    });
-    if(location.hash.startsWith('#ders=')) openLesson(decodeURIComponent(location.hash.slice(6)),false);
-  </script>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2026 · açık kaynak · daima ücretsiz</p>
+      <div class="footer-links">
+        <a href="https://github.com/rohitg00/ai-engineering-from-scratch" target="_blank" rel="noopener">GitHub</a>
+        <a href="about.html">Hakkında</a>
+        <a href="catalog.html">Katalog</a>
+        <a href="glossary.html">Terimler</a>
+        <a href="https://github.com/rohitg00/ai-engineering-from-scratch/issues/new/choose" target="_blank" rel="noopener">Sorun bildir</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="data.js?v=20260525a"></script>
+  <script src="progress.js?v=20260525a"></script>
+  <script src="header.js?v=20260525a" defer></script>
+  <script src="cmdpalette.js?v=20260525a" defer></script>
+  <script src="app.js?v=20260525a"></script>
 </body>
 </html>
