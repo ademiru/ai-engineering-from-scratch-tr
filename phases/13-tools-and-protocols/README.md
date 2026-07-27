@@ -1,0 +1,27 @@
+# Aşama 13: Araçlar ve Protokoller
+
+## Dersler
+
+- [Araç Arayüzü — Agent'ler Neden Yapılandırılmış G/Ç'ye İhtiyaç Duyar?](01-the-tool-interface/docs/tr.md)
+- [İşlev Çağrısı Derinlemesine İnceleme — OpenAI, Antropik, Gemini](02-function-calling-deep-dive/docs/tr.md)
+- [Paralel Araç Çağrıları ve Araçlarla Akış](03-parallel-and-streaming-tool-calls/docs/tr.md)
+- [Yapılandırılmış Çıktı — JSON Şeması, Pydantic, Zod, Kısıtlı Kod Çözme](04-structured-output/docs/tr.md)
+- [Araç Şeması Tasarımı — Adlandırma, Açıklamalar, Parametre Kısıtlamaları](05-tool-schema-design/docs/tr.md)
+- [MCP Temelleri — İlkeller, Yaşam Döngüsü, JSON-RPC Tabanı](06-mcp-fundamentals/docs/tr.md)
+- [Bir MCP Sunucusu Oluşturma — Python + TypeScript SDK'ları](07-building-an-mcp-server/docs/tr.md)
+- [Bir MCP İstemcisi Oluşturma — Keşif, Çağırma, Oturum Yönetimi](08-building-an-mcp-client/docs/tr.md)
+- [MCP Aktarımları — stdio ve Akışkan HTTP ve SSE Geçişi](09-mcp-transports/docs/tr.md)
+- [MCP Kaynakları ve Prompt'ler — Araçların Ötesinde Bağlamı Açığa Çıkarma](10-mcp-resources-and-prompts/docs/tr.md)
+- [MCP Örnekleme — Sunucu Tarafından Talep Edilen LLM Tamamlamaları ve Agent Loop'ler](11-mcp-sampling/docs/tr.md)
+- [Kökler ve Ortaya Çıkarma — Kapsam Belirleme ve Geçiş Ortası Kullanıcı Girişi](12-mcp-roots-and-elicitation/docs/tr.md)
+- [Eşzamansız Görevler (SEP-1686) — Uzun Süreli Çalışmalar için Şimdi Ara, Daha Sonra Getir](13-mcp-async-tasks/docs/tr.md)
+- [MCP Uygulamaları — `ui://` aracılığıyla Etkileşimli Kullanıcı Arayüzü Kaynakları](14-mcp-apps/docs/tr.md)
+- [MCP Güvenliği I — Araç Zehirlenmesi, Halı Çekme, Sunucular Arası Gölgeleme](15-mcp-security-tool-poisoning/docs/tr.md)
+- [MCP Güvenliği II — OAuth 2.1, Kaynak Göstergeleri, Artımlı Kapsamlar](16-mcp-security-oauth-2-1/docs/tr.md)
+- [MCP Ağ Geçitleri ve Kayıtlar — Kurumsal Kontrol Düzlemleri](17-mcp-gateways-and-registries/docs/tr.md)
+- [Üretimde MCP Kimlik Doğrulaması — Kayıt, JWKS Yenileme, Hedef Kitleye Sabitlenmiş Token'ler](18-mcp-auth-production/docs/tr.md)
+- [A2A — Agent'den Agent'ye Protokol](19-a2a-protocol/docs/tr.md)
+- [OpenTelemetry GenAI — Uçtan Uca Aramaları İzleme Aracı](20-opentelemetry-genai/docs/tr.md)
+- [LLM Yönlendirme Katmanı — LiteLLM, OpenRouter, Portkey](21-llm-routing-layer/docs/tr.md)
+- [Beceriler ve Agent SDK'ları — Antropik Beceriler, AGENTS.md, OpenAI Uygulama SDK'sı](22-skills-and-agent-sdks/docs/tr.md)
+- [Capstone — Eksiksiz bir Araç Ekosistemi Oluşturun](23-capstone-tool-ecosystem/docs/tr.md)

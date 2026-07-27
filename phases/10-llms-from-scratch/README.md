@@ -1,0 +1,28 @@
+# Aşama 10: Sıfırdan Yüksek Lisans
+
+## Dersler
+
+- [Tokenizer'ler: BPE, WordPiece, SentencePiece](01-tokenizers/docs/tr.md)
+- [Sıfırdan bir Tokenizer oluşturmak](02-building-a-tokenizer/docs/tr.md)
+- [Eğitim Öncesi için Veri İşlem Hatları](03-data-pipelines/docs/tr.md)
+- [Mini GPT'nin Ön Eğitimi (124M Parametreleri)](04-pre-training-mini-gpt/docs/tr.md)
+- [Ölçeklendirme: Dağıtılmış Eğitim, FSDP, DeepSpeed](05-scaling-distributed/docs/tr.md)
+- [Talimat Ayarlama (SFT)](06-instruction-tuning-sft/docs/tr.md)
+- [RLHF: Ödül Modeli + PPO](07-rlhf/docs/tr.md)
+- [DPO: Doğrudan Tercih Optimizasyonu](08-dpo/docs/tr.md)
+- [Anayasal Yapay Zeka ve Kişisel Gelişim](09-constitutional-ai-self-improvement/docs/tr.md)
+- [Değerlendirme: Benchmark'ler, Evals, LM Harness](10-evaluation/docs/tr.md)
+- [Niceleme: Modelleri Uygun Hale Getirme](11-quantization/docs/tr.md)
+- [Inference Optimizasyon](12-inference-optimization/docs/tr.md)
+- [Eksiksiz bir LLM Boru Hattı Oluşturmak](13-building-complete-llm-pipeline/docs/tr.md)
+- [Açık Modeller: Mimari Çözüm Yolları](14-open-models-architecture-walkthroughs/docs/tr.md)
+- [Spekülatif Kod Çözme ve EAGLE-3](15-speculative-decoding-eagle3/docs/tr.md)
+- [Diferansiyel Dikkat (V2)](16-differential-attention-v2/docs/tr.md)
+- [Yerli Seyrek Dikkat (DeepSeek NSA)](17-native-sparse-attention/docs/tr.md)
+- [Çoklu Token Tahmini (MTP)](18-multi-token-prediction/docs/tr.md)
+- [Çift Boru Paralelliği](19-dualpipe-parallelism/docs/tr.md)
+- [DeepSeek-V3 Mimarisi Çözüm Yolu](20-deepseek-v3-walkthrough/docs/tr.md)
+- [Jamba — Hibrit SSM-Transformer](21-jamba-hybrid-ssm-transformer/docs/tr.md)
+- [Asenkron ve Hogwild! Inference](22-async-hogwild-inference/docs/tr.md)
+- [Spekülatif Kod Çözme ve KARTAL](25-speculative-decoding/docs/tr.md)
+- [Gradient Kontrol Noktalama ve Aktivasyon Yeniden Hesaplaması](34-gradient-checkpointing/docs/tr.md)

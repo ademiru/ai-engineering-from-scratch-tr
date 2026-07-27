@@ -1,0 +1,26 @@
+# Aşama 1: Matematiğin Temelleri
+
+## Dersler
+
+- [Doğrusal Cebir Sezgisi](01-linear-algebra-intuition/docs/tr.md)
+- [Vektörler, Matrisler ve İşlemler](02-vectors-matrices-operations/docs/tr.md)
+- [Matris Dönüşümleri](03-matrix-transformations/docs/tr.md)
+- [Machine Learning için Hesaplama](04-calculus-for-ml/docs/tr.md)
+- [Zincir Kuralı ve Otomatik Türev Alma](05-chain-rule-and-autodiff/docs/tr.md)
+- [Olasılık ve Dağılımlar](06-probability-and-distributions/docs/tr.md)
+- [Bayes Teoremi](07-bayes-theorem/docs/tr.md)
+- [Optimizasyon](08-optimization/docs/tr.md)
+- [Bilgi Teorisi](09-information-theory/docs/tr.md)
+- [Boyut Azaltma](10-dimensionality-reduction/docs/tr.md)
+- [Tekil Değer Ayrışımı](11-singular-value-decomposition/docs/tr.md)
+- [Tensör İşlemleri](12-tensor-operations/docs/tr.md)
+- [Sayısal Kararlılık](13-numerical-stability/docs/tr.md)
+- [Normlar ve Mesafeler](14-norms-and-distances/docs/tr.md)
+- [Machine Learning istatistikleri](15-statistics-for-ml/docs/tr.md)
+- [Örnekleme Yöntemleri](16-sampling-methods/docs/tr.md)
+- [Lineer Sistemler](17-linear-systems/docs/tr.md)
+- [Dışbükey Optimizasyon](18-convex-optimization/docs/tr.md)
+- [Yapay Zeka için Karmaşık Sayılar](19-complex-numbers/docs/tr.md)
+- [Fourier Dönüşümü](20-fourier-transform/docs/tr.md)
+- [Machine Learning için Grafik Teorisi](21-graph-theory/docs/tr.md)
+- [Stokastik Süreçler](22-stochastic-processes/docs/tr.md)

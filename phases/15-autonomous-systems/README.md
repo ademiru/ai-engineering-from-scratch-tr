@@ -1,0 +1,26 @@
+# Aşama 15: Otonom Sistemler
+
+## Dersler
+
+- [Chatbotlardan Uzun Ufuk Agent'lere Geçiş](01-long-horizon-agents/docs/tr.md)
+- [STAR, V-STAR, Quiet-STAR — Kendi Kendine Öğretilen Akıl Yürütme](02-star-family-reasoning/docs/tr.md)
+- [AlphaEvolve — Evrimsel Kodlama Agents](03-alphaevolve-evolutionary-coding/docs/tr.md)
+- [Darwin Gödel Makinesi — Açık Uçlu Kendi Kendini Değiştiren Agent'ler](04-darwin-godel-machine/docs/tr.md)
+- [AI Scientist v2 — Atölye Düzeyinde Otonom Araştırma](05-ai-scientist-v2/docs/tr.md)
+- [Otomatik Hizalama Araştırması (Antropik AAR)](06-automated-alignment-research/docs/tr.md)
+- [Özyinelemeli Kişisel Gelişim - Yetenek ve Hizalama](07-recursive-self-improvement/docs/tr.md)
+- [Sınırlı Kişisel Gelişim Tasarımları](08-bounded-self-improvement/docs/tr.md)
+- [Otonom Kodlama Agent Manzarası (2026)](09-coding-agent-landscape/docs/tr.md)
+- [Otonom Agent'ler için İzin Modları](10-claude-code-permission-modes/docs/tr.md)
+- [Tarayıcı Agent'ler ve Uzun Ufuk Web Görevleri](11-browser-agents/docs/tr.md)
+- [Uzun Süreli Arka Plan Agent'ler: Dayanıklı Yürütme](12-durable-execution/docs/tr.md)
+- [Eylem Bütçeleri, Yineleme Sınırları ve Maliyet Düzenleyicileri](13-cost-governors/docs/tr.md)
+- [Anahtarları, Devre Kesicileri ve Kanarya Token'leri Kapatın](14-kill-switches-canaries/docs/tr.md)
+- [Döngüdeki İnsan: Öner-Sonra-Taahhüt Et](15-propose-then-commit/docs/tr.md)
+- [Kontrol Noktaları ve Geri Alma](16-checkpoints-rollback/docs/tr.md)
+- [Anayasal Yapay Zeka ve Kuralların Geçersiz Kılmaları](17-constitutional-ai/docs/tr.md)
+- [Llama Guard ve Giriş/Çıkış Sınıflandırması](18-llama-guard/docs/tr.md)
+- [Antropik Sorumlu Ölçeklendirme Politikası v3.0](19-anthropic-rsp/docs/tr.md)
+- [OpenAI Hazırlık Framework ve DeepMind Sınır Güvenliği Framework](20-openai-preparedness-deepmind-fsf/docs/tr.md)
+- [METR Zaman Ufukları ve Dış Yetenek Değerlendirmesi](21-metr-external-evaluation/docs/tr.md)
+- [CAIS, CAISI ve Toplumsal Ölçekte Risk](22-cais-caisi-societal-risk/docs/tr.md)
