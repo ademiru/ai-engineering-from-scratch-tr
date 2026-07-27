@@ -4,13 +4,67 @@
 
 # AI Engineering from Scratch — Türkçe
 
-Bu depo, eğitim programının yalnızca Türkçe anlatımlarını ve dersleri
-uygulamak için gereken kod, test, quiz ve çıktıları içeren hafif dağıtımdır.
-İngilizce anlatımlar ve yerelleştirme geliştirme dosyaları dahil değildir.
+> Yapay zekâ mühendisliğini matematik temellerinden üretim sistemlerine kadar,
+> Türkçe anlatımlar ve çalışan uygulamalarla adım adım öğrenin.
+
+Bu depo, **AI Engineering from Scratch** eğitim programının hafif, yalnızca
+Türkçe dağıtımıdır. İngilizce anlatımlar ve çeviri geliştirme dosyaları yerine
+öğrenmek ve uygulamak için gereken dersleri, kodu, testleri, quizleri ve
+yeniden kullanılabilir çıktıları içerir.
+
+**20 aşama** · **503 Türkçe ders** · **%100 Türkçe anlatım kapsamı**
 
 **Kaynak revizyon:** `cb5c7eed36c50bc8c8e516f673e237a76e8f3370`
 
-## İçindekiler
+## Bu müfredat kimin için?
+
+Yapay zekâ mühendisliğine sağlam bir temel kurarak başlamak, bildiklerini
+derinleştirmek veya üretime hazır sistemler geliştirmek isteyen herkes için
+tasarlanmıştır. Konular matematik ve programlama temellerinden başlayıp
+LLM'ler, agent sistemleri, altyapı, güvenlik ve bitirme projelerine ilerler.
+
+Başlamadan önce yalnızca temel terminal kullanımı ve öğrenmeye istekli olmanız
+yeterlidir. Python deneyimi faydalıdır ancak zorunlu değildir; gerekli araçlar
+ve ortam kurulumu ilk aşamada adım adım ele alınır.
+
+## Hızlı başlangıç
+
+### 1. Müfredatı edinin
+
+Git kullanıyorsanız depoyu klonlayın:
+
+```bash
+git clone https://github.com/ademiru/ai-engineering-from-scratch-tr.git
+cd ai-engineering-from-scratch-tr
+```
+
+Git kullanmıyorsanız en güncel `.tar.gz` arşivini indirip bir klasöre
+çıkarmanız yeterlidir.
+
+### 2. İlk aşamayı açın
+
+[Aşama 0: Kurulum ve Araçlar](phases/00-setup-and-tooling/README.md) sayfasına
+gidin ve ilk dersi seçin.
+
+### 3. İlk dersi tamamlayın
+
+Her dersin Türkçe anlatımı `docs/tr.md` dosyasındadır. Uygulamalar ve testler
+aynı dersin `code/` dizininde yer alır; çalıştırma komutları ders içinde
+belirtilir. Önce anlatımı okuyun, sonra örneği çalıştırın ve quiz ile
+öğrendiklerinizi kontrol edin.
+
+## Size uygun rota
+
+| Seviyeniz | Önerilen başlangıç | Nasıl ilerlemelisiniz? |
+|---|---|---|
+| Yeni başlıyorum | [Aşama 0: Kurulum ve Araçlar](phases/00-setup-and-tooling/README.md) | Aşamaları sırayla tamamlayın. |
+| Temelleri biliyorum | Aşağıdaki öğrenme rotası | Eksik olduğunuz aşamadan başlayın; önkoşulları kontrol edin. |
+| Proje geliştirmek istiyorum | Aşama 19: Bitirme Projeleri | İlgili projenin gerektirdiği önceki aşamalara geri dönün. |
+
+> **Öneri:** Hız yerine sürekliliği hedefleyin. Her derste kodu çalıştırmak,
+> yalnızca metni okumaktan daha kalıcı bir öğrenme sağlar.
+
+## Öğrenme rotası
 
 - [Aşama 0: Kurulum ve Araçlar](phases/00-setup-and-tooling/README.md) — 12 ders
 - [Aşama 1: Matematiğin Temelleri](phases/01-math-foundations/README.md) — 22 ders
@@ -33,9 +87,38 @@ uygulamak için gereken kod, test, quiz ve çıktıları içeren hafif dağıtı
 - [Aşama 18: Etik, Güvenlik ve Uyum](phases/18-ethics-safety-alignment/README.md) — 30 ders
 - [Aşama 19: Bitirme Projeleri](phases/19-capstone-projects/README.md) — 85 ders
 
-Her dersin Türkçe anlatımı `docs/tr.md`, çalıştırılabilir örnekleri ise
-`code/` dizinindedir. Kaynak ve güncelleme süreci için
-[SENKRONIZASYON.md](SENKRONIZASYON.md) belgesine bakın.
+Aşamaları sırayla izleyebilir veya ihtiyacınız olan konuya doğrudan
+geçebilirsiniz. Bir aşama sayfası, o aşamadaki tüm Türkçe derslere bağlantı
+verir.
+
+## Bir ders nasıl çalışılır?
+
+1. Aşama sayfasından bir ders seçin ve `docs/tr.md` anlatımını okuyun.
+2. Kavramı hazır bir çerçeveye bırakmadan önce temel mantığı kendiniz kurun.
+3. `code/` altındaki örneği çalıştırın ve testleri inceleyin.
+4. `quiz.json` ile bilginizi sınayın.
+5. Varsa `outputs/` altındaki çıktıyı kendi projenizde yeniden kullanın.
+
+## Depoda neler var?
+
+| Yol | İçerik |
+|---|---|
+| `phases/` | Aşamalar, Türkçe dersler ve uygulamalar |
+| `docs/tr.md` | Dersin Türkçe anlatımı |
+| `code/` | Çalıştırılabilir örnekler ve testler |
+| `quiz.json` | Ders değerlendirme soruları |
+| `outputs/` | Yeniden kullanılabilir beceri, prompt ve araçlar |
+| `MANIFEST.json` | Kapsam, kaynak revizyonu ve doğrulama sonucu |
+
+## Dağıtım güvenceleri
+
+Her sürüm otomatik olarak üretilir ve yayımlanmadan önce Türkçe ders kapsamı,
+yerel Markdown bağlantıları ve hariç tutulması gereken dosyalar doğrulanır.
+`MANIFEST.json`, bu kontrollerin sonucunu ve dağıtımın kaynak revizyonunu
+makine tarafından okunabilir biçimde kaydeder.
+
+Bu depo ana eğitim programından türetilir. Güncelleme ve yeniden üretim süreci
+[SENKRONIZASYON.md](SENKRONIZASYON.md) belgesinde açıklanır.
 
 ## Kaynak ve atıf
 
@@ -43,6 +126,30 @@ Bu Türkçe dağıtım, Rohit Ghumare tarafından yayımlanan
 [AI Engineering from Scratch](https://github.com/rohitg00/ai-engineering-from-scratch)
 projesinden türetilmiştir. Türkçe çeviri ve dağıtım düzenlemeleri özgün çalışmayı
 temel alır; kullanılan kaynak revizyon yukarıda kayıtlıdır.
+
+## Katkı ve geri bildirim
+
+Bir anlatım hatası, kırık bağlantı veya çalışmayan örnek bulursanız kaynak
+depoda issue açın. Ders düzeltmeleri önce kaynak Türkçe içeriğe uygulanır,
+ardından bu hafif dağıtım yeniden üretilir.
+
+## Sık sorulan sorular
+
+### Tüm aşamaları sırayla bitirmem gerekir mi?
+
+Yeni başlıyorsanız evet. Deneyimliyseniz hedefinize uygun aşamadan başlayabilir,
+anlamadığınız bir önkoşul olduğunda önceki aşamalara dönebilirsiniz.
+
+### Ücretli bir araç veya API gerekiyor mu?
+
+Müfredatı okumak için hayır. Bazı ileri uygulamalar harici bir servis veya API
+anahtarı kullanabilir; ilgili ders gerekli koşulları ve alternatifleri açıklar.
+
+### İçerik neden yalnızca Türkçe?
+
+Bu depo hızlı indirme ve odaklı kullanım için hazırlanmış Türkçe dağıtımdır.
+İngilizce içerik ve çeviri geliştirme varlıkları bilinçli olarak dışarıda
+bırakılmıştır.
 
 ## Lisans
 
