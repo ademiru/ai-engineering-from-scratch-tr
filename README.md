@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/turkcelestirilmis-rgb.svg" alt="TÜRKÇELEŞTİRİLMİŞ — RGB ASCII başlık" width="100%">
+</p>
+
 # AI Engineering from Scratch — Türkçe
 
 Bu depo, eğitim programının yalnızca Türkçe anlatımlarını ve dersleri
