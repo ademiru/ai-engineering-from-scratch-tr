@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "locale": "tr",
-  "source_revision": "874f2f0f0b347e527949085c5f497b3c3f4537e3",
+  "source_revision": "874f2f0f",
   "lessons": 503,
   "coverage_percent": 100.0,
   "markdown_files_checked": 1032,
@@ -9,5 +9,5 @@
   "quiz_strings_checked": 11848,
   "english_quiz_strings": 0,
   "files": 2526,
-  "content_bytes": 17324559
+  "content_bytes": 17315037
 }
