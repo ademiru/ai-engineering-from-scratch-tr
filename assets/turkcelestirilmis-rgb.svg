@@ -1,34 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="310" viewBox="0 0 1200 310" role="img" aria-labelledby="title desc">
-  <title id="title">Türkçeleştirilmiş AI Engineering from Scratch</title>
-  <desc id="desc">RGB renkleri akan profesyonel ASCII başlık</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">AI Engineering from Scratch — Türkçe</title>
+  <desc id="desc">Türkçe yapay zeka mühendisliği eğitim programı başlığı</desc>
+
   <defs>
-    <linearGradient id="rgb" x1="-100%" y1="0" x2="0" y2="0">
-      <stop offset="0" stop-color="#ff3b30"/>
-      <stop offset=".2" stop-color="#ffcc00"/>
-      <stop offset=".4" stop-color="#34c759"/>
-      <stop offset=".6" stop-color="#00c7ff"/>
-      <stop offset=".8" stop-color="#5856d6"/>
-      <stop offset="1" stop-color="#ff2d55"/>
-      <animate attributeName="x1" values="-100%;100%" dur="4s" repeatCount="indefinite"/>
-      <animate attributeName="x2" values="0%;200%" dur="4s" repeatCount="indefinite"/>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#090d18"/>
+      <stop offset="1" stop-color="#111827"/>
     </linearGradient>
-    <filter id="glow" x="-20%" y="-30%" width="140%" height="160%">
-      <feGaussianBlur stdDeviation="4" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#e30a17"/>
+      <stop offset="1" stop-color="#ff4d57"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#ffffff" stroke-opacity=".035"/>
+    </pattern>
   </defs>
-  <rect width="1200" height="310" rx="22" fill="#070b14"/>
-  <rect x="2" y="2" width="1196" height="306" rx="20" fill="none" stroke="url(#rgb)" stroke-width="4"/>
-  <g fill="url(#rgb)" filter="url(#glow)" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="24" font-weight="700" xml:space="preserve">
-    <text>
-      <tspan x="60" y="45">████████╗██╗   ██╗██████╗ ██╗  ██╗ ██████╗███████╗</tspan>
-      <tspan x="60" dy="30">╚══██╔══╝██║   ██║██╔══██╗██║ ██╔╝██╔════╝██╔════╝</tspan>
-      <tspan x="60" dy="30">   ██║   ██║   ██║██████╔╝█████╔╝ ██║     █████╗  </tspan>
-      <tspan x="60" dy="30">   ██║   ██║   ██║██╔══██╗██╔═██╗ ██║     ██╔══╝  </tspan>
-      <tspan x="60" dy="30">   ██║   ╚██████╔╝██║  ██║██║  ██╗╚██████╗███████╗</tspan>
-      <tspan x="60" dy="30">   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝</tspan>
-    </text>
+
+  <rect width="1200" height="360" rx="24" fill="url(#background)"/>
+  <rect width="1200" height="360" rx="24" fill="url(#grid)"/>
+  <rect x="1.5" y="1.5" width="1197" height="357" rx="22.5" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-width="3"/>
+
+  <g transform="translate(82 78)">
+    <rect width="92" height="92" rx="22" fill="url(#accent)"/>
+    <circle cx="42" cy="46" r="25" fill="#fff"/>
+    <circle cx="50" cy="42" r="21" fill="#e30a17"/>
+    <path d="M68 35.5l3.1 6.3 7 .9-5.1 4.9 1.3 6.9-6.3-3.3-6.2 3.3 1.2-6.9-5-4.9 6.9-.9z" fill="#fff"/>
   </g>
-  <text x="600" y="254" text-anchor="middle" fill="url(#rgb)" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="30" font-weight="800" letter-spacing="8">TÜRKÇELEŞTİRİLMİŞ</text>
-  <text x="600" y="286" text-anchor="middle" fill="#94a3b8" font-family="ui-monospace, SFMono-Regular, Consolas, monospace" font-size="15" letter-spacing="3">AI ENGINEERING · SIFIRDAN ÜRETİME</text>
+
+  <g font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <text x="204" y="109" fill="#94a3b8" font-size="18" font-weight="650" letter-spacing="4">AÇIK KAYNAK MÜFREDAT</text>
+    <text x="204" y="160" fill="#f8fafc" font-size="48" font-weight="800" letter-spacing="-1.5">AI Engineering from Scratch</text>
+
+    <rect x="82" y="220" width="1036" height="2" rx="1" fill="#ffffff" opacity=".1"/>
+    <text x="82" y="287" fill="url(#accent)" font-size="52" font-weight="850" letter-spacing="8">TÜRKÇE</text>
+    <text x="356" y="284" fill="#cbd5e1" font-size="22" font-weight="500" letter-spacing=".5">Sıfırdan üretime, uçtan uca yapay zeka mühendisliği</text>
+  </g>
+
 </svg>

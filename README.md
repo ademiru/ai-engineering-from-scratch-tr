@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/turkcelestirilmis-rgb.svg" alt="TÜRKÇELEŞTİRİLMİŞ — RGB ASCII başlık" width="100%">
+  <img src="assets/turkcelestirilmis-rgb.svg" alt="AI Engineering from Scratch — Türkçe" width="100%">
 </p>
 
 # AI Engineering from Scratch — Türkçe
