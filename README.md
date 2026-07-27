@@ -14,7 +14,7 @@ yeniden kullanılabilir çıktıları içerir.
 
 **20 aşama** · **503 Türkçe ders** · **%100 Türkçe anlatım kapsamı**
 
-**Kaynak revizyon:** `52be7c7a`
+**Kaynak revizyon:** `874f2f0f0b347e527949085c5f497b3c3f4537e3`
 
 ## Bu müfredat kimin için?
 
